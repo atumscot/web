@@ -271,8 +271,8 @@ const nptUi = (function () {
 			let protocol = new pmtiles.Protocol();
 			maplibregl.addProtocol('pmtiles', protocol.tile);
 			
-			// Add geocoder control; see: https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md
-			map.addControl (nptUi.geocoder (), 'top-left');
+			// Add geocoder control
+			nptUi.addGeocoder (map, 'top-left');
 			
 			// Add +/- buttons
 			map.addControl(new maplibregl.NavigationControl(), 'top-left');
@@ -593,7 +593,7 @@ const nptUi = (function () {
 		
 		
 		// Geocoding implementation
-		geocoder: function ()
+		addGeocoder: function (map, position)
 		{
 			// Define the UI options
 			const geocoderOptions = {
@@ -642,8 +642,16 @@ const nptUi = (function () {
 				}
 			};
 			
-			// Return a geocoder instance
-			return new MaplibreGeocoder (geocoderApi, geocoderOptions);
+			// Assemble the geocoder instance
+			const geocoder = new MaplibreGeocoder (geocoderApi, geocoderOptions);
+			
+			// Add the control
+			map.addControl (geocoder, position);
+			
+			// Add auto-focus to the widget; see: https://github.com/maplibre/maplibre-gl-geocoder/issues/181 and https://maplibre.org/maplibre-gl-geocoder/classes/default.html#on
+			document.querySelector ('.maplibregl-ctrl-geocoder').addEventListener ('mouseenter', function () {
+				document.querySelector ('.maplibregl-ctrl-geocoder--input').focus ();
+			});
 		},
 		
 		
