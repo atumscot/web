@@ -645,6 +645,12 @@ const nptUi = (function () {
 			// Assemble the geocoder instance
 			const geocoder = new MaplibreGeocoder (geocoderApi, geocoderOptions);
 			
+			// Auto-close on select; see: https://github.com/maplibre/maplibre-gl-geocoder/issues/183
+			geocoder.on ('result', function () {
+				document.querySelector ('.maplibregl-ctrl-geocoder--button').click ();		// Click to remove the search value
+				document.querySelector ('.maplibregl-ctrl-geocoder--input').blur ();		// Move away from the search box
+			});
+			
 			// Add the control
 			map.addControl (geocoder, position);
 			
