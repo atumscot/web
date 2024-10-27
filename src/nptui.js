@@ -609,11 +609,12 @@ const nptUi = (function () {
 		// Geocoding API implementation
 		geocoderApi: function ()
 		{
-			const geocoder_api = {
+			// Assemble a MaplibreGeocoderApi implementation; see: https://maplibre.org/maplibre-gl-geocoder/types/MaplibreGeocoderApi.html
+			const geocoderApi = {
 				forwardGeocode: async (config) => {
 					const features = [];
 					try {
-						let request = 'https://nominatim.openstreetmap.org/search?q=' + config.query + '&format=geojson&polygon_geojson=1&addressdetails=1&countrycodes=gb';
+						let request = 'https://nominatim.openstreetmap.org/search?q=' + config.query + '&format=geojson&addressdetails=1&countrycodes=gb';
 						if (_settings.geocoderViewbox) {
 							request += '&viewbox=' + _settings.geocoderViewbox;
 							if (_settings.geocoderBounded) {
@@ -623,23 +624,16 @@ const nptUi = (function () {
 						const response = await fetch(request);
 						const geojson = await response.json();
 						for (let feature of geojson.features) {
-							let center = [
-								feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
-								feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2
-							];
+							// See: https://web.archive.org/web/20210224184722/https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
 							let point = {
 								type: 'Feature',
-								geometry: {
-									type: 'Point',
-									coordinates: center
-								},
 								place_name: feature.properties.display_name,
 								properties: feature.properties,
 								text: feature.properties.display_name,
 								place_type: ['place'],
-								center: center
+								center: feature.geometry.coordinates
 							};
-							features.push(point);
+							features.push (point);
 						}
 					} catch (e) {
 						console.error (`Failed to forwardGeocode with error: ${e}`);
@@ -651,7 +645,7 @@ const nptUi = (function () {
 				}
 			};
 			
-			return geocoder_api;
+			return geocoderApi;
 		},
 		
 		
