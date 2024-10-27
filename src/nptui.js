@@ -272,21 +272,7 @@ const nptUi = (function () {
 			maplibregl.addProtocol('pmtiles', protocol.tile);
 			
 			// Add geocoder control; see: https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md
-			map.addControl (new MaplibreGeocoder(
-				nptUi.geocoderApi (), {
-					maplibregl: maplibregl,
-					collapsed: true,
-					showResultsWhileTyping: true,
-					minLength: 3,
-					debounceSearch: 400,
-					showResultMarkers: false,
-					marker: false,
-					flyTo: {
-						// #!# Ideally should be bounds: ... but this requires using .on and then result, which means bigger changes
-						zoom: 13
-					}
-				}
-			), 'top-left');
+			map.addControl (nptUi.geocoder (), 'top-left');
 			
 			// Add +/- buttons
 			map.addControl(new maplibregl.NavigationControl(), 'top-left');
@@ -606,10 +592,25 @@ const nptUi = (function () {
 		},
 		
 		
-		// Geocoding API implementation
-		geocoderApi: function ()
+		// Geocoding implementation
+		geocoder: function ()
 		{
-			// Assemble a MaplibreGeocoderApi implementation; see: https://maplibre.org/maplibre-gl-geocoder/types/MaplibreGeocoderApi.html
+			// Define the UI options
+			const geocoderOptions = {
+				maplibregl: maplibregl,
+				collapsed: true,
+				showResultsWhileTyping: true,
+				minLength: 3,
+				debounceSearch: 400,
+				showResultMarkers: false,
+				marker: false,
+				flyTo: {
+					// #!# Ideally should be bounds: ... but this requires using .on and then result, which means bigger changes
+					zoom: 13
+				}
+			};
+			
+			// Implement the data retrieval and assembly; see: https://maplibre.org/maplibre-gl-geocoder/types/MaplibreGeocoderApi.html
 			const geocoderApi = {
 				forwardGeocode: async (config) => {
 					const features = [];
@@ -645,7 +646,8 @@ const nptUi = (function () {
 				}
 			};
 			
-			return geocoderApi;
+			// Return a geocoder instance
+			return new MaplibreGeocoder (geocoderApi, geocoderOptions);
 		},
 		
 		
