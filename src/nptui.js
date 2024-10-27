@@ -276,6 +276,10 @@ const nptUi = (function () {
 				nptUi.geocoderApi (), {
 					maplibregl: maplibregl,
 					collapsed: true,
+					showResultsWhileTyping: true,
+					minLength: 3,
+					debounceSearch: 400,
+					showResultMarkers: false,
 					marker: false,
 					flyTo: {
 						// #!# Ideally should be bounds: ... but this requires using .on and then result, which means bigger changes
