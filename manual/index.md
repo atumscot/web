@@ -244,6 +244,18 @@ Set the maximum and minimum quietness of roads that are visible. Quietness measu
 
 <!-- /#filters -->
 
+<!-- #coherentnetwork -->
+
+### Coherent network
+
+The section provides a coherent or 'core' network of relatively direct routes with high potential connecting urban areas.
+
+This is the result of automated analysis.
+
+It aims to highlight the importance of coherence in network design and suggest a core network that could be prioritised for investment. A key focus is on directness and ensuring there is reasonable density of the network to cover most trips on an origin-destination basis.
+
+<!-- /#coherentnetwork -->
+
 <!-- #clos -->
 
 ### Cycling by Design compliance
