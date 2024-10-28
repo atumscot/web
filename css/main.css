@@ -245,6 +245,10 @@ body .maplibregl-ctrl-geocoder--input {
   height: 35px;
 }
 
+body .maplibregl-ctrl-geocoder--result-address {
+  font-weight: normal;
+}
+
 
 .cookiewarning{
    position: fixed; 

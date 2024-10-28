@@ -271,18 +271,8 @@ const nptUi = (function () {
 			let protocol = new pmtiles.Protocol();
 			maplibregl.addProtocol('pmtiles', protocol.tile);
 			
-			// Add geocoder control; see: https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md
-			map.addControl (new MaplibreGeocoder(
-				nptUi.geocoderApi (), {
-					maplibregl: maplibregl,
-					collapsed: true,
-					marker: false,
-					flyTo: {
-						// #!# Ideally should be bounds: ... but this requires using .on and then result, which means bigger changes
-						zoom: 13
-					}
-				}
-			), 'top-left');
+			// Add geocoder control
+			nptUi.addGeocoder (map, 'top-left');
 			
 			// Add +/- buttons
 			map.addControl(new maplibregl.NavigationControl(), 'top-left');
@@ -602,14 +592,26 @@ const nptUi = (function () {
 		},
 		
 		
-		// Geocoding API implementation
-		geocoderApi: function ()
+		// Geocoding implementation
+		addGeocoder: function (map, position)
 		{
-			const geocoder_api = {
+			// Define the UI options
+			const geocoderOptions = {
+				maplibregl: maplibregl,
+				collapsed: true,
+				showResultsWhileTyping: true,
+				minLength: 3,
+				debounceSearch: 400,
+				showResultMarkers: false,
+				marker: false
+			};
+			
+			// Implement the data retrieval and assembly; see: https://maplibre.org/maplibre-gl-geocoder/types/MaplibreGeocoderApi.html
+			const geocoderApi = {
 				forwardGeocode: async (config) => {
 					const features = [];
 					try {
-						let request = 'https://nominatim.openstreetmap.org/search?q=' + config.query + '&format=geojson&polygon_geojson=1&addressdetails=1&countrycodes=gb';
+						let request = 'https://nominatim.openstreetmap.org/search?q=' + config.query + '&format=geojson&addressdetails=1&countrycodes=gb';
 						if (_settings.geocoderViewbox) {
 							request += '&viewbox=' + _settings.geocoderViewbox;
 							if (_settings.geocoderBounded) {
@@ -619,23 +621,16 @@ const nptUi = (function () {
 						const response = await fetch(request);
 						const geojson = await response.json();
 						for (let feature of geojson.features) {
-							let center = [
-								feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
-								feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2
-							];
+							// See: https://maplibre.org/maplibre-gl-geocoder/types/CarmenGeojsonFeature.html and https://web.archive.org/web/20210224184722/https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
 							let point = {
 								type: 'Feature',
-								geometry: {
-									type: 'Point',
-									coordinates: center
-								},
 								place_name: feature.properties.display_name,
 								properties: feature.properties,
 								text: feature.properties.display_name,
 								place_type: ['place'],
-								center: center
+								bbox: feature.bbox
 							};
-							features.push(point);
+							features.push (point);
 						}
 					} catch (e) {
 						console.error (`Failed to forwardGeocode with error: ${e}`);
@@ -647,7 +642,22 @@ const nptUi = (function () {
 				}
 			};
 			
-			return geocoder_api;
+			// Assemble the geocoder instance
+			const geocoder = new MaplibreGeocoder (geocoderApi, geocoderOptions);
+			
+			// Auto-close on select; see: https://github.com/maplibre/maplibre-gl-geocoder/issues/183
+			geocoder.on ('result', function () {
+				document.querySelector ('.maplibregl-ctrl-geocoder--button').click ();		// Click to remove the search value
+				document.querySelector ('.maplibregl-ctrl-geocoder--input').blur ();		// Move away from the search box
+			});
+			
+			// Add the control
+			map.addControl (geocoder, position);
+			
+			// Add auto-focus to the widget; see: https://github.com/maplibre/maplibre-gl-geocoder/issues/181 and https://maplibre.org/maplibre-gl-geocoder/classes/default.html#on
+			document.querySelector ('.maplibregl-ctrl-geocoder').addEventListener ('mouseenter', function () {
+				document.querySelector ('.maplibregl-ctrl-geocoder--input').focus ();
+			});
 		},
 		
 		
