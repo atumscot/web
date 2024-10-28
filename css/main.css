@@ -48,19 +48,19 @@ h1{
     background-color: #545454;
     color: #fff;
     cursor: pointer;
-    padding: 18px;
+    padding: 14px;
     width: 100%;
     text-align: left;
     border: none;
     outline: none;
     transition: 0.4s;
-    font-size: 1em;
+    font-size: 0.97em;
 }
 .accordion:after {
   content: '+'; 
-  font-size: 30px;
-  color:#ffffff;
-  line-height: 0.5;
+  font-size: 28px;
+  color: #ffffff;
+  line-height: 0.8;
   float: right;
   margin-left: 5px;
 }
@@ -798,3 +798,9 @@ td, th {
 	font-size: 0.9em;
 	line-height: 1.4;
 }
+
+table.filters {width: 100%; border-collapse: collapse; border: 0; margin: 0; padding: 0;}
+table.filters td {border: 0; padding: 10px 0 4px; border-bottom: 1px solid #e9e9e9; vertical-align: top; text-align: left;}
+table.filters tr:first-child td {border-top: 1px solid #e9e9e9;}
+table.filters td:first-child {width: 5.5em; height: 3.5em; font-size: 0.75em; line-height: 1.2;}
+
