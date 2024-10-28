@@ -248,11 +248,28 @@ Set the maximum and minimum quietness of roads that are visible. Quietness measu
 
 ### Coherent network
 
-The section provides a coherent or 'core' network of relatively direct routes with high potential connecting urban areas.
+This section outlines the development of a coherent or "core" cycling network, composed of high-potential, direct routes that strategically connect urban areas. Created through automated analysis, this network emphasises coherence in design to ensure cycling infrastructure is functional, accessible, and efficient.
 
-This is the result of automated analysis.
+The core network serves as a guide for prioritising investment by highlighting routes that maximize coverage and connectivity across urban zones. The methodology used focuses on several key aspects:
 
-It aims to highlight the importance of coherence in network design and suggest a core network that could be prioritised for investment. A key focus is on directness and ensuring there is reasonable density of the network to cover most trips on an origin-destination basis.
+#### Data Integration
+
+Ordnance Survey Open Roads (OS) provides the foundational structure, complemented by OpenStreetMap (OSM) data to include off-road paths and cycle lanes. This integration ensures that both official road classifications and additional cycling-specific infrastructure are represented.
+
+#### Network Filtering and Clustering
+
+Route selection for the coherent network is based on two key attributes: road classification and cycling connectivity potential, both of which influence the "arterialness" score. This score prioritises routes that balance road hierarchy with accessibility for cyclists. Using a spatial clustering algorithm (DBSCAN), high-flow areas are identified, forming a focused core network by filtering out redundant or isolated segments. This method ensures that selected routes maximize connectivity and suitability, aligning the network’s structure with both directness and density requirements.
+
+#### Directness and Density Optimization
+
+The network is adjusted to ensure direct routes with optimal density, following Transport Scotland’s specifications (250m in urban centres, 400m in suburban areas). This allows the network to meet a wide range of origin-destination trip needs, improving access and usability.
+
+#### Iterative Refinement
+
+Stakeholder feedback and ongoing urban data updates support iterative refinements, aligning the network with evolving user needs and policy objectives.
+
+By focusing on coherence, directness, and optimal route density, this core network offers a structured foundation for future investment, supporting sustainable urban transport by ensuring that cycling routes are accessible, efficient, and well-integrated across urban contexts.
+
 
 <!-- /#coherentnetwork -->
 
