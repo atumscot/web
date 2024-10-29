@@ -153,129 +153,135 @@
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet" />
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet-simplified" />
 				</p>
-				<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
-				<p>
-					<select name="purpose" class="updatelayer" data-layer="rnet" aria-label="Route network trip purpose">
-						<option value="all" selected>All</option>
-						<option value="commute" >Commute</option>
-						<option value="primary" >Primary School</option>
-						<option value="secondary" >Secondary School</option>
-						<option value="utility" >Other Everyday</option>
-					</select>
-					Trip purpose <button aria-label="Help purpose" class="helpbutton" title="Full details of trip purpose" data-help="purpose"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p>
-				<p>
-					<select name="scenario" class="updatelayer" data-layer="rnet" aria-label="Route network scenario">
-						<option value="bicycle">Baseline</option>
-						<option value="bicycle_go_dutch" selected>Go Dutch</option>
-						<option value="bicycle_ebike">Ebike</option>
-					</select>
-					Scenario <button aria-label="Help scenario" class="helpbutton" data-help="scenario" title="Full details of scenarios"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p>
-				<p>
-					<select name="type" class="updatelayer" data-layer="rnet" aria-label="Route network type">
-						<option value="fastest" selected>Fast/Direct</option>
-						<option value="quietest">Quiet/Indirect</option>
-					</select>
-					Network type <button aria-label="Help type" class="helpbutton" data-help="type" title="Full details of type of network choice by people cycling"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p>
-				<p>
-					<select name="colour" class="updatelayer" data-layer="rnet" aria-label="Route network colour">
-						<option value="none">None</option>
-						<option value="flow" selected>People cycling per day</option>
-						<option value="quietness">Cycle friendliness</option>
-						<option value="gradient">Gradient</option>
-					</select>
-					Line colour <button aria-label="Help colour" class="helpbutton" data-help="colour" title="Full details of colouring of route lines"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p>
-				<div id="linecolourlegend" class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+				<div class="layertools layertools-rnet layertools-rnet-simplified">
+					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<p>
+						<select name="purpose" class="updatelayer" data-layer="rnet" aria-label="Route network trip purpose">
+							<option value="all" selected>All</option>
+							<option value="commute" >Commute</option>
+							<option value="primary" >Primary School</option>
+							<option value="secondary" >Secondary School</option>
+							<option value="utility" >Other Everyday</option>
+						</select>
+						Trip purpose <button aria-label="Help purpose" class="helpbutton" title="Full details of trip purpose" data-help="purpose"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="scenario" class="updatelayer" data-layer="rnet" aria-label="Route network scenario">
+							<option value="bicycle">Baseline</option>
+							<option value="bicycle_go_dutch" selected>Go Dutch</option>
+							<option value="bicycle_ebike">Ebike</option>
+						</select>
+						Scenario <button aria-label="Help scenario" class="helpbutton" data-help="scenario" title="Full details of scenarios"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="type" class="updatelayer" data-layer="rnet" aria-label="Route network type">
+							<option value="fastest" selected>Fast/Direct</option>
+							<option value="quietest">Quiet/Indirect</option>
+						</select>
+						Network type <button aria-label="Help type" class="helpbutton" data-help="type" title="Full details of type of network choice by people cycling"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="colour" class="updatelayer" data-layer="rnet" aria-label="Route network colour">
+							<option value="none">None</option>
+							<option value="flow" selected>People cycling per day</option>
+							<option value="quietness">Cycle friendliness</option>
+							<option value="gradient">Gradient</option>
+						</select>
+						Line colour <button aria-label="Help colour" class="helpbutton" data-help="colour" title="Full details of colouring of route lines"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<div id="linecolourlegend" class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+						</div>
 					</div>
+					
+					<p><b>Filter to:</b><button aria-label="Help scenario" class="helpbutton" data-help="filters" title="Full details of filtering parts of the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<table class="filters">
+						<tr>
+							<td>People cycling per day</td>
+							<td>
+								<div id="slider-cycle-ui" class="slider-styled" data-name="cycle"></div>
+								<datalist list="slider-cycle-ui" data-density="3">
+									<option value="0"     data-position="min"></option>
+									<option value="100"   data-position="12.5%"></option>
+									<option value="200"   data-position="25%"></option>
+									<option value="500"   data-position="37.5%"></option>
+									<option value="1000"  data-position="50%"   data-label="1k"></option>
+									<option value="2500"  data-position="62.5%" data-label="2.5k"></option>
+									<option value="5000"  data-position="75%"   data-label="5k"></option>
+									<option value="10000" data-position="87.5%" data-label="10k"></option>
+									<option value="20000" data-position="max"   data-label="20k"></option>
+									<!-- TODO: Check max value -->
+								</datalist>
+								<input type="hidden" name="cycle" class="updatelayer slider" data-layer="rnet" />
+							</td>
+						</tr>
+						<tr>
+							<td>Gradient (%)</td>
+							<td>
+								<div id="slider-gradient-ui" class="slider-styled" data-name="gradient"></div>
+								<datalist list="slider-gradient-ui" data-density="10">
+									<option value="0"  data-position="min" data-increments="1"></option>
+									<option value="2"  data-position="20%" data-increments="1"></option>
+									<option value="4"  data-position="40%" data-increments="1"></option>
+									<option value="6"  data-position="60%" data-increments="1"></option>
+									<option value="8"  data-position="80%" data-increments="1"></option>
+									<option value="100" data-position="max" data-label="10+"></option>
+								</datalist>
+								<input type="hidden" name="gradient" class="updatelayer slider" data-layer="rnet" />
+							</td>
+						</tr>
+						<tr>
+							<td>Cycle friendliness (%)</td>
+							<td>
+								<div id="slider-quietness-ui" class="slider-styled" data-name="quietness"></div>
+								<datalist list="slider-quietness-ui" data-density="10">
+									<option value="0"   data-position="min" data-label="Hostile" data-increments="10"></option>
+								<option value="100" data-position="max" data-label="Quiet"></option>
+								</datalist>
+								<input type="hidden" name="quietness" class="updatelayer slider" data-layer="rnet" />
+							</td>
+						</tr>
+					</table>
 				</div>
-				
-				<p><b>Filter to:</b><button aria-label="Help scenario" class="helpbutton" data-help="filters" title="Full details of filtering parts of the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
-				<table class="filters">
-					<tr>
-						<td>People cycling per day</td>
-						<td>
-							<div id="slider-cycle-ui" class="slider-styled" data-name="cycle"></div>
-							<datalist list="slider-cycle-ui" data-density="3">
-								<option value="0"     data-position="min"></option>
-								<option value="100"   data-position="12.5%"></option>
-								<option value="200"   data-position="25%"></option>
-								<option value="500"   data-position="37.5%"></option>
-								<option value="1000"  data-position="50%"   data-label="1k"></option>
-								<option value="2500"  data-position="62.5%" data-label="2.5k"></option>
-								<option value="5000"  data-position="75%"   data-label="5k"></option>
-								<option value="10000" data-position="87.5%" data-label="10k"></option>
-								<option value="20000" data-position="max"   data-label="20k"></option>
-								<!-- TODO: Check max value -->
-							</datalist>
-							<input type="hidden" name="cycle" class="updatelayer slider" data-layer="rnet" />
-						</td>
-					</tr>
-					<tr>
-						<td>Gradient (%)</td>
-						<td>
-							<div id="slider-gradient-ui" class="slider-styled" data-name="gradient"></div>
-							<datalist list="slider-gradient-ui" data-density="10">
-								<option value="0"  data-position="min" data-increments="1"></option>
-								<option value="2"  data-position="20%" data-increments="1"></option>
-								<option value="4"  data-position="40%" data-increments="1"></option>
-								<option value="6"  data-position="60%" data-increments="1"></option>
-								<option value="8"  data-position="80%" data-increments="1"></option>
-								<option value="100" data-position="max" data-label="10+"></option>
-							</datalist>
-							<input type="hidden" name="gradient" class="updatelayer slider" data-layer="rnet" />
-						</td>
-					</tr>
-					<tr>
-						<td>Cycle friendliness (%)</td>
-						<td>
-							<div id="slider-quietness-ui" class="slider-styled" data-name="quietness"></div>
-							<datalist list="slider-quietness-ui" data-density="10">
-								<option value="0"   data-position="min" data-label="Hostile" data-increments="10"></option>
-							<option value="100" data-position="max" data-label="Quiet"></option>
-							</datalist>
-							<input type="hidden" name="quietness" class="updatelayer slider" data-layer="rnet" />
-						</td>
-					</tr>
-				</table>
 			</div>
 			
 			<button class="accordion">Coherent network</button>
 			<div class="panel">
-				<p>Coherent or 'core' network of relatively direct routes with high potential connecting urban areas. <button aria-label="Help on coherent network" class="helpbutton" data-help="coherentnetwork"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p></p>
 				<p><label><input type="checkbox" class="showlayer" data-layer="coherentnetwork" value="false"> Show layer</label></p>
+				<p>Coherent or 'core' network of relatively direct routes with high potential connecting urban areas. <button aria-label="Help on coherent network" class="helpbutton" data-help="coherentnetwork"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p></p>
 			</div>
 			
 			<button class="accordion">Cycling by Design compliance</button>
 			<div class="panel">
-				<p>Data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS), as per the <a href="https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf" target="_blank" title="[Link opens in a new window]">Cycling by Design guidance</a>. <button aria-label="Help on LoS" class="helpbutton" data-help="clos"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
 				<p><label><input type="checkbox" class="showlayer" data-layer="clos" value="false"> Show layer</label></p>
-				<p>
-					<select name="clos-layer" class="updatelayer" data-layer="clos" aria-label="LoS detail">
-						<option value="Level of Service" selected="selected">Estimated LoS</option>
-						<option value="Traffic volume">Estimated traffic volume</option>
-						<option value="Speed limit">Estimated speed limit</option>
-						<option value="Infrastructure type">Cycle infrastructure</option>
-					</select>
-				</p>
-				<div id="clos-legend" class="legend"></div>
-				<p>Cycle infrastructure types info <button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="infrastructuretypes"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<p>Data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS), as per the <a href="https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf" target="_blank" title="[Link opens in a new window]">Cycling by Design guidance</a>. <button aria-label="Help on LoS" class="helpbutton" data-help="clos"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<div class="layertools layertools-clos">
+					<p>
+						<select name="clos-layer" class="updatelayer" data-layer="clos" aria-label="LoS detail">
+							<option value="Level of Service" selected="selected">Estimated LoS</option>
+							<option value="Traffic volume">Estimated traffic volume</option>
+							<option value="Speed limit">Estimated speed limit</option>
+							<option value="Infrastructure type">Cycle infrastructure</option>
+						</select>
+					</p>
+					<div id="clos-legend" class="legend"></div>
+					<p>Cycle infrastructure types info <button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="infrastructuretypes"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				</div>
 			</div>
 			
 			<button class="accordion">Street space</button>
 			<div class="panel">
-				<p>Analyis of the space available within each street.</p>
 				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
-				<div class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
-						<div class="lb"><span style="background-color: #f9c647;"></span>Enough space if built to absolute minimum standard</div>
-						<div class="lb"><span style="background-color: #f29551;"></span>Enough space to build to minimum in CbD</div>
-						<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
+				<p>Analyis of the space available within each street.</p>
+				<div class="layertools layertools-streetspace">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space if built to absolute minimum standard</div>
+							<div class="lb"><span style="background-color: #f29551;"></span>Enough space to build to minimum in CbD</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -283,59 +289,69 @@
 			<button class="accordion">Data zones</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="data_zones" value="false"> Show layer</label></p>
-				<p>
-					<select name="field" class="updatelayer" data-layer="data_zones" aria-label="Data zone layer">
-						<option value="pcycle">% commuter cycling (baseline)</option>
-						<option value="pcycle_go_dutch" selected>% commuter cycling (Go Dutch)</option>
-						<option value="population_density">Population density (per hectare)</option>
-						<option value="SIMD2020v2_Decile" selected="selected">Scottish Ind. Multiple Deprivation</option>
-						<option value="drive_petrol">Drive time to petrol station</option>
-						<option value="drive_GP">Drive time to GP</option>
-						<option value="drive_post">Drive time to post office</option>
-						<option value="drive_retail">Drive time to retail centre</option>
-						<option value="drive_primary">Drive time to primary school</option>
-						<option value="drive_secondary">Drive time to secondary school</option>
-						<option value="PT_GP">Public transport time to GP</option>
-						<option value="PT_post">Public transport time to post office</option>
-						<option value="PT_retail">Public transport time to retail centre</option>
-						<option value="broadband">% without superfast broadband</option>
-					</select>
-					<button aria-label="Help purpose" class="helpbutton" data-help="data_zones"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p>
-				<div id="dzlegend" class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+				<div class="layertools layertools-data_zones">
+					<p>
+						<select name="field" class="updatelayer" data-layer="data_zones" aria-label="Data zone layer">
+							<option value="pcycle">% commuter cycling (baseline)</option>
+							<option value="pcycle_go_dutch" selected>% commuter cycling (Go Dutch)</option>
+							<option value="population_density">Population density (per hectare)</option>
+							<option value="SIMD2020v2_Decile" selected="selected">Scottish Ind. Multiple Deprivation</option>
+							<option value="drive_petrol">Drive time to petrol station</option>
+							<option value="drive_GP">Drive time to GP</option>
+							<option value="drive_post">Drive time to post office</option>
+							<option value="drive_retail">Drive time to retail centre</option>
+							<option value="drive_primary">Drive time to primary school</option>
+							<option value="drive_secondary">Drive time to secondary school</option>
+							<option value="PT_GP">Public transport time to GP</option>
+							<option value="PT_post">Public transport time to post office</option>
+							<option value="PT_retail">Public transport time to retail centre</option>
+							<option value="broadband">% without superfast broadband</option>
+						</select>
+						<button aria-label="Help purpose" class="helpbutton" data-help="data_zones"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<div id="dzlegend" class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+						</div>
 					</div>
+					<p><label class="switch"><input type="checkbox" name="daysymetricmode" class="updatelayer" data-layer="data_zones" checked><span class="slider round"></span></label> Dasymetric</p>
 				</div>
-				<p><label class="switch"><input type="checkbox" name="daysymetricmode" class="updatelayer" data-layer="data_zones" checked><span class="slider round"></span></label> Dasymetric</p>
 			</div>
 			
 			<button class="accordion">Other layers</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="schools" value="false">Schools</label></p>
-				<div class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #313695"></span>Primary</div>
-						<div class="lb"><span style="background-color: #a50026"></span>Secondary</div>
-						<div class="lb"><span style="background-color: #43f22c"></span>Other</div>
+				<div class="layertools layertools-schools">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #313695"></span>Primary</div>
+							<div class="lb"><span style="background-color: #a50026"></span>Secondary</div>
+							<div class="lb"><span style="background-color: #43f22c"></span>Other</div>
+						</div>
 					</div>
 				</div>
 				<p><label><input type="checkbox" class="showlayer" data-layer="wards" value="false">Wards</label></p>
-				<div class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #206b07"></span></div>
+				<div class="layertools layertools-wards">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #206b07"></span></div>
+						</div>
 					</div>
 				</div>
 				<p><label><input type="checkbox" class="showlayer" data-layer="holyrood" value="false">Scottish Parliament Constituencies</label></p>
-				<div class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #537bfc"></span></div>
+				<div class="layertools layertools-holyrood">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #537bfc"></span></div>
+						</div>
 					</div>
 				</div>
 				<p><label><input type="checkbox" class="showlayer" data-layer="la" value="false">Local Authorities</label></p>
-				<div class="legend">
-					<div class="l_r">
-						<div class="lb"><span style="background-color: #6b0707"></span></div>
+				<div class="layertools layertools-la">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #6b0707"></span></div>
+						</div>
 					</div>
 				</div>
 			</div>
