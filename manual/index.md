@@ -174,7 +174,7 @@ The line colour option allows you to visualise different characteristics of the 
 
 ![Number of cycle trips](/images/number_of_cyclists.png)
 
-The "Cycle trips per day" variable is the default view. This is an estimate of the average number of daily cycle trips in either direction passing through each segment, for the selected purpose, network type, and scenario.
+This is an estimate of the average number of daily cycle trips in either direction (AADT) passing along each segment, for the selected purpose, network type, and scenario.
 
 The thickness of the lines in the route network is also defined by the number of cycle trips, with thicker lines representing more people cycling.
 
