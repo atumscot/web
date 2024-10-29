@@ -804,3 +804,7 @@ table.filters td {border: 0; padding: 10px 0 4px; border-bottom: 1px solid #e9e9
 table.filters tr:first-child td {border-top: 1px solid #e9e9e9;}
 table.filters td:first-child {width: 5.5em; height: 3.5em; font-size: 0.75em; line-height: 1.2;}
 
+/* Layer-specific controls */
+div.layertools {opacity: 0.2; pointer-events: none;}
+div.layertools.enabled {opacity: 1; pointer-events: auto;}
+

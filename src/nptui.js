@@ -756,6 +756,20 @@ const nptUi = (function () {
 			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
 			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
 			
+			// Set the visibility of the layer-specific controls, if present
+			const layerToolsDiv = document.querySelector ('.layertools-' + layerId);
+			if (layerToolsDiv) {
+				
+				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
+				let makeVisibleLayerTools = makeVisible;
+				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
+					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
+				}
+				
+				// Eanble/disable the layer tools div
+				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
+			}
+			
 			// Update the layer state for the URL
 			nptUi.layerStateUrl ();
 		},
