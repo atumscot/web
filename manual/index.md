@@ -53,7 +53,7 @@ The NPT allows you to view a broad range of data about cycling by manipulating f
 
 ### Route network
 
-The Route Network is the primary layer in the NPT and the only one that is on by default when the tool loads. The route network estimates the number of people cycling on each road. It is designed to emphasise roads with lots of cycling potential and so aid planners in deciding where cycling infrastructure is needed.
+The Route Network is the primary layer in the NPT and the only one that is on by default when the tool loads. The route network estimates the number of cycle trips on each road. It is designed to emphasise roads with lots of cycling potential and so aid planners in deciding where cycling infrastructure is needed.
 
 The route network provides a range of options and filters to allow you to view different networks based on different journey purposes and assumptions. Whether you're considering daily commutes or leisurely excursions, the Route Network layer adapts to reflect different cycling possibilities and planning assumptions.
 
@@ -131,13 +131,13 @@ The need to prioritise creation of a network of safe & direct cycle routes, is c
 
 However, until such a safe & direct network is created, people cycling may make detours away from roads that are (or are perceived to be) dangerous. There is strong evidence that safety concerns are the main barrier to more people cycling.
 
-Cyclestreets calculate the routes likely taken by people cycling, and each network type is based on one of their routeing [algorithms](https://www.cyclestreets.net/help/journey/howitworks/). The route choices are based on the current road infrastructure and don't account for planned improvements or missing links.
+CycleStreets calculate the routes likely taken by people cycling, and each network type is based on one of their routeing [algorithms](https://www.cyclestreets.net/help/journey/howitworks/). The route choices are based on the current road infrastructure and don't account for planned improvements or missing links.
 
 ![Route network types](/images/rnet_types.png)
 
 Examples of the two network types in Edinburgh show how different assumptions about the routes people cycling take affect where the busiest parts (pink) of the network are predicted to be.
 
-Note that the choice of network type does not just change the routes people take but also the number of people cycling predicted under each scenario. This is because quieter routes are typically longer and hillier than the direct route which discourages cycling.
+Note that the choice of network type does not just change the routes people take but also the number of cycle trips predicted under each scenario. This is because quieter routes are typically longer and hillier than the direct route which discourages cycling.
 
 ##### Fast/Direct (preferred)
 
@@ -145,11 +145,11 @@ This network type should be treated as the default.
 
 The fastest network is based on people taking the most direct (legal) routes. While people prefer direct routes, this will often bring them onto busy and dangerous major roads, which are a barrier to cycling without the provision of cycle infrastructure separated from traffic. Planners seeking to maximise cycling will build high-quality cycle infrastructure along main roads, which form part of the fastest cycle route network.
 
-High quality cycle network plans, particularly in urban areas, will be based on joining up the fast/direct routes with the highest predicted numbers of people cycling to create a dense & coherent network. Supplementary guidance on how the tool should be used to generate these dense & coherent cycle networks will be developed to support cycle network planning.
+High quality cycle network plans, particularly in urban areas, will be based on joining up the fast/direct routes with the highest predicted numbers of cycle trips to create a dense & coherent network. Supplementary guidance on how the tool should be used to generate these dense & coherent cycle networks will be developed to support cycle network planning.
 
 ##### Quiet/indirect
 
-The quiet network assumes that people will avoid busy roads and be willing to take significant detours. While directing people away from busy roads and onto quieter back streets may seem like a good idea, it can have significant downsides. Quiet routes are often longer and more challenging to navigate as they weave around the back streets. Even if the roads are safe, longer and more complex journeys discourage cycling. The NPT captures this effect, and the total number of people cycling on the quiet route network is less than on the fast route network.
+The quiet network assumes that people will avoid busy roads and be willing to take significant detours. While directing people away from busy roads and onto quieter back streets may seem like a good idea, it can have significant downsides. Quiet routes are often longer and more challenging to navigate as they weave around the back streets. Even if the roads are safe, longer and more complex journeys discourage cycling. The NPT captures this effect, and the total number of cycle trips on the quiet route network is less than on the fast route network.
 
 The most likely application of the 'Quiet/Indirect' network type is to:
 
@@ -170,11 +170,11 @@ The image above ([source](https://maps.amsterdam.nl/plushoofdnetten/)) shows how
 
 The line colour option allows you to visualise different characteristics of the route network. Below the line colour option is a contextual legend which shows the meaning of the colours on the map.
 
-##### Number of people cycling
+##### Number of cycle trips
 
-![Number of people cycling](/images/number_of_cyclists.png)
+![Number of cycle trips](/images/number_of_cyclists.png)
 
-The number of people cycling is the default view. It shows an estimate of the number of people cycling on each road for the selected trip purpose, network type, and scenario. The thickness of the lines in the route network is also defined by the number of people cycling, with thicker lines representing more people cycling.
+The number of cycle trips per day passing this point in either direction (AADT) is the default view. It shows an estimate of the number of cycle trips on each road for the selected trip purpose, network type, and scenario. The thickness of the lines in the route network is also defined by the number of cycle trips, with thicker lines representing more people cycling.
 
 ##### Cycle friendliness
 
@@ -220,7 +220,7 @@ Clicking on any segment within the route network on the map will display a pop-u
 
 ![Popup](/images/rnet_popup.png)
 
-The popup provides a summary table for all the information available about the route network. The table displays the number of people cycling for each scenario - such as baseline, Go Dutch, and e-bikes - and distinguishes between the Fast/Direct and Quiet/Indirect network types. Below the table, the average gradient of the road and its cycle friendliness score are shown, which assesses the suitability of the road for cycling. Additionally, there's an option to directly access the Google Street View of the road, if available, for a more grounded perspective.
+The popup provides a summary table for all the information available about the route network. The table displays the number of cycle trips for each scenario - such as baseline, Go Dutch, and e-bikes - and distinguishes between the Fast/Direct and Quiet/Indirect network types. Below the table, the average gradient of the road and its cycle friendliness score are shown, which assesses the suitability of the road for cycling. Additionally, there's an option to directly access the Google Street View of the road, if available, for a more grounded perspective.
 
 <!-- #filters -->
 
@@ -230,7 +230,7 @@ The popup provides a summary table for all the information available about the r
 
 The sliders allow you to show/hide parts of the route network. You can filter on three variables:
 
-#### Numbers of people cycling
+#### Numbers of cycle trips
 
 Tailor the map to display routes with a particular range of predicted cycling traffic, reflecting the selected scenario and route type.
 
