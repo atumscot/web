@@ -66,6 +66,9 @@ const settings = {
 	
 	// UI callback
 	uiCallback: rnetCheckboxProxying,	// Defined below
+	
+	// Initial layers enabled
+	initialLayersEnabled: ['rnet'],
 };
 
 

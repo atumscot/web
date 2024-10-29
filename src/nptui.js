@@ -65,6 +65,9 @@ const nptUi = (function () {
 			_settings = settings;
 			_datasets = datasets;
 			
+			// Parse URL hash state
+			nptUi.parseUrl ();
+			
 			// Create welcome screen
 			nptUi.welcomeScreen ();
 			
@@ -76,9 +79,6 @@ const nptUi = (function () {
 			
 			// General GUI topnav function
 			nptUi.topnav ();
-			
-			// Parse URL hash state
-			nptUi.parseUrl ();
 			
 			// Create the map UI
 			_map = nptUi.createMap ();
@@ -160,10 +160,17 @@ const nptUi = (function () {
 			// Show the layer controls box
 			showlayercontrols(true);
 			
-			// Auto-open a section if required
-			if (document.getElementById('autoopen')) {
-				document.getElementById('autoopen').click ();
-			}
+			// Auto-open initial layer sections if required
+			const initialLayersString =  _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');
+			const initialLayers = (initialLayersString.length ? initialLayersString.split (',') : _settings.initialLayersEnabled);
+			let accordionButtons = [];
+			initialLayers.forEach (function (layerId) {
+				accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
+			});
+			accordionButtons = Array.from (new Set (accordionButtons));	// Remove duplicates - may have more than one layer within a button
+			accordionButtons.forEach (function (accordionButton) {
+				accordionButton.click ();
+			});
 			
 			// Show layer control box when button clicked on
 			document.querySelector('#showrightbox button').addEventListener('click', function () {
@@ -712,7 +719,7 @@ const nptUi = (function () {
 			Object.entries(_datasets.layers).forEach(([layerId, layer]) => {
 				let tileserverUrl = (_settings.tileserverTempLocalOverrides[layerId] ? _settings.tileserverTempLocalOverrides[layerId] : _settings.tileserverUrl);
 				_datasets.layers[layerId].source.url = layer.source.url.replace ('%tileserverUrl', tileserverUrl)
-				console.log (`Setting source.url for layer ${layerId} to ${_datasets.layers[layerId].source.url}`);
+				//console.log (`Setting source.url for layer ${layerId} to ${_datasets.layers[layerId].source.url}`);
 			});
 			
 			// Add layers, and their sources, initially not visible when initialised
@@ -746,8 +753,22 @@ const nptUi = (function () {
 			}
 			
 			// Set the visibility of the layer, based on the checkbox value
-			const isVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-			_map.setLayoutProperty(layerId, 'visibility', (isVisible ? 'visible' : 'none'));
+			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
+			
+			// Set the visibility of the layer-specific controls, if present
+			const layerToolsDiv = document.querySelector ('.layertools-' + layerId);
+			if (layerToolsDiv) {
+				
+				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
+				let makeVisibleLayerTools = makeVisible;
+				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
+					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
+				}
+				
+				// Eanble/disable the layer tools div
+				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
+			}
 			
 			// Update the layer state for the URL
 			nptUi.layerStateUrl ();
