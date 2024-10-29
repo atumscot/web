@@ -753,8 +753,8 @@ const nptUi = (function () {
 			}
 			
 			// Set the visibility of the layer, based on the checkbox value
-			const isVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-			_map.setLayoutProperty(layerId, 'visibility', (isVisible ? 'visible' : 'none'));
+			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
 			
 			// Update the layer state for the URL
 			nptUi.layerStateUrl ();
