@@ -861,14 +861,18 @@ const nptUi = (function () {
 			// Create the legend HTML
 			// #!# Should be a list, not nested divs
 			let legendHtml = '<div class="l_r">';
-			legendColours.forEach (legendColour => {
-				if (isRangeType) {legendColour[0] = '≥' + legendColour[0];}
-				legendHtml += `<div class="lb"><span style="background-color: ${legendColour[1]}"></span>${legendColour[0]}</div>`;
-			})
+			legendColours.forEach (function ([value, colour]) {
+				legendHtml += '<div class="lb">';
+				legendHtml += `<span style="background-color: ${colour}">`;
+				legendHtml += '</span>';
+				if (isRangeType) {value = '≥' + value;}
+				legendHtml += value;	// Label
+				legendHtml += '</div>';
+			});
 			legendHtml += '</div>';
 			
 			// Set the legend
-			document.getElementById(selector).innerHTML = legendHtml;
+			document.getElementById (selector).innerHTML = legendHtml;
 		},
 		
 		
