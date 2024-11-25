@@ -122,7 +122,12 @@ const nptUi = (function () {
 		// Function to initialise the state
 		initialiseState: function ()
 		{
-			
+			// Initialiase layer state
+			_state.layers = {};
+			Object.keys (_datasets.layers).forEach (function (layerId) {
+				_state.layers[layerId] = {};
+				_state.layers[layerId].enabled = false;
+			});
 		},
 		
 		
@@ -766,16 +771,18 @@ const nptUi = (function () {
 				nptUi.createLegend (datasets.legends[layerId], layerId + 'legend');
 			}
 			
+			// Set state
+			_state.layers[layerId].enabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			
 			// Set the visibility of the layer, based on the checkbox value
-			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
+			_map.setLayoutProperty (layerId, 'visibility', (_state.layers[layerId].enabled ? 'visible' : 'none'));
 			
 			// Set the visibility of the layer-specific controls, if present
 			const layerToolsDiv = document.querySelector ('.layertools-' + layerId);
 			if (layerToolsDiv) {
 				
 				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
-				let makeVisibleLayerTools = makeVisible;
+				let makeVisibleLayerTools = _state.layers[layerId].enabled;
 				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
 					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
 				}
@@ -893,14 +900,8 @@ const nptUi = (function () {
 		// Function to manage layer state URL
 		layerStateUrl: function ()
 		{
-			// Register the IDs of all checked layers, first resetting the list
-			const enabledLayers = [];
-			Object.entries (_datasets.layers).forEach (([layerId, layer]) => {
-				const isEnabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-				if (isEnabled) {
-					enabledLayers.push (layerId);
-				}
-			});
+			// Determine enabled layers
+			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
 			
 			// Compile the layer state URL
 			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
