@@ -246,6 +246,15 @@ const nptUi = (function () {
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
 			
+			// Write initial layers specified in the URL, if any, into the state
+			const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			if (initialLayersString.length) {
+				const initialLayers = initialLayersString.split (',');
+				Object.keys (_datasets.layers).forEach (layerId => {
+					_state.layers[layerId].enabled = (initialLayers.includes (layerId));
+				});
+			}
+			
 			// Listen for layer state changes
 			document.addEventListener ('@state/change', function () {
 				nptUi.layerStateUrl ();
@@ -700,15 +709,6 @@ const nptUi = (function () {
 				
 				// Initialise datasets (sources and layers)
 				nptUi.initialiseDatasets ();
-				
-				// Write initial layers specified in the URL, if any, into the state
-				const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-				if (initialLayersString.length) {
-					const initialLayers = initialLayersString.split (',');
-					Object.keys (_datasets.layers).forEach (layerId => {
-						_state.layers[layerId].enabled = (initialLayers.includes (layerId));
-					});
-				}
 				
 				// Set checkboxes
 				Object.entries (_state.layers).forEach (function ([layerId, layer]) {
