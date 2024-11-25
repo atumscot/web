@@ -701,17 +701,21 @@ const nptUi = (function () {
 				// Initialise datasets (sources and layers)
 				nptUi.initialiseDatasets ();
 				
-				// Set initial visibility based on URL state, by ensuring each such checkbox is ticked
+				// Write initial layers specified in the URL, if any, into the state
 				const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
 				if (initialLayersString.length) {
 					const initialLayers = initialLayersString.split (',');
 					Object.keys (_datasets.layers).forEach (layerId => {
-						const isEnabled = (initialLayers.includes (layerId));
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = isEnabled;
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').dispatchEvent (new CustomEvent ('change'));
+						_state.layers[layerId].enabled = (initialLayers.includes (layerId));
 					});
 				}
-				document.dispatchEvent (new Event ('@map/initiallayersset', {'bubbles': true}));
+				
+				// Set checkboxes
+				Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+					if (layer.enabled) {
+						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
+					}
+				});
 				
 				// Implement initial visibility state for all layers
 				Object.keys(_datasets.layers).forEach(layerId => {
