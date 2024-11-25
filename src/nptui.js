@@ -51,8 +51,13 @@ const nptUi = (function () {
 	// Settings
 	let _settings = {};		// Will be populated by constructor
 	let _datasets = {};		// Will be populated by constructor
+	
+	// Properties
 	let _map;
 	let _hashComponents = {layers: '/', map: ''};
+	
+	// State
+	const _state = {};
 	
 	
 	// Functions
@@ -64,6 +69,9 @@ const nptUi = (function () {
 			// Populate the settings and datasets class properties
 			_settings = settings;
 			_datasets = datasets;
+			
+			// Initialise the state
+			nptUi.initialiseState ();
 			
 			// Parse URL hash state
 			nptUi.parseUrl ();
@@ -108,6 +116,13 @@ const nptUi = (function () {
 			
 			// Manage analytics cookie setting
 			nptUi.manageAnalyticsCookie ();
+		},
+		
+		
+		// Function to initialise the state
+		initialiseState: function ()
+		{
+			
 		},
 		
 		
