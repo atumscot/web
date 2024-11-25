@@ -245,6 +245,11 @@ const nptUi = (function () {
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
+			
+			// Listen for layer state changes
+			document.addEventListener ('@state/change', function () {
+				nptUi.layerStateUrl ();
+			});
 		},
 		
 		
@@ -771,8 +776,9 @@ const nptUi = (function () {
 				nptUi.createLegend (datasets.legends[layerId], layerId + 'legend');
 			}
 			
-			// Set state
+			// Set state of layer
 			_state.layers[layerId].enabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
 			
 			// Set the visibility of the layer, based on the checkbox value
 			_map.setLayoutProperty (layerId, 'visibility', (_state.layers[layerId].enabled ? 'visible' : 'none'));
@@ -790,9 +796,6 @@ const nptUi = (function () {
 				// Eanble/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
-			
-			// Update the layer state for the URL
-			nptUi.layerStateUrl ();
 		},
 		
 		
