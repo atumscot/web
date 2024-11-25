@@ -790,7 +790,7 @@ const nptUi = (function () {
 				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
 				let makeVisibleLayerTools = _state.layers[layerId].enabled;
 				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
-					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
+					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
 				// Eanble/disable the layer tools div
