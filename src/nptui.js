@@ -180,11 +180,10 @@ const nptUi = (function () {
 			showlayercontrols(true);
 			
 			// Auto-open initial layer sections if required
-			const initialLayersString =  _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');
-			const initialLayers = (initialLayersString.length ? initialLayersString.split (',') : _settings.initialLayersEnabled);
 			let accordionButtons = [];
-			initialLayers.forEach (function (layerId) {
-				accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
+			enabledLayers.forEach (function (layerId) {
+					accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
 			});
 			accordionButtons = Array.from (new Set (accordionButtons));	// Remove duplicates - may have more than one layer within a button
 			accordionButtons.forEach (function (accordionButton) {
@@ -241,7 +240,7 @@ const nptUi = (function () {
 			// End if not the intended format of /layers/#map , thus retaining the default state of the _hashComponents property
 			if (hashComponents.length != 2) {return;}
 			
-			// Register the change in the state
+			// Register the change in the hash components state
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
