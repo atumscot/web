@@ -138,10 +138,9 @@ const nptUi = (function () {
 		// Function to manage an accordion
 		accordion: function ()
 		{
-			// Listen for accordion clicks, on a late-bound basis
-			document.addEventListener('click', function (e) {
-				if (e.target.classList.contains('accordion')) {
-					const button = e.target;
+			// Listen for accordion clicks
+			document.querySelectorAll ('button.accordion').forEach  (function (button) {
+				button.addEventListener ('click', function () {
 					
 					// Toggle between adding and removing the 'active' class, to highlight the button that controls the panel
 					button.classList.toggle('active');
@@ -149,7 +148,7 @@ const nptUi = (function () {
 					// Toggle between hiding and showing the active panel
 					const panel = button.nextElementSibling;
 					panel.style.display = (panel.style.display == 'block' ? 'none' : 'block');
-				}
+				});
 			});
 		},	
 		
