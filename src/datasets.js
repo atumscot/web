@@ -177,19 +177,21 @@ const datasets = {
 					}
 				}
 			},
-			'Traffic volume': {
-				label: 'Estimated traffic volume',
-				type: 'step',
+			'Traffic volume category': {
+				label: 'Traffic volume category',
+				type: 'match',
 				styles: {
 					'line-color': {
-						0: '#27918d',
-						2000: '#ffaa33',
-						5000: '#440154',
+						'0 to 1999': '#27918d',
+						'2000 to 3999': '#ffaa33',
+						'4000+': '#440154',
+						'_': 'gray',
 					},
 					'line-width': {
-						0: 1,
-						2000: 2,
-						5000: 3,
+						'0 to 1999': 1,
+						'2000 to 3999': 2,
+						'4000+': 3,
+						'_': 1,
 					}
 				}
 			},
