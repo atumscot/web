@@ -387,31 +387,29 @@
 		
 		<!-- Template for map popup -->
 		<template id="rnet-popup">
-			<p>Cyclists: {_ncycle}</p>
-			<p>Gradient: {gradient}%</p>
-			<p>Cycle-friendliness: {quietness}%</p>
+			<p>Cyclists: {_ncycle}<br />
+			Gradient: {gradient}%<br />
+			Cycle-friendliness: {quietness}%</p>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a> <a class="externallink" target="_blank" href="{_osmUrl}">OpenStreetMap <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
-			<button class="accordion">All network details</button>
-			<div class="panel" id="popuppanel">
-				<h4>Fast/Direct network</h4>
-				<table>
-					<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
-					<tr><th>All</th><td>{all_fastest_bicycle}</td><td>{all_fastest_bicycle_go_dutch}</td><td>{all_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Commute</th><td>{commute_fastest_bicycle}</td><td>{commute_fastest_bicycle_go_dutch}</td><td>{commute_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Primary</th><td>{primary_fastest_bicycle}</td><td>{primary_fastest_bicycle_go_dutch}</td><td>{primary_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Secondary</th><td>{secondary_fastest_bicycle}</td><td>{secondary_fastest_bicycle_go_dutch}</td><td>{secondary_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Utility</th><td>{utility_fastest_bicycle}</td><td>{utility_fastest_bicycle_go_dutch}</td><td>{utility_fastest_bicycle_ebike}</td></tr>
-				</table>
-				<h4>Quiet/Indirect network</h4>
-				<table>
-					<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
-					<tr><th>All</th><td>{all_quietest_bicycle}</td><td>{all_quietest_bicycle_go_dutch}</td><td>{all_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Commute</th><td>{commute_quietest_bicycle}</td><td>{commute_quietest_bicycle_go_dutch}</td><td>{commute_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Primary</th><td>{primary_quietest_bicycle}</td><td>{primary_quietest_bicycle_go_dutch}</td><td>{primary_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Secondary</th><td>{secondary_quietest_bicycle}</td><td>{secondary_quietest_bicycle_go_dutch}</td><td>{secondary_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Utility</th><td>{utility_quietest_bicycle}</td><td>{utility_quietest_bicycle_go_dutch}</td><td>{utility_quietest_bicycle_ebike}</td></tr>
-				</table>
-			</div>
+			<h3>All network details:</h3>
+			<h4>Fast/Direct network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_fastest_bicycle}</td><td>{all_fastest_bicycle_go_dutch}</td><td>{all_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_fastest_bicycle}</td><td>{commute_fastest_bicycle_go_dutch}</td><td>{commute_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_fastest_bicycle}</td><td>{primary_fastest_bicycle_go_dutch}</td><td>{primary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_fastest_bicycle}</td><td>{secondary_fastest_bicycle_go_dutch}</td><td>{secondary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_fastest_bicycle}</td><td>{utility_fastest_bicycle_go_dutch}</td><td>{utility_fastest_bicycle_ebike}</td></tr>
+			</table>
+			<h4>Quiet/Indirect network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_quietest_bicycle}</td><td>{all_quietest_bicycle_go_dutch}</td><td>{all_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_quietest_bicycle}</td><td>{commute_quietest_bicycle_go_dutch}</td><td>{commute_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_quietest_bicycle}</td><td>{primary_quietest_bicycle_go_dutch}</td><td>{primary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_quietest_bicycle}</td><td>{secondary_quietest_bicycle_go_dutch}</td><td>{secondary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_quietest_bicycle}</td><td>{utility_quietest_bicycle_go_dutch}</td><td>{utility_quietest_bicycle_ebike}</td></tr>
+			</table>
 		</template>
 		
 		<!-- Template for map popup -->
