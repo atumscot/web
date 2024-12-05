@@ -1,47 +1,52 @@
-/* Convert Markdown to HTML */
-loadManual ();
+// Load data
+loadLocalAuthorities (settings);
 
 // Top nav
 topnav ();
 
 
 // Load the Markdown file as text and place it into the content div
-function loadManual ()
+function loadLocalAuthorities (settings)
 {
-  fetch ('index.md')
-    .then (response => response.text ())
-    .then (function (text) {
-      document.querySelector ('#content').innerHTML = mdToHtml (text);
-      followAnchorHash ();
-      createToc ();
-      createEditLink ();
-    })
-    .catch (function (error) {
-      alert('Failed to load manual text.');
-    });
+	// Fetch the data
+	fetch (settings.boundariesUrl)
+		.then (function (response) {
+			return response.json ();
+		})
+		.then (function (boundaries) {
+			
+			// Add the table
+			const div = document.createElement ('div');
+			div.innerHTML = boundariesTable (boundaries);
+			document.querySelector ('#content').appendChild (div);
+		});
 }
 
 
-// Function to convert the loaded Markdown file text to HTML
-function mdToHtml (mdText)
+// Function to render the table
+function boundariesTable (boundaries)
 {
-  const converter = new showdown.Converter ();
-  const html = converter.makeHtml (mdText);
-  return html;
+	// Build the table from each feature
+	let html = '<table class="lines">';
+	html += '<tr>';
+	html += '<th>Type</th>';
+	html += '<th>Area</th>';
+	html += '<th>Scheme sketcher</th>';
+	html += '</tr>';
+	Object.entries (boundaries.features).forEach (function ([index, feature]) {
+		const linkUrl = '/scheme-sketcher/sketch.html?boundary=' + encodeURIComponent (feature.properties.kind + '_' + feature.properties.name);
+		html += '<tr>';
+		html += '<td>' + feature.properties.kind + '</td>';
+		html += '<td>' + feature.properties.name + '</td>';
+		html += '<td>' + '<a href="' + linkUrl + '">Scheme sketcher</a></td>';
+		html += '</tr>';
+	});
+	html += '</table>';
+	
+	// Return the HTML
+	return html;
 }
 
-
-// Function to follow the anchor hash for JS-loaded content (which loads after document ready)
-function followAnchorHash ()
-{
-  // Go to hash if present; see: https://stackoverflow.com/a/13736194/180733
-  if (window.location.hash) {
-    if (document.getElementById (window.location.hash.substring (1))) {
-      const top = document.getElementById (window.location.hash.substring (1)).offsetTop;
-      window.scrollTo (0, top);
-    }
-  }
-}
 
 
 // Function to create table of contents

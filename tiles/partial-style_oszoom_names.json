@@ -1,0 +1,219 @@
+{
+  "motorway junction numbers": {
+    "id": "motorway junction numbers",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 13,
+    "filter": ["match", ["get", "type"], ["Motorway Junctions"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        13,
+        11,
+        16,
+        16,
+        22,
+        30
+      ],
+      "text-font": ["Source Sans Pro Regular"]
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 10
+    }
+  },
+  
+  "small settlement names": {
+    "id": "small settlement names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["Small Settlements"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 14, 11],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 2,
+      "text-halo-blur": 1
+    }
+  },
+  
+  "suburban area names": {
+    "id": "suburban area names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 10,
+    "filter": ["match", ["get", "type"], ["Suburban Area"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 10, 10.5, 14, 14],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": ["interpolate", ["linear"], ["zoom"], 10, 10, 14, 2]
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 2,
+      "text-halo-blur": 1,
+      "text-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 14, 1]
+    }
+  },
+  
+  "village and hamlet names": {
+    "id": "village and hamlet names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["Village", "Hamlet"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 9, 9, 14, 15],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 2,
+      "text-halo-blur": 1,
+      "text-opacity": 1
+    }
+  },
+  
+  "town names": {
+    "id": "town names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["Town"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 7, 10, 14, 18],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
+      "text-opacity": 1
+    }
+  },
+  
+  "city names": {
+    "id": "city names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["City"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 14, 20],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2,
+      "text-letter-spacing": 0.05
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
+      "text-opacity": 1
+    }
+  },
+  
+  "national park names": {
+    "id": "national park names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["National Park"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 6, 8, 14, 15],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2,
+      "text-letter-spacing": 0.06
+    },
+    "paint": {
+      "text-color": "rgba(134, 134, 134, 1)",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
+      "text-opacity": 0.8
+    }
+  },
+  
+  "capital city names": {
+    "id": "capital city names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "filter": ["match", ["get", "type"], ["Capital"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 5, 10.5, 14, 22],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2,
+      "text-letter-spacing": 0.1,
+      "text-transform": "uppercase"
+    },
+    "paint": {
+      "text-color": "#000000",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
+      "text-opacity": 1
+    }
+  },
+  
+  "country names": {
+    "id": "country names",
+    "type": "symbol",
+    "source": "placenames",
+    "source-layer": "names",
+    "minzoom": 5,
+    "maxzoom": 10,
+    "filter": ["match", ["get", "type"], ["Country"], true, false],
+    "layout": {
+      "text-field": ["to-string", ["get", "name"]],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 5, 18, 10, 35],
+      "text-font": ["Source Sans Pro Regular"],
+      "text-line-height": 1,
+      "text-padding": 2,
+      "text-letter-spacing": 0.3,
+      "text-transform": "uppercase"
+    },
+    "paint": {
+      "text-color": "#55595c",
+      "text-halo-color": "#f1efec",
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
+      "text-opacity": 0.35
+    }
+  }
+}

@@ -13,7 +13,12 @@
   }
 }
 
+body {
+  overflow: visible;
+}
+
 .content {
+  overflow: visible;
   padding:15px; 
   max-width: 800px;
 }
@@ -51,4 +56,24 @@
   list-style: circle;
 }
 
+#editlink {
+  float: right;
+  margin-right: 15px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
+img {
+  max-width: 100%;
+}
+
+/* 'Lines' table style */
+table.lines {border-collapse: collapse; border: 0;}
+table.lines td, table.lines th {border: 0; border-bottom: 1px solid #e9e9e9; padding: 6px 4px 2px; vertical-align: top; text-align: left;}
+table.lines tr:first-child {border-top: 1px solid #e9e9e9;}
+table.lines td:last-child ul:first-child {margin-top: 0;}
+table.lines td:last-child ul:first-child li:first-child {margin-top: 0;}
+table.lines th {background-color: #eee;}
+
+table.lines a {font-weight: normal; text-decoration: underline;}

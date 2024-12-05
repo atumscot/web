@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="Description" content="NPT Data">
 <title>Data | NPT</title>
-<script src="/js/accordion.js"></script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZMHV92YXJ"></script>
 <script>
@@ -17,6 +17,8 @@
 </script>
 
 <link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/manual.css">
+
 <!-- Set Up Icon -->
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -25,68 +27,33 @@
 <link href="/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
 <link href="/assets/fontawesome/css/solid.min.css" rel="stylesheet">
 
+<!-- Markdown conversion -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+
 
 </head>
 <body>
 
 <!-- Menu -->
-<div class="nav-wrapper">
-	<div class="topnav" id="myTopnav">
-		<div class="main-title">
-		  	<a href="/">NPT Scotland</a>
-		</div>
-		   <a href="/about" title="About">About</a>
-		   <a href="/data" title="Data">Data</a>
-		   <a href="/manual" title="Manual">Manual</a>
-		   <a class="smaller" href="/privacy">Privacy &amp; accessibility</a>
-		   <a href="javascript:void(0);" class="icon" onclick="expandtopnav()" aria-label="Expand Menu">
-    <i class="fa fa-bars"></i>
-  </a>
-	</div>
-		<div class="logo">
-			<img src="/images/npt_logo.png" alt="NPT Logo" height="40">
-		</div>	
-</div>
-
-<div class="content" style="padding:15px; width:95%; max-width: 800px;">
-<h1>Data</h1>
-<p>This page provides links to download data from the NPT as well as extra information on licensing and methods for data users.</p>
-<h2>Data Access and Licence</h2>
-<p>All the bulk data within the NPT is available to download under the <a href="https://opendatacommons.org/licenses/by/">Open Data Commons Attribution License</a>.</p> 
-<p>You are free:</p>
- <ul>
-  <li>To share: To copy, distribute and use the data.</li>
-  <li>To create: To produce works from the data.</li>
-  <li>To adapt: To modify, transform and build upon the data.</li>
-</ul> 
-<p>As long as you:</p>
- <ul>
-  <li>Attribute: You must attribute any public use of the data, or works produced from the data, in the manner specified in the license. For any use or redistribution of the data, or works produced from it, you must make clear to others the license of the data and keep intact any notices on the original data.</li>
-</ul> 
-    
-<p>This licence does not apply to the website, vector tiles, or other hosted data which is only to be used via the official NPT website. You must not link, embed, scrape or otherwise use the constituent parts of the website.</p>
-
-<h2>Source Code</h2>
-<p>The source code used in the analysis and to build the website is published under the GNU Affero General Public License v3.0.</p>
-<p>Your are free:</p>
-<ul>
-  <li>To Share: copy and redistribute the material in any medium or format</li>
-  <li>To Adapt: remix, transform, and build upon the material for any purpose, even commercially.</li>
-</ul>
-
-<p>As long as you:</p>
-<ul>
-  <li>Attribute: You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>
-  <li>ShareAlike: If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.</li>
-</ul>
-
-<p>The source code <a href="https://github.com/nptscot" target="_blank" rel="noopener noreferrer">is published on GitHub</a></p>
+<nav>
+	<a href="/"><img src="/images/npt_logo.png" alt="NPT Logo" class="logo" /> NPT Scotland</a>
+	<a href="/localauthorities/">Local authorities</a>
+	<a href="/about/">About</a>
+	<a href="/data/" class="selected">Data</a>
+	<a href="/manual/">Manual</a>
+	<a href="#" id="expandtopnav" class="icon" aria-label="Expand menu"><i class="fa fa-bars"></i></a>
+</nav>
 
 
+<p><a id="editlink" href="#" title="Contribute to improving our documentation">Edit this page</a></p>
 
+<div id="content" class="content" style="padding:15px; width:95%; max-width: 800px;">
+  <!-- Content from .md will be loaded here -->
 </div>
 
 
+<script src="/src/settings.js" async defer></script>
+<script src="/js/manual.js" async defer></script>
 
 </body>
 </html>
