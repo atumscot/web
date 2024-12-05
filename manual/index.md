@@ -277,7 +277,7 @@ By focusing on coherence, directness, and optimal route density, this core netwo
 
 <!-- #clos -->
 
-### Cycling by Design compliance
+### Infrastructure and traffic
 
 This section provides data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS).
 
