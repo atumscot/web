@@ -46,7 +46,7 @@ const datasets = {
 			'type': 'circle',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/schools-${dataDate}.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/schools.pmtiles',
 			},
 			'source-layer': 'schools',
 			'paint': {
