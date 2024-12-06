@@ -1,4 +1,6 @@
 // Data definitions, i.e. layers, charts, etc.
+const dataDate = '2024-12-01';
+
 const datasets = {
 	
 	// Data layers
@@ -8,7 +10,7 @@ const datasets = {
 			'id': 'rnet',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_2024-05-23.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/rnet_${dataDate}.pmtiles',
 			},
 			'source-layer': 'rnet',
 			'type': 'line',
@@ -18,7 +20,7 @@ const datasets = {
 			'id': 'rnet-simplified',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-05-23.pmtiles',	 // #!# Inconsistent path - needs fixing
+				'url': 'pmtiles://%tileserverUrl/rnet_simplified_${dataDate}.pmtiles',	 // #!# Inconsistent path - needs fixing
 			},
 			'source-layer': 'rnet_simplified',
 			'type': 'line',
@@ -29,7 +31,7 @@ const datasets = {
 			'type': 'fill',
 			'source': {
 			'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/data_zones-2023-12-17.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/data_zones-${dataDate}.pmtiles',
 				},
 			'source-layer': 'data_zones',
 			'paint': {
@@ -44,7 +46,7 @@ const datasets = {
 			'type': 'circle',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/schools-2023-12-17.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/schools-${dataDate}.pmtiles',
 			},
 			'source-layer': 'schools',
 			'paint': {
@@ -115,7 +117,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/cbd_layer_2024-12-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/cbd_layer_${dataDate}.pmtiles',
 			},
 			'source-layer': 'cbd_layer',
 			'paint': {
@@ -130,7 +132,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-09-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/combined_CN_4_${dataDate}.pmtiles',
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
