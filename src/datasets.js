@@ -8,7 +8,7 @@ const datasets = {
 			'id': 'rnet',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_2024-05-23.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/rnet_2024-12-01.pmtiles',
 			},
 			'source-layer': 'rnet',
 			'type': 'line',
@@ -18,7 +18,7 @@ const datasets = {
 			'id': 'rnet-simplified',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-05-23.pmtiles',	 // #!# Inconsistent path - needs fixing
+				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-12-01.pmtiles',	 // #!# Inconsistent path - needs fixing
 			},
 			'source-layer': 'rnet_simplified',
 			'type': 'line',
@@ -29,7 +29,7 @@ const datasets = {
 			'type': 'fill',
 			'source': {
 			'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/data_zones-2023-12-17.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/data_zones-2024-12-01.pmtiles',
 				},
 			'source-layer': 'data_zones',
 			'paint': {
