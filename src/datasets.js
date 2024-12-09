@@ -134,7 +134,12 @@ const datasets = {
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
-				'line-color': '#030e13',
+				'line-color': [
+					'match',
+					['get', 'road_function'],
+					'Primary', '#e73f74',
+					/* other */ '#808080'
+				],
 				'line-width': 2
 			}
 		}
