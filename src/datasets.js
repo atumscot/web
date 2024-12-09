@@ -138,9 +138,11 @@ const datasets = {
 					'match',
 					['get', 'road_function'],
 					'Primary', '#e73f74',
+					'Secondary', '#ffbf00',
+					'Local Access', '#ff8080',
 					/* other */ '#808080'
 				],
-				'line-width': 2
+				'line-width': 3
 			}
 		}
 	},
