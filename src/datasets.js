@@ -132,7 +132,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_${dataDate}.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-12-01_OS.pmtiles',
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
