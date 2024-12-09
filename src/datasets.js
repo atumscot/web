@@ -130,12 +130,19 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-09-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-12-01_OS.pmtiles',
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
-				'line-color': '#030e13',
-				'line-width': 2
+				'line-color': [
+					'match',
+					['get', 'road_function'],
+					'Primary', '#e73f74',
+					'Secondary', '#f1ce63',
+					'Local Access', '#7faedd',
+					/* other */ '#808080'
+				],
+				'line-width': 3
 			}
 		}
 	},
