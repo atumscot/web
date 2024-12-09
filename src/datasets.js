@@ -1,5 +1,7 @@
 // Data definitions, i.e. layers, charts, etc.
+const templateUrl = 'pmtiles://%tileserverUrl/combined_CN_4_${dataDate}_OS.pmtiles';
 const dataDate = '2024-12-01';
+const finalUrl = replacedTileserverUrl.replace('${dataDate}', dataDate);
 
 const datasets = {
 	
@@ -132,7 +134,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_${dataDate}.pmtiles',
+				'url': finalUrl,
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
