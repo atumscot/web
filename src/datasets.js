@@ -562,7 +562,6 @@ const datasets = {
 				['_ebike_quietest', 'Ebike (Quietest)']
 			]
 		},
-	*/
 		
 		
 		// Travel to School Modeshare
@@ -611,6 +610,7 @@ const datasets = {
 				['_ebike_quietest', 'Ebike (Quietest)']
 			]
 		}
+	*/
 	},
 	
 	
