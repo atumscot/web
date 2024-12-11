@@ -29,7 +29,7 @@ const datasets = {
 			'type': 'fill',
 			'source': {
 			'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/data_zones-2023-12-17.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/data_zones_2024-12-01.pmtiles',
 				},
 			'source-layer': 'data_zones',
 			'paint': {
