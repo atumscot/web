@@ -335,6 +335,36 @@ We have categorised the various types of cycle infrastructure as follows:
 
 <!-- /#infrastructuretypes -->
 
+<!-- #streetspace -->
+
+### Street space
+
+<!-- From index.html:
+
+				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>  
+				<div class="layertools layertools-streetspace">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space (absolute minimum)</div>
+							<div class="lb"><span style="background-color: #f29551;"></span>Enough space (minimum)</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
+						</div>
+					</div>
+				</div>
+
+-->
+
+The street space layer categorises the width of roads based on the Cycling by Design guidance. The categories are:
+
+<!-- TODO: add width ranges -->
+* Not enough space: The road is too narrow to accommodate cycle infrastructure.
+* Enough space (absolute minimum)
+* Enough space (minimum)
+* Plenty of space
+
+<!-- /#streetspace -->
+
 <!-- #data_zones -->
 
 ### Data zones
