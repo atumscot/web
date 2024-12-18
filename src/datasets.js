@@ -141,7 +141,7 @@ const datasets = {
 					'Plenty of space', '#75a375',
 					/* other */ 'gray'
 				],
-				'line-width': 2
+				'line-width': 4
 			}
 		},
 		
