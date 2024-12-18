@@ -286,7 +286,16 @@
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
 				<!-- <p>Analyis of the space available within each street.</p> -->
-				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>  
+				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<p>
+					<label for="infrastructure_scenario">Infrastructure scenario</label>
+					<select name="infrastructure_scenario" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
+						<option value="current_layout">Current layout</option>
+						<option value="removal_lane_motor_traffic">Removal of lane of motor traffic</option>
+						<option value="road_diet">Road diet</option>
+					</select>
+					<button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="infrastructure_scenario"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+				</p>
 				<div class="layertools layertools-streetspace">
 					<div class="legend">
 						<div class="l_r">
