@@ -1,6 +1,8 @@
 
 // Settings for this installation
 const settings = {
+
+	version: '1.9.0',
 	
 	// Map position
 	initialPosition: {
