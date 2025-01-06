@@ -40,7 +40,7 @@ See the [manual](/manual) for more information on how to use the tool.
 
 ## What's new?
 
-Version 2 was released in December 2024. Changes since v1 are:
+### December 2024:
 
 * Updates to the route network data, now using the all-purpose O/D data
 * Addition of Coherent Network
