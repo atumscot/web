@@ -81,7 +81,7 @@ function rnetCheckboxProxying ()
 	const rnetCheckbox = document.querySelector ('input.showlayer[data-layer="rnet"]');
 	const rnetsimplifiedCheckbox = document.querySelector ('input.showlayer[data-layer="rnet-simplified"]');
 	
-	// Define a function to calculate the real checkbox values based on the enabled/simplified boxes
+	// Define a function to calculate the real layer checkboxes (rnet/rnet-simplified) values based on the visible (enabled/simplified) boxes which act in combination to determine the visible layer
 	function setRnetCheckboxes ()
 	{
 		// Calculate the real checkbox values based on the enabled/simplified boxes
@@ -96,7 +96,7 @@ function rnetCheckboxProxying ()
 	// Set initial state
 	setRnetCheckboxes ();
 	
-	// Change state when the visible UI checkboxes change
+	// Change state when the visible UI checkboxes (enabled/simplified) change
 	document.querySelectorAll ('.rnetproxy').forEach ((input) => {
 		input.addEventListener ('change', function (e) {
 			setRnetCheckboxes ();

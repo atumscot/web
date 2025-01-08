@@ -151,7 +151,7 @@ const nptUi = (function () {
 				button.addEventListener ('click', function () {
 					
 					// Toggle between adding and removing the 'active' class, to highlight the button that controls the panel
-					button.classList.toggle('active');
+					button.classList.toggle ('active');
 					
 					// Toggle between hiding and showing the active panel
 					const panel = button.nextElementSibling;
@@ -165,7 +165,7 @@ const nptUi = (function () {
 		layerControlsBoxUi: function ()
 		{
 			// Show the layer controls box
-			showlayercontrols(true);
+			showlayercontrols (true);
 			
 			// Auto-open initial layer sections if required
 			let accordionButtons = [];
@@ -736,8 +736,8 @@ const nptUi = (function () {
 				nptUi.initialiseDatasets ();
 				
 				// Implement initial visibility state for all layers
-				Object.keys(_datasets.layers).forEach(layerId => {
-					nptUi.toggleLayer(layerId);
+				Object.keys (_datasets.layers).forEach (layerId => {
+					nptUi.toggleLayer (layerId);
 				});
 				
 				// Handle layer change controls, each marked with .showlayer or .updatelayer
