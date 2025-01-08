@@ -557,6 +557,8 @@ input:checked + .slider:before {
 .layerpopup {
   min-width: 300px;
   max-width: 400px;
+  max-height: 240px;
+  overflow: auto;
 }
 
 .layerpopup table th, .layerpopup table td {
