@@ -81,6 +81,10 @@ function rnetCheckboxProxying ()
 	const rnetCheckbox = document.querySelector ('input.showlayer[data-layer="rnet"]');
 	const rnetsimplifiedCheckbox = document.querySelector ('input.showlayer[data-layer="rnet-simplified"]');
 	
+	// On initial display, set the proxy checkboxes to reflect the underlying real ticked layer boxes (which will have been set in manageLayers)
+	if (rnetCheckbox.checked || rnetsimplifiedCheckbox.checked) {rnetCheckboxProxy.checked = true; /* but do not trigger change, to avoid loop */}
+	if (rnetsimplifiedCheckbox.checked) {rnetsimplifiedCheckboxProxy.checked = true; /* but do not trigger change, to avoid loop */}
+	
 	// Define a function to calculate the real layer checkboxes (rnet/rnet-simplified) values based on the visible (enabled/simplified) boxes which act in combination to determine the visible layer
 	function setRnetCheckboxes ()
 	{
@@ -93,23 +97,11 @@ function rnetCheckboxProxying ()
 		rnetsimplifiedCheckbox.dispatchEvent (new CustomEvent ('change'));
 	}
 	
-	// Set initial state
-	setRnetCheckboxes ();
-	
 	// Change state when the visible UI checkboxes (enabled/simplified) change
 	document.querySelectorAll ('.rnetproxy').forEach ((input) => {
 		input.addEventListener ('change', function (e) {
 			setRnetCheckboxes ();
 		});
-	});
-	
-	// Ensure the visible enabled/simplified boxes are set to match the real checkbox values on initial load due to URL state
-	document.addEventListener ('@map/initiallayersset', function (event) {
-		const layerProxyEnabled = (rnetCheckbox.checked || rnetsimplifiedCheckbox.checked);
-		const simplifiedModeProxyEnabled = rnetsimplifiedCheckbox.checked;
-		rnetCheckboxProxy.checked = (layerProxyEnabled);
-		rnetsimplifiedCheckboxProxy.checked = (layerProxyEnabled && simplifiedModeProxyEnabled);
-		// Events are not dispatched, to avoid event loop
 	});
 }
 
