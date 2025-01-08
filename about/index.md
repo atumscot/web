@@ -41,7 +41,7 @@ See the [manual](/manual) for more information on how to use the tool.
 ## What's new?
 
 <!-- See package.json: -->
-### v2.0.0 (January 2024)
+### v2.0.0 (January 2025)
 
 * Updates to the route network data, now using the all-purpose O/D data
 * Addition of Coherent Network
