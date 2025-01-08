@@ -722,18 +722,18 @@ const nptUi = (function () {
 		// Function to manage layers
 		manageLayers: function ()
 		{
+			// Set checkboxes immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				if (layer.enabled) {
+					document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
+				}
+			});
+			
 			// Add layers when the map is ready (including after a basemap change)
 			document.addEventListener ('@map/ready', function () {
 				
 				// Initialise datasets (sources and layers)
 				nptUi.initialiseDatasets ();
-				
-				// Set checkboxes
-				Object.entries (_state.layers).forEach (function ([layerId, layer]) {
-					if (layer.enabled) {
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
-					}
-				});
 				
 				// Implement initial visibility state for all layers
 				Object.keys(_datasets.layers).forEach(layerId => {
