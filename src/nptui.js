@@ -119,37 +119,6 @@ const nptUi = (function () {
 		},
 		
 		
-		// Function to initialise the state
-		initialiseState: function ()
-		{
-			// Initialise layer state structure
-			_state.layers = {};
-			Object.keys (_datasets.layers).forEach (function (layerId) {
-				_state.layers[layerId] = {
-					enabled: false
-				};
-			});
-			
-			// Listen for layer state changes
-			document.addEventListener ('@state/change', function () {
-				nptUi.layerStateUrl ();
-			});
-			
-			// Determine initial layers, preferring URL state if any layers enabled over settings default
-			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
-			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
-			
-			// Write initial layers specified in the URL, if any, into the state
-			Object.keys (_datasets.layers).forEach (layerId => {
-				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
-			});
-			
-			// Trigger state change
-			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
-		},
-		
-		
 		// Welcome screen
 		welcomeScreen: function ()
 		{
@@ -263,6 +232,51 @@ const nptUi = (function () {
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
+		},
+		
+		
+		// Function to initialise the state
+		initialiseState: function ()
+		{
+			// Initialise layer state structure
+			_state.layers = {};
+			Object.keys (_datasets.layers).forEach (function (layerId) {
+				_state.layers[layerId] = {
+					enabled: false
+				};
+			});
+			
+			// Listen for layer state changes
+			document.addEventListener ('@state/change', function () {
+				nptUi.layerStateUrl ();
+			});
+			
+			// Determine initial layers, preferring URL state if any layers enabled over settings default
+			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
+			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
+			
+			// Write initial layers specified in the URL, if any, into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
+			});
+			
+			// Trigger state change
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+		},
+		
+		
+		// Function to manage layer state URL
+		layerStateUrl: function ()
+		{
+			// Determine enabled layers
+			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
+			
+			// Compile the layer state URL
+			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
+			
+			// Register a state change for the URL
+			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
 		},
 		
 		
@@ -905,20 +919,6 @@ const nptUi = (function () {
 			
 			// Set the legend
 			document.getElementById (selector).innerHTML = legendHtml;
-		},
-		
-		
-		// Function to manage layer state URL
-		layerStateUrl: function ()
-		{
-			// Determine enabled layers
-			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
-			
-			// Compile the layer state URL
-			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
-			
-			// Register a state change for the URL
-			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
 		},
 		
 		
