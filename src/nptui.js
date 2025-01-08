@@ -122,11 +122,12 @@ const nptUi = (function () {
 		// Function to initialise the state
 		initialiseState: function ()
 		{
-			// Initialiase layer state
+			// Initialise layer state
 			_state.layers = {};
 			Object.keys (_datasets.layers).forEach (function (layerId) {
-				_state.layers[layerId] = {};
-				_state.layers[layerId].enabled = false;
+				_state.layers[layerId] = {
+					enabled: false
+				};
 			});
 		},
 		
@@ -240,7 +241,7 @@ const nptUi = (function () {
 			// End if not the intended format of /layers/#map , thus retaining the default state of the _hashComponents property
 			if (hashComponents.length != 2) {return;}
 			
-			// Register the change in the hash components state
+			// Register the change in the hash components (for URL) state
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
