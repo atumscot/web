@@ -1,6 +1,6 @@
 {
   "name": "@nptscot/nptscot.github.io",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Network Planning Tool for Scotland: front end",
   "main": "index.html",
   "repository": {
