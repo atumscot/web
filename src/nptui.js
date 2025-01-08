@@ -70,11 +70,11 @@ const nptUi = (function () {
 			_settings = settings;
 			_datasets = datasets;
 			
-			// Initialise the state
-			nptUi.initialiseState ();
-			
 			// Parse URL hash state
 			nptUi.parseUrl ();
+			
+			// Initialise the state
+			nptUi.initialiseState ();
 			
 			// Create welcome screen
 			nptUi.welcomeScreen ();
@@ -122,13 +122,31 @@ const nptUi = (function () {
 		// Function to initialise the state
 		initialiseState: function ()
 		{
-			// Initialise layer state
+			// Initialise layer state structure
 			_state.layers = {};
 			Object.keys (_datasets.layers).forEach (function (layerId) {
 				_state.layers[layerId] = {
 					enabled: false
 				};
 			});
+			
+			// Listen for layer state changes
+			document.addEventListener ('@state/change', function () {
+				nptUi.layerStateUrl ();
+			});
+			
+			// Determine initial layers, preferring URL state if any layers enabled over settings default
+			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
+			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
+			
+			// Write initial layers specified in the URL, if any, into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
+			});
+			
+			// Trigger state change
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
 		},
 		
 		
@@ -245,20 +263,6 @@ const nptUi = (function () {
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
-			
-			// Write initial layers specified in the URL, if any, into the state
-			const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-			if (initialLayersString.length) {
-				const initialLayers = initialLayersString.split (',');
-				Object.keys (_datasets.layers).forEach (layerId => {
-					_state.layers[layerId].enabled = (initialLayers.includes (layerId));
-				});
-			}
-			
-			// Listen for layer state changes
-			document.addEventListener ('@state/change', function () {
-				nptUi.layerStateUrl ();
-			});
 		},
 		
 		
