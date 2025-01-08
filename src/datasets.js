@@ -8,7 +8,7 @@ const datasets = {
 			'id': 'rnet',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_2024-05-23.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/rnet_2024-12-01.pmtiles',
 			},
 			'source-layer': 'rnet',
 			'type': 'line',
@@ -18,7 +18,7 @@ const datasets = {
 			'id': 'rnet-simplified',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-05-23.pmtiles',	 // #!# Inconsistent path - needs fixing
+				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-12-01.pmtiles',	 // #!# Inconsistent path - needs fixing
 			},
 			'source-layer': 'rnet_simplified',
 			'type': 'line',
@@ -29,7 +29,7 @@ const datasets = {
 			'type': 'fill',
 			'source': {
 			'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/data_zones-2023-12-17.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/data_zones_2024-12-01.pmtiles',
 				},
 			'source-layer': 'data_zones',
 			'paint': {
@@ -115,7 +115,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/cbd_layer_2024-10-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/cbd_layer_2024-12-01.pmtiles',
 			},
 			'source-layer': 'cbd_layer',
 			'paint': {
@@ -130,12 +130,19 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-09-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-12-01_OS.pmtiles',
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
-				'line-color': '#030e13',
-				'line-width': 2
+				'line-color': [
+					'match',
+					['get', 'road_function'],
+					'Primary', '#e73f74',
+					'Secondary', '#f1ce63',
+					'Local Access', '#7faedd',
+					/* other */ '#808080'
+				],
+				'line-width': 3
 			}
 		}
 	},
@@ -177,19 +184,21 @@ const datasets = {
 					}
 				}
 			},
-			'Traffic volume': {
-				label: 'Estimated traffic volume',
-				type: 'step',
+			'Traffic volume category': {
+				label: 'Traffic volume category',
+				type: 'match',
 				styles: {
 					'line-color': {
-						0: '#27918d',
-						2000: '#ffaa33',
-						5000: '#440154',
+						'0 to 1999': '#27918d',
+						'2000 to 3999': '#ffaa33',
+						'4000+': '#440154',
+						'_': 'gray',
 					},
 					'line-width': {
-						0: 1,
-						2000: 2,
-						5000: 3,
+						'0 to 1999': 1,
+						'2000 to 3999': 2,
+						'4000+': 3,
+						'_': 1,
 					}
 				}
 			},
@@ -553,7 +562,6 @@ const datasets = {
 				['_ebike_quietest', 'Ebike (Quietest)']
 			]
 		},
-	*/
 		
 		
 		// Travel to School Modeshare
@@ -602,6 +610,7 @@ const datasets = {
 				['_ebike_quietest', 'Ebike (Quietest)']
 			]
 		}
+	*/
 	},
 	
 	
