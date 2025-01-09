@@ -699,6 +699,11 @@ const datasets = {
 		'clos': {
 			layerId: 'clos',
 			templateId: 'clos-popup'
+		},
+		
+		'streetspace': {
+			layerId: 'streetspace',
+			templateId: 'streetspace-popup'
 		}
 	}
 };
