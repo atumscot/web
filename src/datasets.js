@@ -253,9 +253,8 @@ const datasets = {
 				}
 			},
 		},
-		// #!# These need to be combined into a single definition, as they are the same styles
 		streetspace: {
-			'carriageway_1way': {
+			'carriageway_1way,carriageway_2way,combined_1way,combined_2way': {		// Same match style for each sublayer; will be expanded
 				label: 'Street space',
 				type: 'match',
 				styles: {
@@ -266,43 +265,7 @@ const datasets = {
 						'_': 'rgba(0, 0, 0, 0)', // Invisible
 					}
 				}
-			},
-			'carriageway_2way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
-			'combined_1way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
-			'combined_2way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
+			}
 		}
 	},
 	
