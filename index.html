@@ -148,13 +148,13 @@
 			<button class="accordion">Route network</button>
 			<div class="panel">
 				<p>
-					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" /> Show layer</label>
+					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" data-proxy="true" /> Show layer</label>
 					<!-- These two checkboxes actually control the layers, but are set by the show/simplified checkboxes -->
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet" />
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet-simplified" />
 				</p>
 				<div class="layertools layertools-rnet layertools-rnet-simplified">
-					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" data-proxy="true" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
 					<p>
 						<select name="purpose" class="updatelayer" data-layer="rnet" aria-label="Route network trip purpose">
 							<option value="all" selected>All</option>
