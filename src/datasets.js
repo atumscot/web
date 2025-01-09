@@ -128,17 +128,16 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/road_width_sample_data.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space.pmtiles',
 			},
-			'source-layer': 'roadwidth',
+			'source-layer': 'street_space',
 			'paint': {
 				'line-color': [
 					'match',
-					['get', 'road_width_category_2_unidirectional'],
+					['get', 'carriageway_1way'],
 					'Not enough space', '#dd7777',
-					'Wider than minimum', '#f29551',
-					'Wider than absolute minimum', '#f9c647',
-					'Plenty of space', '#75a375',
+					'Absolute minimum', '#f29551',
+					'Desirable minimum', '#75a375',
 					/* other */ 'gray'
 				],
 				'line-width': 4
