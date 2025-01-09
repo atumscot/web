@@ -270,7 +270,7 @@ const nptUi = (function () {
 		layerStateUrl: function ()
 		{
 			// Determine enabled layers
-			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
 			
 			// Compile the layer state URL
 			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
@@ -724,9 +724,7 @@ const nptUi = (function () {
 		{
 			// Set checkboxes immediately
 			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
-				if (layer.enabled) {
-					document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
-				}
+				document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = (layer.enabled);
 			});
 			
 			// Add layers when the map is ready (including after a basemap change)
@@ -815,7 +813,7 @@ const nptUi = (function () {
 					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
-				// Eanble/disable the layer tools div
+				// Enable/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
 		},
