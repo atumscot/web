@@ -282,6 +282,34 @@
 				</div>
 			</div>
 			
+			<button class="accordion">Street space</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
+				<!-- <p>Analyis of the space available within each street.</p> -->
+				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<p>
+					<label for="infrastructure_scenario">Infrastructure scenario</label>
+					<select name="infrastructure_scenario" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
+						<option value="current_layout">Current layout</option>
+						<option value="removal_lane_motor_traffic">Removal of lane of motor traffic</option>
+						<option value="road_diet">Road diet</option>
+					</select>
+					<button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="infrastructure_scenario"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+				</p>
+				<div class="layertools layertools-streetspace">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<!-- Enough space if built to absolute minimum standard -->
+							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space (absolute minimum)</div>
+							<!-- Enough space if built to minimum standard in Cycling by Design -->
+							<div class="lb"><span style="background-color: #f29551;"></span>Enough space (minimum)</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<button class="accordion">Data zones</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="data_zones" value="false"> Show layer</label></p>
