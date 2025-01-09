@@ -115,7 +115,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/cbd_layer_2024-12-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/cbd_layer_2025-01-01.pmtiles',
 			},
 			'source-layer': 'cbd_layer',
 			'paint': {
@@ -132,14 +132,7 @@ const datasets = {
 			},
 			'source-layer': 'street_space',
 			'paint': {
-				'line-color': [
-					'match',
-					['get', 'carriageway_1way'],
-					'Not enough space', '#dd7777',
-					'Absolute minimum', '#f29551',
-					'Desirable minimum', '#75a375',
-					/* other */ 'gray'
-				],
+				'line-color': 'gray',		// Overriden below in sublayers, as is a multi-field dataset
 				'line-width': 4
 			}
 		},
@@ -256,6 +249,57 @@ const datasets = {
 						'Shared Footway': 3,
 						'Painted Cycle Lane': 3,
 						'_': 2,
+					}
+				}
+			},
+		},
+		// #!# These need to be combined into a single definition, as they are the same styles
+		streetspace: {
+			'carriageway_1way': {
+				label: 'Street space',
+				type: 'match',
+				styles: {
+					'line-color': {
+						'Not enough space': '#dd7777',
+						'Absolute minimum': '#f29551',
+						'Desirable minimum': '#75a375',
+						'_': 'rgba(0, 0, 0, 0)', // Invisible
+					}
+				}
+			},
+			'carriageway_2way': {
+				label: 'Street space',
+				type: 'match',
+				styles: {
+					'line-color': {
+						'Not enough space': '#dd7777',
+						'Absolute minimum': '#f29551',
+						'Desirable minimum': '#75a375',
+						'_': 'rgba(0, 0, 0, 0)', // Invisible
+					}
+				}
+			},
+			'combined_1way': {
+				label: 'Street space',
+				type: 'match',
+				styles: {
+					'line-color': {
+						'Not enough space': '#dd7777',
+						'Absolute minimum': '#f29551',
+						'Desirable minimum': '#75a375',
+						'_': 'rgba(0, 0, 0, 0)', // Invisible
+					}
+				}
+			},
+			'combined_2way': {
+				label: 'Street space',
+				type: 'match',
+				styles: {
+					'line-color': {
+						'Not enough space': '#dd7777',
+						'Absolute minimum': '#f29551',
+						'Desirable minimum': '#75a375',
+						'_': 'rgba(0, 0, 0, 0)', // Invisible
 					}
 				}
 			},
