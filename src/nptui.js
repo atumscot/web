@@ -395,7 +395,7 @@ const nptUi = (function () {
 			map.addControl(new maplibregl.ScaleControl({
 				maxWidth: 80,
 				unit: 'metric'
-			}), 'bottom-left');
+			}), 'top-left');
 			
 			// Fire map ready when ready, which layer-enabling can be picked up
 			map.once('idle', function () {
