@@ -186,35 +186,6 @@ a.smaller {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(6px);
 }
-
-/* Dropdown styling */
-.rightbox select {
-  width: 100%;
-  padding: 8px;
-  margin: 4px 0;
-  font-size: 0.9em;
-  line-height: 1.4;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  height: auto;
-  max-height: none;
-  -webkit-appearance: menulist-button;
-}
-
-/* Specific styling for streetspace dropdown */
-.rightbox select[name="streetspace"] {
-  min-width: 100%;
-  font-size: 0.85em;
-  line-height: 1.3;
-}
-
-.rightbox select[name="streetspace"] option {
-  padding: 8px;
-  line-height: 1.3;
-  white-space: normal;
-  min-height: auto;
-}
 .rightbox button.close-button {
   float: right;
   background-color: transparent;
