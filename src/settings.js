@@ -1,7 +1,6 @@
 
 // Settings for this installation
-const packageJson = require('../package.json');
-const settings = {
+let settings = {
 	
 	// Map position
 	initialPosition: {
@@ -60,7 +59,7 @@ const settings = {
 	boundariesUrl: 'https://nptscot.github.io/scheme-sketcher/assets/boundaries-3d573d2e.geojson',
 	
 	// OSM data date
-    osmDate: packageJson.customFields.osmDataDate,
+    osmDate: null,  // Will be loaded from settings.json
 	
 	// Analytics
 	gaProperty: 'G-QZMHV92YXJ',
@@ -71,6 +70,18 @@ const settings = {
 	// Initial layers enabled
 	initialLayersEnabled: ['rnet'],
 };
+
+// Load osmDate from settings.json
+fetch('src/settings.json')
+    .then(response => response.json())
+    .then(data => {
+        settings.osmDate = data.osmDataDate;
+    })
+    .catch(error => {
+        console.error('Error loading settings.json:', error);
+        // Fallback to a default value if loading fails
+        settings.osmDate = '2025-01-01';
+    });
 
 module.exports = settings;
 
@@ -107,5 +118,3 @@ function rnetCheckboxProxying ()
 		});
 	});
 }
-
-		
