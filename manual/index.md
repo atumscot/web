@@ -335,6 +335,40 @@ We have categorised the various types of cycle infrastructure as follows:
 
 <!-- /#infrastructuretypes -->
 
+<!-- #streetspace -->
+
+### Street space
+
+<!-- From index.html:
+
+				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>  
+				<div class="layertools layertools-streetspace">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space (absolute minimum)</div>
+							<div class="lb"><span style="background-color: #f29551;"></span>Enough space (minimum)</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
+						</div>
+					</div>
+				</div>
+
+-->
+
+The street space layer categorises the width of roads based on the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68). The categories are:
+
+<!-- TODO: add width ranges -->
+* Not enough space: The road is less than 9 m wide, too narrow to accommodate cycle infrastructure without removing road space, e.g. by making the road one-way for motor traffic or using space from the pavements.
+<!-- Width calculation: 1.5 m for cycle track + 0.5 m for separation + 3.5 m for motor traffic in each direction = 9 m -->
+* Enough space (absolute minimum): The road is 9 m and less than 10 m wide, meaning there may be enough space for a one-way cycle track that is wider than the "absolute minimum" width of 1.5 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
+  * This assumes a width of 1.5-2 m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
+* Enough space (minimum): The road is 10 m and less than 12 m wide, meaning there may be enough space for a one-way cycle track that is wider than the "minimum" width of 2 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
+  * This assumes a width of 2-3 m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
+* Plenty of space: The road is 12 m or wider, meaning there is enough space for a 2-way cycle track that is wider than the "minimum" width of 2 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
+  * This assumes a width of 3+ m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
+
+<!-- /#streetspace -->
+
 <!-- #data_zones -->
 
 ### Data zones

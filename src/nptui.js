@@ -51,8 +51,13 @@ const nptUi = (function () {
 	// Settings
 	let _settings = {};		// Will be populated by constructor
 	let _datasets = {};		// Will be populated by constructor
+	
+	// Properties
 	let _map;
 	let _hashComponents = {layers: '/', map: ''};
+	
+	// State
+	const _state = {};
 	
 	
 	// Functions
@@ -67,6 +72,9 @@ const nptUi = (function () {
 			
 			// Parse URL hash state
 			nptUi.parseUrl ();
+			
+			// Initialise the state
+			nptUi.initialiseState ();
 			
 			// Create welcome screen
 			nptUi.welcomeScreen ();
@@ -138,18 +146,17 @@ const nptUi = (function () {
 		// Function to manage an accordion
 		accordion: function ()
 		{
-			// Listen for accordion clicks, on a late-bound basis
-			document.addEventListener('click', function (e) {
-				if (e.target.classList.contains('accordion')) {
-					const button = e.target;
+			// Listen for accordion clicks
+			document.querySelectorAll ('button.accordion').forEach  (function (button) {
+				button.addEventListener ('click', function () {
 					
 					// Toggle between adding and removing the 'active' class, to highlight the button that controls the panel
-					button.classList.toggle('active');
+					button.classList.toggle ('active');
 					
 					// Toggle between hiding and showing the active panel
 					const panel = button.nextElementSibling;
 					panel.style.display = (panel.style.display == 'block' ? 'none' : 'block');
-				}
+				});
 			});
 		},	
 		
@@ -158,14 +165,13 @@ const nptUi = (function () {
 		layerControlsBoxUi: function ()
 		{
 			// Show the layer controls box
-			showlayercontrols(true);
+			showlayercontrols (true);
 			
 			// Auto-open initial layer sections if required
-			const initialLayersString =  _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');
-			const initialLayers = (initialLayersString.length ? initialLayersString.split (',') : _settings.initialLayersEnabled);
 			let accordionButtons = [];
-			initialLayers.forEach (function (layerId) {
-				accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
+			enabledLayers.forEach (function (layerId) {
+					accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
 			});
 			accordionButtons = Array.from (new Set (accordionButtons));	// Remove duplicates - may have more than one layer within a button
 			accordionButtons.forEach (function (accordionButton) {
@@ -222,10 +228,55 @@ const nptUi = (function () {
 			// End if not the intended format of /layers/#map , thus retaining the default state of the _hashComponents property
 			if (hashComponents.length != 2) {return;}
 			
-			// Register the change in the state
+			// Register the change in the hash components (for URL) state
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
+		},
+		
+		
+		// Function to initialise the state
+		initialiseState: function ()
+		{
+			// Initialise layer state structure
+			_state.layers = {};
+			Object.keys (_datasets.layers).forEach (function (layerId) {
+				_state.layers[layerId] = {
+					enabled: false
+				};
+			});
+			
+			// Listen for layer state changes
+			document.addEventListener ('@state/change', function () {
+				nptUi.layerStateUrl ();
+			});
+			
+			// Determine initial layers, preferring URL state if any layers enabled over settings default
+			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
+			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
+			
+			// Write initial layers specified in the URL, if any, into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
+			});
+			
+			// Trigger state change
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+		},
+		
+		
+		// Function to manage layer state URL
+		layerStateUrl: function ()
+		{
+			// Determine enabled layers
+			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
+			
+			// Compile the layer state URL
+			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
+			
+			// Register a state change for the URL
+			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
 		},
 		
 		
@@ -671,27 +722,22 @@ const nptUi = (function () {
 		// Function to manage layers
 		manageLayers: function ()
 		{
+			// Set checkboxes immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				if (layer.enabled) {
+					document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
+				}
+			});
+			
 			// Add layers when the map is ready (including after a basemap change)
 			document.addEventListener ('@map/ready', function () {
 				
 				// Initialise datasets (sources and layers)
 				nptUi.initialiseDatasets ();
 				
-				// Set initial visibility based on URL state, by ensuring each such checkbox is ticked
-				const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-				if (initialLayersString.length) {
-					const initialLayers = initialLayersString.split (',');
-					Object.keys (_datasets.layers).forEach (layerId => {
-						const isEnabled = (initialLayers.includes (layerId));
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = isEnabled;
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').dispatchEvent (new CustomEvent ('change'));
-					});
-				}
-				document.dispatchEvent (new Event ('@map/initiallayersset', {'bubbles': true}));
-				
 				// Implement initial visibility state for all layers
-				Object.keys(_datasets.layers).forEach(layerId => {
-					nptUi.toggleLayer(layerId);
+				Object.keys (_datasets.layers).forEach (layerId => {
+					nptUi.toggleLayer (layerId);
 				});
 				
 				// Handle layer change controls, each marked with .showlayer or .updatelayer
@@ -720,6 +766,19 @@ const nptUi = (function () {
 				let tileserverUrl = (_settings.tileserverTempLocalOverrides[layerId] ? _settings.tileserverTempLocalOverrides[layerId] : _settings.tileserverUrl);
 				_datasets.layers[layerId].source.url = layer.source.url.replace ('%tileserverUrl', tileserverUrl)
 				//console.log (`Setting source.url for layer ${layerId} to ${_datasets.layers[layerId].source.url}`);
+			});
+			
+			// Expand any sublayer definitions where they have same styling for multiple layers, separated by comma
+			Object.entries (_datasets.sublayers).forEach (([layerId, sublayers]) => {
+				Object.entries (sublayers).forEach (function ([sublayerIdString, sublayer]) {
+					if (sublayerIdString.includes (',')) {
+						const sublayerIds = sublayerIdString.split (',');
+						sublayerIds.forEach (function (sublayerId) {
+							_datasets.sublayers[layerId][sublayerId] = sublayer;		// Expand
+						});
+						delete _datasets.sublayers[layerId][sublayerIdString];	// Remove original comma-separated list
+					}
+				});
 			});
 			
 			// Add layers, and their sources, initially not visible when initialised
@@ -752,26 +811,26 @@ const nptUi = (function () {
 				nptUi.createLegend (datasets.legends[layerId], layerId + 'legend');
 			}
 			
+			// Set state of layer
+			_state.layers[layerId].enabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+			
 			// Set the visibility of the layer, based on the checkbox value
-			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
+			_map.setLayoutProperty (layerId, 'visibility', (_state.layers[layerId].enabled ? 'visible' : 'none'));
 			
 			// Set the visibility of the layer-specific controls, if present
 			const layerToolsDiv = document.querySelector ('.layertools-' + layerId);
 			if (layerToolsDiv) {
 				
 				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
-				let makeVisibleLayerTools = makeVisible;
+				let makeVisibleLayerTools = _state.layers[layerId].enabled;
 				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
-					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
+					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
 				// Eanble/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
-			
-			// Update the layer state for the URL
-			nptUi.layerStateUrl ();
 		},
 		
 		
@@ -861,34 +920,18 @@ const nptUi = (function () {
 			// Create the legend HTML
 			// #!# Should be a list, not nested divs
 			let legendHtml = '<div class="l_r">';
-			legendColours.forEach (legendColour => {
-				if (isRangeType) {legendColour[0] = '≥' + legendColour[0];}
-				legendHtml += `<div class="lb"><span style="background-color: ${legendColour[1]}"></span>${legendColour[0]}</div>`;
-			})
+			legendColours.forEach (function ([value, colour]) {
+				legendHtml += '<div class="lb">';
+				legendHtml += `<span style="background-color: ${colour}">`;
+				legendHtml += '</span>';
+				if (isRangeType) {value = '≥' + value;}
+				legendHtml += value;	// Label
+				legendHtml += '</div>';
+			});
 			legendHtml += '</div>';
 			
 			// Set the legend
-			document.getElementById(selector).innerHTML = legendHtml;
-		},
-		
-		
-		// Function to manage layer state URL
-		layerStateUrl: function ()
-		{
-			// Register the IDs of all checked layers, first resetting the list
-			const enabledLayers = [];
-			Object.entries (_datasets.layers).forEach (([layerId, layer]) => {
-				const isEnabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-				if (isEnabled) {
-					enabledLayers.push (layerId);
-				}
-			});
-			
-			// Compile the layer state URL
-			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
-			
-			// Register a state change for the URL
-			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
+			document.getElementById (selector).innerHTML = legendHtml;
 		},
 		
 		

@@ -123,6 +123,19 @@ const datasets = {
 				'line-width': 2
 			}
 		},
+		streetspace: {
+			'id': 'streetspace',
+			'type': 'line',
+			'source': {
+				'type': 'vector',
+				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space.pmtiles',
+			},
+			'source-layer': 'street_space',
+			'paint': {
+				'line-color': 'gray',		// Overriden below in sublayers, as is a multi-field dataset
+				'line-width': 4
+			}
+		},
 		
 		// #!# Tiles filename, and source layer still reflect the old name, and need to be updated
 		coherentnetwork: {
@@ -239,6 +252,20 @@ const datasets = {
 					}
 				}
 			},
+		},
+		streetspace: {
+			'carriageway_1way,carriageway_2way,combined_1way,combined_2way': {		// Same match style for each sublayer; will be expanded
+				label: 'Street space',
+				type: 'match',
+				styles: {
+					'line-color': {
+						'Not enough space': '#dd7777',
+						'Absolute minimum': '#f29551',
+						'Desirable minimum': '#75a375',
+						'_': 'rgba(0, 0, 0, 0)', // Invisible
+					}
+				}
+			}
 		}
 	},
 	
@@ -635,6 +662,11 @@ const datasets = {
 		'clos': {
 			layerId: 'clos',
 			templateId: 'clos-popup'
+		},
+		
+		'streetspace': {
+			layerId: 'streetspace',
+			templateId: 'streetspace-popup'
 		}
 	}
 };

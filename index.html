@@ -148,7 +148,7 @@
 			<button class="accordion">Route network</button>
 			<div class="panel">
 				<p>
-					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" checked> Show layer</label>
+					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" /> Show layer</label>
 					<!-- These two checkboxes actually control the layers, but are set by the show/simplified checkboxes -->
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet" />
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet-simplified" />
@@ -282,6 +282,31 @@
 				</div>
 			</div>
 			
+			<button class="accordion">Street space</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
+				<p>Street width categories in relation to guidance from Active Travel England's route cross-section check tool. The are based on the width of the kerb-to-kerb space (within carriageway) or the width of the combined corridor (including footways and verges, 'combined corridor'). 
+					<button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<p>
+					<label for="streetspace">Infrastructure scenario</label>
+					<select name="streetspace" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
+						<option value="carriageway_1way">Within carriageway (1-way)</option>
+						<option value="carriageway_2way">Within carriageway (2-way)</option>
+						<option value="combined_1way">Combined corridor (1-way)</option>
+						<option value="combined_2way">Combined corridor (2-way)</option>
+					</select>
+				</p>
+				<div class="layertools layertools-streetspace">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<div class="lb"><span style="background-color: #f29551;"></span>Absolute minimum</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Desirable minimum</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<button class="accordion">Data zones</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="data_zones" value="false"> Show layer</label></p>
@@ -310,7 +335,7 @@
 							<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
 						</div>
 					</div>
-					<p><label class="switch"><input type="checkbox" name="daysymetricmode" class="updatelayer" data-layer="data_zones" checked><span class="slider round"></span></label> Dasymetric</p>
+					<p><label class="switch"><input type="checkbox" name="daysymetricmode" class="updatelayer" data-layer="data_zones" checked="checked" /><span class="slider round"></span></label> Dasymetric</p>
 				</div>
 			</div>
 			
@@ -387,31 +412,29 @@
 		
 		<!-- Template for map popup -->
 		<template id="rnet-popup">
-			<p>Cyclists: {_ncycle}</p>
-			<p>Gradient: {gradient}%</p>
-			<p>Cycle-friendliness: {quietness}%</p>
+			<p>Cyclists: {_ncycle}<br />
+			Gradient: {gradient}%<br />
+			Cycle-friendliness: {quietness}%</p>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a> <a class="externallink" target="_blank" href="{_osmUrl}">OpenStreetMap <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
-			<button class="accordion">All network details</button>
-			<div class="panel" id="popuppanel">
-				<h4>Fast/Direct network</h4>
-				<table>
-					<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
-					<tr><th>All</th><td>{all_fastest_bicycle}</td><td>{all_fastest_bicycle_go_dutch}</td><td>{all_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Commute</th><td>{commute_fastest_bicycle}</td><td>{commute_fastest_bicycle_go_dutch}</td><td>{commute_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Primary</th><td>{primary_fastest_bicycle}</td><td>{primary_fastest_bicycle_go_dutch}</td><td>{primary_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Secondary</th><td>{secondary_fastest_bicycle}</td><td>{secondary_fastest_bicycle_go_dutch}</td><td>{secondary_fastest_bicycle_ebike}</td></tr>
-					<tr><th>Utility</th><td>{utility_fastest_bicycle}</td><td>{utility_fastest_bicycle_go_dutch}</td><td>{utility_fastest_bicycle_ebike}</td></tr>
-				</table>
-				<h4>Quiet/Indirect network</h4>
-				<table>
-					<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
-					<tr><th>All</th><td>{all_quietest_bicycle}</td><td>{all_quietest_bicycle_go_dutch}</td><td>{all_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Commute</th><td>{commute_quietest_bicycle}</td><td>{commute_quietest_bicycle_go_dutch}</td><td>{commute_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Primary</th><td>{primary_quietest_bicycle}</td><td>{primary_quietest_bicycle_go_dutch}</td><td>{primary_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Secondary</th><td>{secondary_quietest_bicycle}</td><td>{secondary_quietest_bicycle_go_dutch}</td><td>{secondary_quietest_bicycle_ebike}</td></tr>
-					<tr><th>Utility</th><td>{utility_quietest_bicycle}</td><td>{utility_quietest_bicycle_go_dutch}</td><td>{utility_quietest_bicycle_ebike}</td></tr>
-				</table>
-			</div>
+			<h3>All network details:</h3>
+			<h4>Fast/Direct network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_fastest_bicycle}</td><td>{all_fastest_bicycle_go_dutch}</td><td>{all_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_fastest_bicycle}</td><td>{commute_fastest_bicycle_go_dutch}</td><td>{commute_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_fastest_bicycle}</td><td>{primary_fastest_bicycle_go_dutch}</td><td>{primary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_fastest_bicycle}</td><td>{secondary_fastest_bicycle_go_dutch}</td><td>{secondary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_fastest_bicycle}</td><td>{utility_fastest_bicycle_go_dutch}</td><td>{utility_fastest_bicycle_ebike}</td></tr>
+			</table>
+			<h4>Quiet/Indirect network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_quietest_bicycle}</td><td>{all_quietest_bicycle_go_dutch}</td><td>{all_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_quietest_bicycle}</td><td>{commute_quietest_bicycle_go_dutch}</td><td>{commute_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_quietest_bicycle}</td><td>{primary_quietest_bicycle_go_dutch}</td><td>{primary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_quietest_bicycle}</td><td>{secondary_quietest_bicycle_go_dutch}</td><td>{secondary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_quietest_bicycle}</td><td>{utility_quietest_bicycle_go_dutch}</td><td>{utility_quietest_bicycle_ebike}</td></tr>
+			</table>
 		</template>
 		
 		<!-- Template for map popup -->
@@ -441,6 +464,12 @@
 					<td><a href="https://www.openstreetmap.org/way/{osm_id}/" target="_blank" title="[Link opens in a new window]">Way #{osm_id}</a></td>
 				</tr>
 			</table>
+		</template>
+		
+		<!-- Template for streetspace popup -->
+		<template id="streetspace-popup">
+			<p>Road classification: {road_classification}</p>
+			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
 		</template>
 	</body>
 	
