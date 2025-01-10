@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/nptscot/nptscot.github.io/issues"
   },
-  "homepage": "https://github.com/nptscot/nptscot.github.io#readme"
+  "homepage": "https://github.com/nptscot/nptscot.github.io#readme",
+  "customFields": {
+    "osmDataDate": "2025-01-01"
+  }
 }

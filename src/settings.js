@@ -1,5 +1,6 @@
 
 // Settings for this installation
+const packageJson = require('../package.json');
 const settings = {
 	
 	// Map position
@@ -59,7 +60,7 @@ const settings = {
 	boundariesUrl: 'https://nptscot.github.io/scheme-sketcher/assets/boundaries-3d573d2e.geojson',
 	
 	// OSM data date
-	osmDate: '1 Jan 2025',
+    osmDate: packageJson.customFields.osmDataDate,
 	
 	// Analytics
 	gaProperty: 'G-QZMHV92YXJ',
@@ -70,6 +71,8 @@ const settings = {
 	// Initial layers enabled
 	initialLayersEnabled: ['rnet'],
 };
+
+module.exports = settings;
 
 
 // Function to handle bi-directional rnet checkbox proxying - the combination of the enabled and simplified checkboxes set the 'real' layer checkboxes
