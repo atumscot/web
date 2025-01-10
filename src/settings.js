@@ -1,6 +1,6 @@
 
 // Settings for this installation
-let settings = {
+const settings = {
 	
 	// Map position
 	initialPosition: {
@@ -76,15 +76,15 @@ fetch('src/settings.json')
     .then(response => response.json())
     .then(data => {
         settings.osmDate = data.osmDataDate;
+        // Make settings globally available after loading
+        window._settings = settings;
     })
     .catch(error => {
         console.error('Error loading settings.json:', error);
-        // Fallback to a default value if loading fails
-        settings.osmDate = '2025-01-01';
+        settings.osmDate = '2025-01-01';  // Fallback value
+        // Make settings globally available even if loading fails
+        window._settings = settings;
     });
-
-module.exports = settings;
-
 
 // Function to handle bi-directional rnet checkbox proxying - the combination of the enabled and simplified checkboxes set the 'real' layer checkboxes
 function rnetCheckboxProxying ()

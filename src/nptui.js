@@ -366,11 +366,30 @@ const nptUi = (function () {
 			// Add basemap change control
 			nptUi.basemapUi (map, 'top-left');
 			
-			// Add attribution
-			map.addControl(new maplibregl.AttributionControl({
-				compact: true,
-				customAttribution: 'Contains OS data © Crown copyright 2021, Satelite map © ESRI 2023, © OpenStreetMap contributors'
-			}), 'bottom-left');
+			// Add attribution once settings are loaded
+			const addAttribution = () => {
+				if (!map.hasControl('AttributionControl')) {  // Prevent duplicate controls
+					map.addControl(new maplibregl.AttributionControl({
+						compact: true,
+						customAttribution: 'Contains OS data © Crown copyright 2025, Satelite map © ESRI 2025, © OpenStreetMap contributors (data: ' + _settings.osmDate + ')'
+					}), 'bottom-left');
+				}
+			};
+
+			// If settings already loaded, add attribution immediately
+			if (_settings && _settings.osmDate) {
+				addAttribution();
+			} else {
+				// Otherwise wait for settings to be loaded
+				const checkInterval = setInterval(() => {
+					if (_settings && _settings.osmDate) {
+						addAttribution();
+						clearInterval(checkInterval);
+					}
+				}, 100);
+				// Clear interval after 5 seconds to prevent infinite checking
+				setTimeout(() => clearInterval(checkInterval), 5000);
+			}
 			
 			// Add scale
 			map.addControl(new maplibregl.ScaleControl({
