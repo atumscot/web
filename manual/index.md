@@ -355,17 +355,27 @@ We have categorised the various types of cycle infrastructure as follows:
 
 -->
 
-The street space layer categorises the width of roads based on the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68). The categories are:
+The Street Space layer categorises roads according to guidance from Active Travel England's route cross-section check tool. [ATE route cross-section tool](https://assets.publishing.service.gov.uk/media/65cce7f61305490011867a2d/ate-route-cross-section-tool.xlsx). Road widths can be measured in two ways:
 
-<!-- TODO: add width ranges -->
-* Not enough space: The road is less than 9 m wide, too narrow to accommodate cycle infrastructure without removing road space, e.g. by making the road one-way for motor traffic or using space from the pavements.
-<!-- Width calculation: 1.5 m for cycle track + 0.5 m for separation + 3.5 m for motor traffic in each direction = 9 m -->
-* Enough space (absolute minimum): The road is 9 m and less than 10 m wide, meaning there may be enough space for a one-way cycle track that is wider than the "absolute minimum" width of 1.5 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
-  * This assumes a width of 1.5-2 m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
-* Enough space (minimum): The road is 10 m and less than 12 m wide, meaning there may be enough space for a one-way cycle track that is wider than the "minimum" width of 2 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
-  * This assumes a width of 2-3 m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
-* Plenty of space: The road is 12 m or wider, meaning there is enough space for a 2-way cycle track that is wider than the "minimum" width of 2 m, with separation from motor traffic by light separation, a kerb or other physical barrier.
-  * This assumes a width of 3+ m for a cycle track, 0.5 m for separation, and 3.5 m for motor traffic in each direction.
+1. Road width (kerb to kerb): This measure is used to determine whether cycle infrastructure can fit within the existing carriageway, excluding footways, verges, and other areas outside the kerbs.
+2. Corridor width (building to building): This measure captures the total width of the corridor, including any footways, verges, and the carriageway. Where local policy permits, some footway or verge space may be reallocated for cycling infrastructure, provided minimum safe footway widths are still maintained.
+
+All roads are assumed to operate two‐way for general traffic, with one of three possibilities for bus lanes:
+
+- Two‐way for motor traffic (no bus lane)
+- Two‐way for motor traffic with one bus lane
+- Two‐way for motor traffic with two bus lanes
+
+Two main types of cycle infrastructure are considered:
+
+- 2 × 1‐Way Protected Cycle Tracks
+- 1 x 2‐Way Protected Cycle Track
+
+The Street Space layer divides roads into three groups, based on whether the available width (road width or corridor width) is sufficient to accommodate either type of cycling infrastructure:
+
+- **Not enough space**: The remaining space is not enough to fit even the absolute minimum width of cycle infrastructure.
+- **Absolute minimum**: The remaining space is enough to fit the absolute minimum width of cycle infrastructure, but not enough to reach the desirable minimum.
+- **Deseribale minimum**: The remaining space is enough to fit the desirable minimum width of cycle infrastructure, providing a more comfortable design for all users.
 
 <!-- /#streetspace -->
 
