@@ -358,7 +358,7 @@ We have categorised the various types of cycle infrastructure as follows:
 The Street Space layer categorises roads according to guidance from Active Travel England's route cross-section check tool. [ATE route cross-section tool](https://assets.publishing.service.gov.uk/media/65cce7f61305490011867a2d/ate-route-cross-section-tool.xlsx). Road widths can be measured in two ways:
 
 1. Road width (kerb to kerb): This measure is used to determine whether cycle infrastructure can fit within the existing carriageway, excluding footways, verges, and other areas outside the kerbs.
-2. Corridor width (building to building): This measure captures the total width of the corridor, including any footways, verges, and the carriageway. Where local policy permits, some footway or verge space may be reallocated for cycling infrastructure, provided minimum safe footway widths are still maintained.
+2. Corridor width including pavements and verges (also referred to as building to building): This value captures the total width of the corridor, including any footways, verges, and the carriageway. Where local policy permits, some footway or verge space may be reallocated for cycling infrastructure, provided minimum safe footway widths are still maintained. Our classification of streetspace assumes that there will be 2 pavements at least 4 m (2x 2 m pavements) to be within the "absolute minimum" category and 5.2 m (2x 2.6 m wide pavements) to be classified as the "desirable minimum" width.
 
 All roads are assumed to operate two‐way for general traffic, with one of three possibilities for bus lanes:
 
