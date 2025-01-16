@@ -128,7 +128,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space_with_widths.pmtiles',
 			},
 			'source-layer': 'street_space',
 			'paint': {
