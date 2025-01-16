@@ -260,7 +260,7 @@ const datasets = {
 				styles: {
 					'line-color': {
 						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
+						'Absolute minimum': '#e0b97d',
 						'Desirable minimum': '#75a375',
 						'_': 'rgba(0, 0, 0, 0)', // Invisible
 					}
