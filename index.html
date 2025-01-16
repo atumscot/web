@@ -291,7 +291,7 @@
 					<label for="streetspace">Infrastructure scenario</label>
 					<select name="streetspace" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
 						<option value="carriageway_1way">2x 1-way tracks, within road width</option>
-						<option value="combined_1way">1x 1-way tracks, using edge-to-edge</option>
+						<option value="combined_1way">2x 1-way tracks, using edge-to-edge</option>
 						<option value="carriageway_2way">2-way track, within road width</option>
 						<option value="combined_2way">2-way track, using edge-to-edge</option>
 					</select>
@@ -300,7 +300,7 @@
 					<div class="legend">
 						<div class="l_r">
 							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
-							<div class="lb"><span style="background-color: #f29551;"></span>Absolute minimum</div>
+							<div class="lb"><span style="background-color: #e0b97d;"></span>Absolute minimum</div>
 							<div class="lb"><span style="background-color: #75a375;"></span>Desirable minimum</div>
 						</div>
 					</div>
@@ -466,9 +466,16 @@
 			</p>
 		</template>
 		
-		<!-- Template for streetspace popup -->
 		<template id="streetspace-popup">
-			<p>Road classification: {road_classification}</p>
+			<p>Road classification: {road_function}</p>
+			<p>Carriageway width: {carriageway_width}m</p>
+			<p>Edge to edge width: {edge_to_edge_width}m</p>
+			<p>Is Bus Route: {is_bus_route}</p>
+			<p>Number of lanes: {num_lanes}</p>
+			<p>Number of bus lanes: {no_bus_lanes}</p>
+			<p>Speed limit: {speed_limit}</p>
+			<p>Required buffer: {required_buffer}m</p>
+			<p>Required width for motor traffic: {required_width}m</p>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
 			
 		</template>
