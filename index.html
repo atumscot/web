@@ -468,17 +468,14 @@
 		
 		<template id="streetspace-popup">
 			<p>Road classification: {road_classification}</p>
-			<p>Road width: {avg_road_width}</p>
+			<p>Carriageway width: {carriageway_width}</p>
+			<p>Edge to edge width: {edge_to_edge_width}</p>
+			<p>Is Bus Route: {is_bus_route}</p>
 			<p>Number of lanes: {num_lanes}</p>
 			<p>Number of bus lanes: {no_bus_lanes}</p>
 			<p>Speed limit: {speed_limit}</p>
-			<!-- Commented out as not helpful: -->
-			<!-- <p>Carriageway width: {base_carriageway_width}m</p> -->
-			<!-- TODO: Uncomment when data updated:  -->
-			<!-- <p>Number of bus lanes: {number_of_bus_lanes}</p> -->
 			<p>Required buffer: {required_buffer}m</p>
-			<p>Required width for motor traffic: {base_carriageway_width}m</p>
-			<p>Required width for cycle track: {total_required_width}m</p>
+			<p>Required width for motor traffic: {required_width}m</p>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
 			
 		</template>
