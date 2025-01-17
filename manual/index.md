@@ -355,27 +355,109 @@ We have categorised the various types of cycle infrastructure as follows:
 
 -->
 
-The Street Space layer categorises roads according to guidance from Active Travel England's route cross-section check tool. [ATE route cross-section tool](https://assets.publishing.service.gov.uk/media/65cce7f61305490011867a2d/ate-route-cross-section-tool.xlsx). Road widths can be measured in two ways:
 
-1. Road width (kerb to kerb): This measure is used to determine whether cycle infrastructure can fit within the existing carriageway, excluding footways, verges, and other areas outside the kerbs.
-2. Corridor width including pavements and verges (also referred to as building to building): This value captures the total width of the corridor, including any footways, verges, and the carriageway. Where local policy permits, some footway or verge space may be reallocated for cycling infrastructure, provided minimum safe footway widths are still maintained. Our classification of streetspace assumes that there will be 2 pavements at least 4 m (2x 2 m pavements) to be within the "absolute minimum" category and 5.2 m (2x 2.6 m wide pavements) to be classified as the "desirable minimum" width.
+The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68). It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods for roads, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
 
-All roads are assumed to operate two‐way for general traffic, with one of three possibilities for bus lanes:
+#### 1. Road Width Measurements
 
-- Two‐way for motor traffic (no bus lane)
-- Two‐way for motor traffic with one bus lane
-- Two‐way for motor traffic with two bus lanes
+Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure:
 
-Two main types of cycle infrastructure are considered:
+##### 1.1 Road Width (Kerb to Kerb)
+   
+- **Definition:** The width available within the carriageway only.
+- **Excludes:** Footways, verges, and other areas outside of the kerbs.
+- **Usage:** Determines if cycle infrastructure can fit solely within the carriageway.
 
-- 2 × 1‐Way Protected Cycle Tracks
-- 1 x 2‐Way Protected Cycle Track
+##### 1.2 Corridor Width Including Pavements and Verges (Building to Building)
 
-The Street Space layer divides roads into three groups, based on whether the available width (road width or corridor width) is sufficient to accommodate either type of cycling infrastructure:
+- **Definition:** The total width of the corridor, encompassing both the carriageway and any adjacent footways or verges.
+- **Usage:** Where local policy allows, part of the footway or verge space may be reallocated for cycle infrastructure, provided that minimum safe footway widths are maintained.
 
-- **Not enough space**: The remaining space is not enough to fit even the absolute minimum width of cycle infrastructure.
-- **Absolute minimum**: The remaining space is enough to fit the absolute minimum width of cycle infrastructure, but not enough to reach the desirable minimum.
-- **Deseribale minimum**: The remaining space is enough to fit the desirable minimum width of cycle infrastructure, providing a more comfortable design for all users.
+#### 2. Cycle Infrastructure Width Requirements
+
+Two main types of cycle infrastructure are considered, depending on the street configuration:
+
+Unidirectional Cycle Tracks (2 × 1-Way Protected Cycle Tracks):
+  - *Absolute Minimum Width:* 1.5 m  
+  - *Desirable Minimum Width:* 2.0 m  
+
+Bidirectional Cycle Tracks (1 × 2-Way Protected Cycle Track):
+  - *Absolute Minimum Width:* 2.0 m
+  - *Desirable Minimum Width:* 3.0 m
+
+#### 3. Buffers for Cycle Infrastructure
+
+Buffers are applied based on road speed and traffic conditions, as specified in Table 3.8 of the Cycling by Design document. These buffers must be accounted for when calculating the effective available width for cycle infrastructure.
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Road Type / Speed Limit</th>
+      <th>Buffer Width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>30 mph</td>
+      <td>0.5 m</td>
+    </tr>
+    <tr>
+      <td>40 mph</td>
+      <td>1.0 m</td>
+    </tr>
+    <tr>
+      <td>50 mph</td>
+      <td>2.0 m</td>
+    </tr>
+    <tr>
+      <td>60 mph</td>
+      <td>2.5 m</td>
+    </tr>
+    <tr>
+      <td>70 mph</td>
+      <td>3.5 m</td>
+    </tr>
+  </tbody>
+</table>
+
+
+#### 4. Bus Routes and Road Traffic Assumptions
+
+##### 4.1 Bus Routes and Dedicated Bus Lanes
+
+Bus routes and dedicated bus lanes are key factors in determining the available space for cycle infrastructure:
+
+- **Non-bus routes:**  
+  The motor traffic space is considered as **2 × 2.75 m**.
+
+- **Bus routes without dedicated bus lanes:**  
+  The motor traffic space is considered as **2 × 3.2 m**.
+
+- **Bus routes with dedicated bus lanes:**  
+  The motor traffic space is considered as **2 × 3.2 m** plus an additional space of **`n_bus_lanes` × 3.2 m** for the dedicated bus lanes.
+
+##### 4.2 Road Types
+
+Roads are categorised based on their traffic configuration and bus route status:
+- Two‐way for motor traffic (non–bus route)
+- Two‐way for motor traffic (bus route without dedicated bus lanes)
+- Two‐way for motor traffic (bus route with dedicated bus lanes)
+
+#### 5. Categorisation Based on Available Width
+
+The Street Space layer divides roads into three groups, depending on whether the available width (road width or corridor width) can accommodate the cycle infrastructure:
+
+- **Not Enough Space:**  
+  The available space is insufficient to fit even the absolute minimum width of cycle infrastructure.
+
+- **Absolute Minimum:**  
+  The available space is enough to accommodate the absolute minimum width of cycle infrastructure, but it does not meet the desirable minimum.
+
+- **Desirable Minimum:**  
+  The available space is sufficient to accommodate the desirable minimum width of cycle infrastructure, providing a more comfortable design for all users.
+
 
 <!-- /#streetspace -->
 
