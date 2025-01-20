@@ -844,6 +844,19 @@ const nptUi = (function () {
 				//console.log (`Setting source.url for layer ${layerId} to ${_datasets.layers[layerId].source.url}`);
 			});
 			
+			// Expand any sublayer definitions where they have same styling for multiple layers, separated by comma
+			Object.entries (_datasets.sublayers).forEach (([layerId, sublayers]) => {
+				Object.entries (sublayers).forEach (function ([sublayerIdString, sublayer]) {
+					if (sublayerIdString.includes (',')) {
+						const sublayerIds = sublayerIdString.split (',');
+						sublayerIds.forEach (function (sublayerId) {
+							_datasets.sublayers[layerId][sublayerId] = sublayer;		// Expand
+						});
+						delete _datasets.sublayers[layerId][sublayerIdString];	// Remove original comma-separated list
+					}
+				});
+			});
+			
 			// Add layers, and their sources, initially not visible when initialised
 			Object.keys(_datasets.layers).forEach(layerId => {
 				const beforeId = (layerId == 'data_zones' ? 'roads 0 Guided Busway Casing' : 'placeholder_name'); // #!# Needs to be moved to definitions

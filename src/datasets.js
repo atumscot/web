@@ -8,7 +8,7 @@ const datasets = {
 			'id': 'rnet',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_2024-12-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/rnet_2025-01-01.pmtiles',
 			},
 			'source-layer': 'rnet',
 			'type': 'line',
@@ -18,7 +18,7 @@ const datasets = {
 			'id': 'rnet-simplified',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2024-12-01.pmtiles',	 // #!# Inconsistent path - needs fixing
+				'url': 'pmtiles://%tileserverUrl/rnet_simplified_2025-01-01.pmtiles',	 // #!# Inconsistent path - needs fixing
 			},
 			'source-layer': 'rnet_simplified',
 			'type': 'line',
@@ -29,7 +29,7 @@ const datasets = {
 			'type': 'fill',
 			'source': {
 			'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/data_zones_2024-12-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/data_zones_2025-01-01.pmtiles',
 				},
 			'source-layer': 'data_zones',
 			'paint': {
@@ -115,7 +115,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/cbd_layer_2024-12-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/cbd_layer_2025-01-01.pmtiles',
 			},
 			'source-layer': 'cbd_layer',
 			'paint': {
@@ -128,7 +128,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space_with_widths.pmtiles',
 			},
 			'source-layer': 'street_space',
 			'paint': {
@@ -143,7 +143,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2024-12-01_OS.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/combined_CN_4_2025-01-01_OS.pmtiles',
 			},
 			'source-layer': 'coherent_networks',
 			'paint': {
@@ -253,56 +253,19 @@ const datasets = {
 				}
 			},
 		},
-		// #!# These need to be combined into a single definition, as they are the same styles
 		streetspace: {
-			'carriageway_1way': {
+			'carriageway_1way,carriageway_2way,combined_1way,combined_2way': {		// Same match style for each sublayer; will be expanded
 				label: 'Street space',
 				type: 'match',
 				styles: {
 					'line-color': {
 						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
+						'Absolute minimum': '#e0b97d',
 						'Desirable minimum': '#75a375',
 						'_': 'rgba(0, 0, 0, 0)', // Invisible
 					}
 				}
-			},
-			'carriageway_2way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
-			'combined_1way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
-			'combined_2way': {
-				label: 'Street space',
-				type: 'match',
-				styles: {
-					'line-color': {
-						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
-						'Desirable minimum': '#75a375',
-						'_': 'rgba(0, 0, 0, 0)', // Invisible
-					}
-				}
-			},
+			}
 		}
 	},
 	
@@ -699,6 +662,11 @@ const datasets = {
 		'clos': {
 			layerId: 'clos',
 			templateId: 'clos-popup'
+		},
+		
+		'streetspace': {
+			layerId: 'streetspace',
+			templateId: 'streetspace-popup'
 		}
 	}
 };
