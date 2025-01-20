@@ -148,13 +148,13 @@
 			<button class="accordion">Route network</button>
 			<div class="panel">
 				<p>
-					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" /> Show layer</label>
+					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" data-proxy="true" /> Show layer</label>
 					<!-- These two checkboxes actually control the layers, but are set by the show/simplified checkboxes -->
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet" />
 					<input type="checkbox" class="showlayer hidden" data-layer="rnet-simplified" />
 				</p>
 				<div class="layertools layertools-rnet layertools-rnet-simplified">
-					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" data-proxy="true" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
 					<p>
 						<select name="purpose" class="updatelayer" data-layer="rnet" aria-label="Route network trip purpose">
 							<option value="all" selected>All</option>
@@ -249,19 +249,15 @@
 			<button class="accordion">Coherent network</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="coherentnetwork" value="false"> Show layer</label></p>
-				<p>Automatically-generated coherent network in urban areas connecting key origins and destinations with relatively direct routes.
-
-					<!-- Add legend with colours -->
-					<div class="legend">
-						<div class="l_r">
-							<div class="lb"><span style="background-color: #e73f74"></span>Primary</div>
-							<div class="lb"><span style="background-color: #f1ce63"></span>Secondary</div>
-							<div class="lb"><span style="background-color: #7faedd"></span>Local Access</div>
-						</div>
+				<p>Automatically-generated coherent network in urban areas connecting key origins and destinations with relatively direct routes. <button aria-label="Help on coherent network" class="helpbutton" data-help="coherentnetwork"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<!-- Add legend with colours -->
+				<div class="legend">
+					<div class="l_r">
+						<div class="lb"><span style="background-color: #e73f74"></span>Primary</div>
+						<div class="lb"><span style="background-color: #f1ce63"></span>Secondary</div>
+						<div class="lb"><span style="background-color: #7faedd"></span>Local Access</div>
 					</div>
-
-					<button aria-label="Help on coherent network" class="helpbutton" data-help="coherentnetwork"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
-				</p></p>
+				</div>
 			</div>
 			
 			<button class="accordion">Infrastructure and traffic</button>

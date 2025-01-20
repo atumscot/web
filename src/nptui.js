@@ -242,7 +242,8 @@ const nptUi = (function () {
 			_state.layers = {};
 			Object.keys (_datasets.layers).forEach (function (layerId) {
 				_state.layers[layerId] = {
-					enabled: false
+					enabled: false,
+					parameters: {}
 				};
 			});
 			
@@ -266,11 +267,79 @@ const nptUi = (function () {
 		},
 		
 		
+		// Serialisation of form elements within a container to a string
+		serialiseParameters: function (selector)
+		{
+			// Ensure the container exists
+			const container = document.querySelector (selector);
+			if (!container) {return null;}
+			
+			// Obtain elements
+			const inputFields = container.querySelectorAll ('input, textarea, select');
+			
+			// Loop through each field and encode their key->value pairs
+			const components = [];
+			inputFields.forEach (function (input) {
+				
+				// Skip proxy controls, i.e. those used to manipulate the actual field enabling
+				if (input.dataset.proxy) {return; /* i.e. continue */}
+				
+				// Register by input type
+				switch (input.type) {
+					
+					// Skip unwanted types
+					case 'file':
+					case 'submit':
+					case 'button':
+						break;
+						
+					// Checkboxes - set of values
+					case 'checkbox':
+						if (input.checked) {
+							if (!components.hasOwnProperty (input.name)) {components[input.name] = [];}	// Initialise
+							components[input.name].push (input.value);
+						}
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, select, number, etc.
+					default:
+						if (input.value.length) {
+							components[input.name] = input.value;
+						}
+				}
+			});
+			
+			// If no values, return null
+			if (!Object.entries (components).length) {return null;}
+			
+			// Compile array values to comma-separated string
+			Object.entries (components).forEach (function ([key, value]) {
+				if (Array.isArray (value)) {
+					components[key] = value.join (',');
+				}
+			});
+			
+			// Compile components to query string format
+			const tokens = [];
+			Object.entries (components).forEach (function ([key, value]) {
+				tokens.push (encodeURIComponent (key) + '=' + encodeURIComponent (value).replace (/%20/g, '+'));
+			});
+			const result = tokens.join ('&');
+			
+			// Return the result
+			return result;
+		},
+		
+		
 		// Function to manage layer state URL
 		layerStateUrl: function ()
 		{
 			// Determine enabled layers
-			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
 			
 			// Compile the layer state URL
 			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
@@ -724,9 +793,16 @@ const nptUi = (function () {
 		{
 			// Set checkboxes immediately
 			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
-				if (layer.enabled) {
-					document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
-				}
+				document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = (layer.enabled);
+			});
+			
+			// Track form parameters into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				document.querySelectorAll ('div.layertools-' + layerId + ' .updatelayer').forEach ((input) => {
+					input.addEventListener ('change', function () {
+						_state.layers[layerId].parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+					});
+				});
 			});
 			
 			// Add layers when the map is ready (including after a basemap change)
@@ -815,7 +891,7 @@ const nptUi = (function () {
 					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
-				// Eanble/disable the layer tools div
+				// Enable/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
 		},
