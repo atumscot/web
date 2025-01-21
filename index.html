@@ -69,6 +69,7 @@
 		<!-- NPT application -->
 		<script src="src/settings.js"></script>
 		<script src="src/datasets.js"></script>
+		<!-- src/build.json will also be loaded, as a required file -->
 		<script src="src/nptui.js"></script>
 		<script>
 			document.addEventListener ('DOMContentLoaded', function () {
@@ -100,8 +101,7 @@
 				<p>The results are publicly available. The main intended audience is local authorities undertaking cycle network planning to support  evidence-based and transparent investment, scheme location and design decisions.</p>
 				<p>Last updated: <span id="updatedate"></span>. You may need to <a href="https://www.minitool.com/news/f5-vs-ctrl-f5.html">clear your browser cache</a> to see the latest updates.</p>
 				<p>To report issues or provide feedback, please use the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=qO3qvR3IzkWGPlIypTW3ywVZfmO0bwdAhK0UztpneQtUM1pCRlJQQjY1V0M3MUhBV0g0VTJRS1ZQVi4u" target="_blank">feedback form</a>.</p>
-				<p>Date of OSM Data on which network results are based:</p>
-				<p id="osmupdatedate"></p>
+				<p>Date of OSM data on which network results are based: <span id="osmupdatedate"></span>.</p>
 				<p id="logos">
 					<a href="https://environment.leeds.ac.uk/transport" target="_blank"><img src="/images/logos/leeds.png" alt="University of Leeds" /></a>
 					<a href="https://www.sustrans.org.uk/about-us/our-work-in-scotland" target="_blank"><img src="/images/logos/sustrans.png" alt="Sustrans" /></a>
