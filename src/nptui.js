@@ -348,15 +348,8 @@ const nptUi = (function () {
 				}
 			});
 			
-			// Compile components to query string format
-			const tokens = [];
-			Object.entries (components).forEach (function ([key, value]) {
-				tokens.push (encodeURIComponent (key) + '=' + encodeURIComponent (value).replace (/%20/g, '+'));
-			});
-			const result = tokens.join ('&');
-			
-			// Return the result
-			return result;
+			// Return the key/value pairs
+			return components;
 		},
 		
 		
@@ -366,8 +359,25 @@ const nptUi = (function () {
 			// Determine enabled layers
 			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
 			
+			// Check each layer, determining its parameter state and registering its token
+			const layerTokens = [];
+			enabledLayers.forEach (function (layerId) {
+				
+				// Create a diff of non-default parameters
+				const parametersChanged = [];
+				Object.entries (_state.layers[layerId].parametersInitial).forEach (function ([field, initialValue]) {
+					const currentValue = _state.layers[layerId].parameters[field];
+					if (currentValue != initialValue) {		// Only non-default values are included, in order to keep URLs short
+						parametersChanged.push (encodeURIComponent (field) + '=' + encodeURIComponent (currentValue).replace (/%20/g, '+'));
+					}
+				});
+				
+				// Register the token for this layer, e.g. 'mylayer' / 'mylayer:a=b' / 'mylayer:a=b&x=y'
+				layerTokens.push (layerId + (parametersChanged.length ? ':' + parametersChanged.join ('&') : ''));
+			});
+			
 			// Compile the layer state URL
-			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
+			const enabledLayersHash = '/' + layerTokens.join (',') + (layerTokens.length ? '/' : '');
 			
 			// Register a state change for the URL
 			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
@@ -826,6 +836,7 @@ const nptUi = (function () {
 				document.querySelectorAll ('div.layertools-' + layerId + ' .updatelayer').forEach ((input) => {
 					input.addEventListener ('change', function () {
 						_state.layers[layerId].parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+						document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
 					});
 				});
 			});
