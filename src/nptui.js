@@ -50,7 +50,6 @@ const nptUi = (function () {
 	
 	// Settings
 	let _settings = {};		// Will be populated by constructor
-	let _build = {};		// Will be populated by constructor
 	let _datasets = {};		// Will be populated by constructor
 	
 	// Properties
@@ -67,26 +66,9 @@ const nptUi = (function () {
 		// Main function
 		initialise: function (settings, datasets)
 		{
-			// Load the build data then run the constructor
-			fetch ('/src/build.json')
-				.then (function (response) {return response.json ();})
-				.then (function (data) {
-					_build = data;
-					nptUi.construct (settings, datasets);
-				})
-				.catch (function (error) {
-					console.error ('Error loading build data - could not run application:', error);
-				});
-		},
-		
-		
-		// Constructor
-		construct: function (settings, datasets)
-		{
 			// Populate the settings and datasets class properties
 			_settings = settings;
 			_datasets = datasets;
-			// _build will have been loaded
 			
 			// Parse URL hash state
 			nptUi.parseUrl ();
@@ -150,7 +132,7 @@ const nptUi = (function () {
 			
 			// Set OSM and update dates in the text, if present
 			if (document.getElementById ('osmupdatedate')) {
-				document.getElementById ('osmupdatedate').innerHTML = nptUi.formatAsUKDate (_build.osmDate);
+				document.getElementById ('osmupdatedate').innerHTML = _settings.osmDate;
 			}
 			if (document.getElementById ('updatedate')) {
 				document.getElementById ('updatedate').innerText = nptUi.formatAsUKDate (document.lastModified);
