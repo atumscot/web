@@ -280,6 +280,13 @@ const nptUi = (function () {
 				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
 			});
 			
+			// Obtain initial parameter state for each layer
+			Object.keys (_datasets.layers).forEach (layerId => {
+				const parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+				_state.layers[layerId].parametersInitial = parameters;		// Acts as a reference state; will not be amended
+				_state.layers[layerId].parameters = parameters;
+			});
+			
 			// Trigger state change
 			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
 		},
@@ -290,7 +297,7 @@ const nptUi = (function () {
 		{
 			// Ensure the container exists
 			const container = document.querySelector (selector);
-			if (!container) {return null;}
+			if (!container) {return {};}
 			
 			// Obtain elements
 			const inputFields = container.querySelectorAll ('input, textarea, select');
@@ -332,7 +339,7 @@ const nptUi = (function () {
 			});
 			
 			// If no values, return null
-			if (!Object.entries (components).length) {return null;}
+			if (!Object.entries (components).length) {return {};}
 			
 			// Compile array values to comma-separated string
 			Object.entries (components).forEach (function ([key, value]) {
