@@ -320,10 +320,8 @@ const nptUi = (function () {
 						
 					// Checkboxes - set of values
 					case 'checkbox':
-						if (input.checked) {
-							if (!components.hasOwnProperty (input.name)) {components[input.name] = [];}	// Initialise
-							components[input.name].push (input.value);
-						}
+						if (!components.hasOwnProperty (input.name)) {components[input.name] = [];}	// Initialise
+						components[input.name].push (input.checked);
 						break;
 						
 					case 'radio':
