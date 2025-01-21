@@ -58,9 +58,6 @@ const settings = {
 	// Boundaries
 	boundariesUrl: 'https://nptscot.github.io/scheme-sketcher/assets/boundaries-3d573d2e.geojson',
 	
-	// OSM data date
-	osmDate: '1 Jan 2025',
-	
 	// Analytics
 	gaProperty: 'G-QZMHV92YXJ',
 	
@@ -68,7 +65,7 @@ const settings = {
 	uiCallback: rnetCheckboxProxying,	// Defined below
 	
 	// Initial layers enabled
-	initialLayersEnabled: ['rnet'],
+	initialLayersEnabled: ['rnet']
 };
 
 
@@ -105,4 +102,3 @@ function rnetCheckboxProxying ()
 	});
 }
 
-		

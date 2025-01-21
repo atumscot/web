@@ -69,6 +69,7 @@
 		<!-- NPT application -->
 		<script src="src/settings.js"></script>
 		<script src="src/datasets.js"></script>
+		<!-- src/build.json will also be loaded, as a required file -->
 		<script src="src/nptui.js"></script>
 		<script>
 			document.addEventListener ('DOMContentLoaded', function () {
@@ -100,8 +101,7 @@
 				<p>The results are publicly available. The main intended audience is local authorities undertaking cycle network planning to support  evidence-based and transparent investment, scheme location and design decisions.</p>
 				<p>Last updated: <span id="updatedate"></span>. You may need to <a href="https://www.minitool.com/news/f5-vs-ctrl-f5.html">clear your browser cache</a> to see the latest updates.</p>
 				<p>To report issues or provide feedback, please use the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=qO3qvR3IzkWGPlIypTW3ywVZfmO0bwdAhK0UztpneQtUM1pCRlJQQjY1V0M3MUhBV0g0VTJRS1ZQVi4u" target="_blank">feedback form</a>.</p>
-				<p>Date of OSM Data on which network results are based:</p>
-				<p id="osmupdatedate"></p>
+				<p>Date of OSM data on which network results are based: <span id="osmupdatedate"></span>.</p>
 				<p id="logos">
 					<a href="https://environment.leeds.ac.uk/transport" target="_blank"><img src="/images/logos/leeds.png" alt="University of Leeds" /></a>
 					<a href="https://www.sustrans.org.uk/about-us/our-work-in-scotland" target="_blank"><img src="/images/logos/sustrans.png" alt="Sustrans" /></a>
@@ -285,22 +285,21 @@
 			<button class="accordion">Street space</button>
 			<div class="panel">
 				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
-				<p>Street width categories in relation to guidance from Active Travel England's route cross-section check tool. The are based on the width of the kerb-to-kerb space (within carriageway) or the width of the combined corridor (including footways and verges, 'combined corridor'). 
-					<button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<p>Street space categories in relation to guidance from <a href="https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68" target="_blank">Cycling by Design guidance</a>. These categories are based on the width of the kerb-to-kerb space (within carriageway) or the width of the combined corridor (including footways and verges). <button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
 				<p>
 					<label for="streetspace">Infrastructure scenario</label>
 					<select name="streetspace" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
-						<option value="carriageway_1way">One-way track each side, within road width</option>
-						<option value="combined_1way">One-way track each side, remodelling edge-to-edge</option>
-						<option value="carriageway_2way">Two-way track, within road width</option>
-						<option value="combined_2way">Two-way track, remodelling edge-to-edge</option>
+						<option value="carriageway_1way">2x 1-way tracks, within road width</option>
+						<option value="combined_1way">2x 1-way tracks, using edge-to-edge</option>
+						<option value="carriageway_2way">2-way track, within road width</option>
+						<option value="combined_2way">2-way track, using edge-to-edge</option>
 					</select>
 				</p>
 				<div class="layertools layertools-streetspace">
 					<div class="legend">
 						<div class="l_r">
 							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
-							<div class="lb"><span style="background-color: #f29551;"></span>Absolute minimum</div>
+							<div class="lb"><span style="background-color: #e0b97d;"></span>Absolute minimum</div>
 							<div class="lb"><span style="background-color: #75a375;"></span>Desirable minimum</div>
 						</div>
 					</div>
@@ -459,17 +458,25 @@
 					<td>Level of Service</td>
 					<td><strong>{Level of Service}</strong></td>
 				</tr>
-				<tr>
-					<td>OpenStreetMap ID</td>
-					<td><a href="https://www.openstreetmap.org/way/{osm_id}/" target="_blank" title="[Link opens in a new window]">Way #{osm_id}</a></td>
-				</tr>
 			</table>
+			<p>
+				<a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a><br />
+				<a href="https://www.openstreetmap.org/way/{osm_id}/" target="_blank" title="[Link opens in a new window]">OpenStreetMap Way #{osm_id}</a>
+			</p>
 		</template>
 		
-		<!-- Template for streetspace popup -->
 		<template id="streetspace-popup">
-			<p>Road classification: {road_classification}</p>
+			<p>Road classification: {road_function}</p>
+			<p>Carriageway width: {carriageway_width}m</p>
+			<p>Edge to edge width: {edge_to_edge_width}m</p>
+			<p>Is Bus Route: {is_bus_route}</p>
+			<p>Number of lanes: {num_lanes}</p>
+			<p>Number of bus lanes: {no_bus_lanes}</p>
+			<p>Speed limit: {speed_limit}</p>
+			<p>Required buffer: {required_buffer}m</p>
+			<p>Required width for motor traffic: {required_width}m</p>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
+			
 		</template>
 	</body>
 	

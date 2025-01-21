@@ -128,7 +128,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/os_networks_categorized_street_space_with_widths.pmtiles',
 			},
 			'source-layer': 'street_space',
 			'paint': {
@@ -260,7 +260,7 @@ const datasets = {
 				styles: {
 					'line-color': {
 						'Not enough space': '#dd7777',
-						'Absolute minimum': '#f29551',
+						'Absolute minimum': '#e0b97d',
 						'Desirable minimum': '#75a375',
 						'_': 'rgba(0, 0, 0, 0)', // Invisible
 					}
