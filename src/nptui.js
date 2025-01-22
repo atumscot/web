@@ -1400,14 +1400,20 @@ const nptUi = (function () {
 		createSliders: function ()
 		{
 			// Find each div to be converted to a slider
-			document.querySelectorAll('div.slider-styled').forEach(div => {
+			document.querySelectorAll('div.slider-styled').forEach (div => {
+				
+				// Get the associated input field, which forms the actual data
+				const inputField = document.querySelector ('input.slider[name="' + div.dataset.name + '"]');
+				
+				// Get initial value
+				const [min, max] = inputField.value.split ('-');
 				
 				// Calculate the attributes based on an associated <datalist>
-				const attributes = nptUi.sliderAttributes(div.id);
+				const attributes = nptUi.sliderAttributes (div.id);
 				
 				// Create the slider
 				noUiSlider.create(div, {
-					start: [attributes.min, attributes.max],
+					start: [min, max],
 					connect: true,
 					range: attributes.range,
 					pips: {
@@ -1419,9 +1425,8 @@ const nptUi = (function () {
 				
 				// Define handler to proxy the result to hidden input fields, with value "<numStart>-<numFinish>"
 				div.noUiSlider.on ('update', function () {
-					const inputField = 'input.slider[data-layer="rnet"][name="' + div.dataset.name + '"]';
-					document.querySelector (inputField).value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
-					document.querySelector (inputField).dispatchEvent (new Event('change'));
+					inputField.value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
+					inputField.dispatchEvent (new Event('change'));
 				});
 			});
 		},
