@@ -270,21 +270,34 @@ const nptUi = (function () {
 				nptUi.layerStateUrl ();
 			});
 			
-			// Determine initial layers, preferring URL state if any layers enabled over settings default
-			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
-			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
-			
-			// Write initial layers specified in the URL, if any, into the state
-			Object.keys (_datasets.layers).forEach (layerId => {
-				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
-			});
-			
 			// Obtain initial parameter state for each layer
 			Object.keys (_datasets.layers).forEach (layerId => {
 				const parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
 				_state.layers[layerId].parametersInitial = parameters;		// Acts as a reference state; will not be amended
 				_state.layers[layerId].parameters = parameters;
+			});
+			
+			// Determine initial layers, preferring URL state if any layers enabled over settings default
+			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
+			initialLayersUrl.forEach (function (initialLayerToken) {
+				const [layerId, parametersString] = initialLayerToken.split (':');	// Split mylayer:a=b&x=y into layerId = 'mylayer' and parametersString = 'a=b&x=y'
+				if (_state.layers.hasOwnProperty (layerId)) {	// Validate layerId
+					
+					// Register the layer into the state
+					_state.layers[layerId].enabled = true;
+					
+					// If parameters, tokenise string, and register validated fields
+					if (parametersString) {
+						const parameterList = parametersString.split ('&');	// Tokenise, e.g. ['a=b', 'x=y']
+						parameterList.forEach (function (parameterItem) {
+							const [key, value] = parameterItem.split ('=');	// NB Assumes no = within value
+							if (_state.layers[layerId].parametersInitial.hasOwnProperty (key)) {
+								_state.layers[layerId].parameters[key] = value;
+							}
+						});
+					}
+				}
 			});
 			
 			// Trigger state change
