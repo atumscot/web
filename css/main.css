@@ -573,6 +573,10 @@ input:checked + .slider:before {
   text-align: right;
 }
 
+.layerpopup table.left td {
+  text-align: left;
+}
+
 /* Bigger Buttons */
 .maplibregl-ctrl-group button {
   height: 35px;

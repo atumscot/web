@@ -407,6 +407,7 @@
 		
 		<!-- Template for map popup -->
 		<template id="rnet-popup">
+			<h3 tabindex="0">Route network</h3>
 			<p>Cyclists: {_ncycle}<br />
 			Gradient: {gradient}%<br />
 			Cycle-friendliness: {quietness}%</p>
@@ -434,6 +435,7 @@
 		
 		<!-- Template for map popup -->
 		<template id="clos-popup">
+			<h3 tabindex="0">Infrastructure and traffic</h3>
 			<table>
 				<tr>
 					<td>Highway type</td>
@@ -462,17 +464,46 @@
 		</template>
 		
 		<template id="streetspace-popup">
-			<p>Road classification: {road_function}</p>
-			<p>Carriageway width: {carriageway_width}m</p>
-			<p>Edge to edge width: {edge_to_edge_width}m</p>
-			<p>Is Bus Route: {is_bus_route}</p>
-			<p>Number of lanes: {num_lanes}</p>
-			<p>Number of bus lanes: {number_of_bus_lanes}</p>
-			<p>Speed limit: {speed_limit}</p>
-			<p>Required buffer: {required_buffer}m</p>
-			<p>Required width for motor traffic: {required_width}m</p>
+			<h3 tabindex="0">Street space</h3>
+			<table class="left">
+				<tr>
+					<td>Road classification:</td>
+					<td>{road_function}</td>
+				</tr>
+				<tr>
+					<td>Carriageway width:</td>
+					<td>{carriageway_width}m</td>
+				</tr>
+				<tr>
+					<td>Edge-to-edge width:</td>
+					<td>{edge_to_edge_width}m</td>
+				</tr>
+				<tr>
+					<td>Is bus route?:</td>
+					<td>{is_bus_route}</td>
+				</tr>
+				<tr>
+					<td>Number of lanes:</td>
+					<td>{num_lanes}</td>
+				</tr>
+				<tr>
+					<td>Number of bus lanes:</td>
+					<td>{number_of_bus_lanes}</td>
+				</tr>
+				<tr>
+					<td>Speed limit:</td>
+					<td>{speed_limit}</td>
+				</tr>
+				<tr>
+					<td>Required buffer:</td>
+					<td>{required_buffer}m</td>
+				</tr>
+				<tr>
+					<td>Required width for motor traffic:</td>
+					<td>{required_width}m</td>
+				</tr>
+			</table>
 			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
-			
 		</template>
 	</body>
 	
