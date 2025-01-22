@@ -273,8 +273,8 @@ const nptUi = (function () {
 			// Obtain initial parameter state for each layer
 			Object.keys (_datasets.layers).forEach (layerId => {
 				const parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
-				_state.layers[layerId].parametersInitial = parameters;		// Acts as a reference state; will not be amended
-				_state.layers[layerId].parameters = parameters;
+				_state.layers[layerId].parametersInitial = Object.freeze (Object.assign ({}, parameters));		// Acts as a reference state; will not be amended
+				_state.layers[layerId].parameters = Object.assign ({}, parameters);
 			});
 			
 			// Determine initial layers, preferring URL state if any layers enabled over settings default
@@ -293,7 +293,7 @@ const nptUi = (function () {
 						parameterList.forEach (function (parameterItem) {
 							const [key, value] = parameterItem.split ('=');	// NB Assumes no = within value
 							if (_state.layers[layerId].parametersInitial.hasOwnProperty (key)) {
-								_state.layers[layerId].parameters[key] = value;
+								_state.layers[layerId].parameters[key] = value.replaceAll (/\+/g, ' ');
 							}
 						});
 					}
@@ -341,7 +341,7 @@ const nptUi = (function () {
 						// #!# Not yet implemented; needs to check for :checked
 						break;
 						
-					// Scalar fields, e.g. text, textarea, select, number, etc.
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
 					default:
 						if (input.value.length) {
 							components[input.name] = input.value;
@@ -364,6 +364,33 @@ const nptUi = (function () {
 		},
 		
 		
+		// Set form fields from parameters, i.e. reverse of serialiseParameters
+		setParametersInForm: function (selector, parameters)
+		{
+			// Set the value for each field
+			Object.entries (parameters).forEach (function ([field, value]) {
+				const input = document.querySelector (selector + ' [name="' + field + '"]');
+				if (!input) {return; /* i.e. continue */}	// This should never arise, because changed fields are only checked against real, existing, fields in the initial state
+				switch (input.type) {
+					
+					// Checkboxes - set of values
+					case 'checkbox':
+						input.checked = (value == 'true');
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
+					default:
+						console.log (input, value);
+						input.value = value;
+				}
+			});
+		},
+		
+		
 		// Function to manage layer state URL
 		layerStateUrl: function ()
 		{
@@ -379,7 +406,7 @@ const nptUi = (function () {
 				Object.entries (_state.layers[layerId].parametersInitial).forEach (function ([field, initialValue]) {
 					const currentValue = _state.layers[layerId].parameters[field];
 					if (currentValue != initialValue) {		// Only non-default values are included, in order to keep URLs short
-						parametersChanged.push (encodeURIComponent (field) + '=' + encodeURIComponent (currentValue).replace (/%20/g, '+'));
+						parametersChanged.push (encodeURIComponent (field) + '=' + encodeURIComponent (currentValue).replaceAll (/%20/g, '+'));
 					}
 				});
 				
@@ -841,6 +868,18 @@ const nptUi = (function () {
 			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
 				document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = (layer.enabled);
 			});
+			
+			// Set initial form field value immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				const changedParameters = {};
+				Object.entries (layer.parametersInitial).forEach (function ([field, initialValue]) {
+					if (layer.parameters[field] != initialValue) {	// Avoid unnecessary changes
+						changedParameters[field] = layer.parameters[field];
+					}
+				});
+				nptUi.setParametersInForm ('div.layertools-' + layerId, changedParameters);
+			});
+			
 			
 			// Track form parameters into the state
 			Object.keys (_datasets.layers).forEach (layerId => {
