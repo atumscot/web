@@ -261,7 +261,8 @@ const nptUi = (function () {
 			Object.keys (_datasets.layers).forEach (function (layerId) {
 				_state.layers[layerId] = {
 					enabled: false,
-					parameters: {}
+					parameters: {},
+					parametersInitial: {}
 				};
 			});
 			
