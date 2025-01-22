@@ -181,7 +181,7 @@ a.smaller {
   right: 0;
   bottom: 0;
   z-index: 3;
-  width: 270px;
+  width: 350px;
   overflow: auto;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(6px);
@@ -822,4 +822,3 @@ table.filters td:first-child {width: 5.5em; height: 3.5em; font-size: 0.75em; li
 /* Layer-specific controls */
 div.layertools {opacity: 0.2; pointer-events: none;}
 div.layertools.enabled {opacity: 1; pointer-events: auto;}
-
