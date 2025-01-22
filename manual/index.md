@@ -358,22 +358,22 @@ We have categorised the various types of cycle infrastructure as follows:
 
 The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68). It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods for roads, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
 
-#### 1. Road width measurements
+#### Road width measurements
 
 Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure:
 
-##### 1.1 Road width (kerb-to-kerb)
+##### Carriageway width 
    
 - **Definition:** The width available within the carriageway only.
-- **Excludes:** Footways, verges, and other areas outside of the kerbs.
+- **Excludes:** Manmade roadside area such as footways.
 - **Usage:** Determines if cycle infrastructure can fit solely within the carriageway.
 
-##### 1.2 Corridor width including pavements and verges (building-to-building)
+##### Corridor width (Edge to edge)
 
-- **Definition:** The total width of the corridor, encompassing both the carriageway and any adjacent footways or verges.
-- **Usage:** Where local policy allows, part of the footway or verge space may be reallocated for cycle infrastructure, provided that minimum safe footway widths are maintained.
+- **Definition:** The total width of the corridor, encompassing both the carriageway and manmade roadside features (e.g., pavements). 
+- **Usage:** Where local policy allows, part of the footway or other manmade roadside features may be reallocated for cycle infrastructure, provided that minimum safe footway widths are maintained.
 
-#### 2. Cycle infrastructure width requirements
+#### Cycle infrastructure width requirements
 
 Two main types of cycle infrastructure are considered, depending on the street configuration:
 
@@ -385,47 +385,21 @@ Bidirectional Cycle Tracks (1 × 2-Way Protected Cycle Track):
   - *Absolute Minimum Width:* 2.0 m
   - *Desirable Minimum Width:* 3.0 m
 
-#### 3. Buffers for cycle infrastructure
+#### Buffers for cycle infrastructure
 
 Buffers are applied based on road speed and traffic conditions, as specified in Table 3.8 of the Cycling by Design document. These buffers must be accounted for when calculating the effective available width for cycle infrastructure.
 
+| Road type / Speed limit | Buffer width |
+|-------------------------|--------------|
+| 30 mph                  | 0.5 m        |
+| 40 mph                  | 1.0 m        |
+| 50 mph                  | 2.0 m        |
+| 60 mph                  | 2.5 m        |
+| 70 mph                  | 3.5 m        |
 
+#### Bus routes and road traffic assumptions
 
-<table>
-  <thead>
-    <tr>
-      <th>Road type / Speed limit</th>
-      <th>Buffer width</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>30 mph</td>
-      <td>0.5 m</td>
-    </tr>
-    <tr>
-      <td>40 mph</td>
-      <td>1.0 m</td>
-    </tr>
-    <tr>
-      <td>50 mph</td>
-      <td>2.0 m</td>
-    </tr>
-    <tr>
-      <td>60 mph</td>
-      <td>2.5 m</td>
-    </tr>
-    <tr>
-      <td>70 mph</td>
-      <td>3.5 m</td>
-    </tr>
-  </tbody>
-</table>
-
-
-#### 4. Bus routes and road traffic assumptions
-
-##### 4.1 Bus routes and dedicated bus lanes
+##### Bus routes and dedicated bus lanes
 
 Bus routes and dedicated bus lanes are key factors in determining the available space for cycle infrastructure:
 
@@ -438,16 +412,16 @@ Bus routes and dedicated bus lanes are key factors in determining the available 
 - **Bus routes with dedicated bus lanes:**  
   The motor traffic space is considered as **2 × 3.2 m** plus an additional space of **`n_bus_lanes` × 3.2 m** for the dedicated bus lanes.
 
-##### 4.2 Road types
+##### Road types
 
 Roads are categorised based on their traffic configuration and bus route status:
 - Two‐way for motor traffic (non–bus route)
 - Two‐way for motor traffic (bus route without dedicated bus lanes)
 - Two‐way for motor traffic (bus route with dedicated bus lanes)
 
-#### 5. Categorisation based on available width
+#### Categorisation based on available width
 
-The Street Space layer divides roads into three groups, depending on whether the available width (road width or corridor width) can accommodate the cycle infrastructure:
+The Street Space layer divides roads into three groups, depending on whether the available width (carriageway width or corridor width) can accommodate the cycle infrastructure:
 
 - **Not enough space:**
   The available space is insufficient to fit even the absolute minimum width of cycle infrastructure.
