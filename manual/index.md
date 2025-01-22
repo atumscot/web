@@ -389,39 +389,13 @@ Bidirectional Cycle Tracks (1 × 2-Way Protected Cycle Track):
 
 Buffers are applied based on road speed and traffic conditions, as specified in Table 3.8 of the Cycling by Design document. These buffers must be accounted for when calculating the effective available width for cycle infrastructure.
 
-
-
-<table>
-  <thead>
-    <tr>
-      <th>Road type / Speed limit</th>
-      <th>Buffer width</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>30 mph</td>
-      <td>0.5 m</td>
-    </tr>
-    <tr>
-      <td>40 mph</td>
-      <td>1.0 m</td>
-    </tr>
-    <tr>
-      <td>50 mph</td>
-      <td>2.0 m</td>
-    </tr>
-    <tr>
-      <td>60 mph</td>
-      <td>2.5 m</td>
-    </tr>
-    <tr>
-      <td>70 mph</td>
-      <td>3.5 m</td>
-    </tr>
-  </tbody>
-</table>
-
+| Road type / Speed limit | Buffer width |
+|-------------------------|--------------|
+| 30 mph                  | 0.5 m        |
+| 40 mph                  | 1.0 m        |
+| 50 mph                  | 2.0 m        |
+| 60 mph                  | 2.5 m        |
+| 70 mph                  | 3.5 m        |
 
 #### Bus routes and road traffic assumptions
 
