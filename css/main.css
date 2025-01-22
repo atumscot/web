@@ -555,9 +555,9 @@ input:checked + .slider:before {
 /* Map popup */
 
 .layerpopup {
-  min-width: 300px;
+  min-width: 350px;
   max-width: 400px;
-  max-height: 240px;
+  max-height: 340px;
   overflow: auto;
 }
 
