@@ -362,16 +362,16 @@ The Street Space layer categorises roads in accordance with the [Cycling by Desi
 
 Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure:
 
-##### Road width (kerb-to-kerb)
+##### Carriageway width 
    
 - **Definition:** The width available within the carriageway only.
-- **Excludes:** Footways, verges, and other areas outside of the kerbs.
+- **Excludes:** Manmade roadside area such as footways.
 - **Usage:** Determines if cycle infrastructure can fit solely within the carriageway.
 
-##### Corridor width including pavements and verges (building-to-building)
+##### Corridor width (Edge to edge)
 
-- **Definition:** The total width of the corridor, encompassing both the carriageway and any adjacent footways or verges.
-- **Usage:** Where local policy allows, part of the footway or verge space may be reallocated for cycle infrastructure, provided that minimum safe footway widths are maintained.
+- **Definition:** The total width of the corridor, encompassing both the carriageway and manmade roadside features (e.g., pavements). 
+- **Usage:** Where local policy allows, part of the footway or other manmade roadside features may be reallocated for cycle infrastructure, provided that minimum safe footway widths are maintained.
 
 #### Cycle infrastructure width requirements
 
@@ -447,7 +447,7 @@ Roads are categorised based on their traffic configuration and bus route status:
 
 #### Categorisation based on available width
 
-The Street Space layer divides roads into three groups, depending on whether the available width (road width or corridor width) can accommodate the cycle infrastructure:
+The Street Space layer divides roads into three groups, depending on whether the available width (carriageway width or corridor width) can accommodate the cycle infrastructure:
 
 - **Not enough space:**
   The available space is insufficient to fit even the absolute minimum width of cycle infrastructure.
