@@ -1285,7 +1285,7 @@ const nptUi = (function () {
 		// #!# Copied from manual.js
 		mdToHtml: function (mdText)
 		{
-			const converter = new showdown.Converter();
+			const converter = new showdown.Converter({tables: true});
 			const html = converter.makeHtml(mdText);
 			return html;
 		},
