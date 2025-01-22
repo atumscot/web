@@ -260,7 +260,9 @@ const nptUi = (function () {
 			_state.layers = {};
 			Object.keys (_datasets.layers).forEach (function (layerId) {
 				_state.layers[layerId] = {
-					enabled: false
+					enabled: false,
+					parameters: {},
+					parametersInitial: {}
 				};
 			});
 			
@@ -269,14 +271,34 @@ const nptUi = (function () {
 				nptUi.layerStateUrl ();
 			});
 			
+			// Obtain initial parameter state for each layer
+			Object.keys (_datasets.layers).forEach (layerId => {
+				const parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+				_state.layers[layerId].parametersInitial = Object.freeze (Object.assign ({}, parameters));		// Acts as a reference state; will not be amended
+				_state.layers[layerId].parameters = Object.assign ({}, parameters);
+			});
+			
 			// Determine initial layers, preferring URL state if any layers enabled over settings default
 			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
 			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
-			const initialLayers = (initialLayersUrl.length ? initialLayersUrl : _settings.initialLayersEnabled);
-			
-			// Write initial layers specified in the URL, if any, into the state
-			Object.keys (_datasets.layers).forEach (layerId => {
-				_state.layers[layerId].enabled = (initialLayers.includes (layerId));
+			initialLayersUrl.forEach (function (initialLayerToken) {
+				const [layerId, parametersString] = initialLayerToken.split (':');	// Split mylayer:a=b&x=y into layerId = 'mylayer' and parametersString = 'a=b&x=y'
+				if (_state.layers.hasOwnProperty (layerId)) {	// Validate layerId
+					
+					// Register the layer into the state
+					_state.layers[layerId].enabled = true;
+					
+					// If parameters, tokenise string, and register validated fields
+					if (parametersString) {
+						const parameterList = parametersString.split ('&');	// Tokenise, e.g. ['a=b', 'x=y']
+						parameterList.forEach (function (parameterItem) {
+							const [key, value] = parameterItem.split ('=');	// NB Assumes no = within value
+							if (_state.layers[layerId].parametersInitial.hasOwnProperty (key)) {
+								_state.layers[layerId].parameters[key] = value.replaceAll (/\+/g, ' ');
+							}
+						});
+					}
+				}
 			});
 			
 			// Trigger state change
@@ -284,14 +306,117 @@ const nptUi = (function () {
 		},
 		
 		
+		// Serialisation of form elements within a container to a string
+		serialiseParameters: function (selector)
+		{
+			// Ensure the container exists
+			const container = document.querySelector (selector);
+			if (!container) {return {};}
+			
+			// Obtain elements
+			const inputFields = container.querySelectorAll ('input, textarea, select');
+			
+			// Loop through each field and encode their key->value pairs
+			const components = [];
+			inputFields.forEach (function (input) {
+				
+				// Skip proxy controls, i.e. those used to manipulate the actual field enabling
+				if (input.dataset.proxy) {return; /* i.e. continue */}
+				
+				// Register by input type
+				switch (input.type) {
+					
+					// Skip unwanted types
+					case 'file':
+					case 'submit':
+					case 'button':
+						break;
+						
+					// Checkboxes - set of values
+					case 'checkbox':
+						if (!components.hasOwnProperty (input.name)) {components[input.name] = [];}	// Initialise
+						components[input.name].push (input.checked);
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
+					default:
+						if (input.value.length) {
+							components[input.name] = input.value;
+						}
+				}
+			});
+			
+			// If no values, return null
+			if (!Object.entries (components).length) {return {};}
+			
+			// Compile array values to comma-separated string
+			Object.entries (components).forEach (function ([key, value]) {
+				if (Array.isArray (value)) {
+					components[key] = value.join (',');
+				}
+			});
+			
+			// Return the key/value pairs
+			return components;
+		},
+		
+		
+		// Set form fields from parameters, i.e. reverse of serialiseParameters
+		setParametersInForm: function (selector, parameters)
+		{
+			// Set the value for each field
+			Object.entries (parameters).forEach (function ([field, value]) {
+				const input = document.querySelector (selector + ' [name="' + field + '"]');
+				if (!input) {return; /* i.e. continue */}	// This should never arise, because changed fields are only checked against real, existing, fields in the initial state
+				switch (input.type) {
+					
+					// Checkboxes - set of values
+					case 'checkbox':
+						input.checked = (value == 'true');
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
+					default:
+						console.log (input, value);
+						input.value = value;
+				}
+			});
+		},
+		
+		
 		// Function to manage layer state URL
 		layerStateUrl: function ()
 		{
 			// Determine enabled layers
-			const enabledLayers = Object.keys (_state.layers).filter (function (key) {return _state.layers[key].enabled;});
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
+			
+			// Check each layer, determining its parameter state and registering its token
+			const layerTokens = [];
+			enabledLayers.forEach (function (layerId) {
+				
+				// Create a diff of non-default parameters
+				const parametersChanged = [];
+				Object.entries (_state.layers[layerId].parametersInitial).forEach (function ([field, initialValue]) {
+					const currentValue = _state.layers[layerId].parameters[field];
+					if (currentValue != initialValue) {		// Only non-default values are included, in order to keep URLs short
+						parametersChanged.push (encodeURIComponent (field) + '=' + encodeURIComponent (currentValue).replaceAll (/%20/g, '+'));
+					}
+				});
+				
+				// Register the token for this layer, e.g. 'mylayer' / 'mylayer:a=b' / 'mylayer:a=b&x=y'
+				layerTokens.push (layerId + (parametersChanged.length ? ':' + parametersChanged.join ('&') : ''));
+			});
 			
 			// Compile the layer state URL
-			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
+			const enabledLayersHash = '/' + layerTokens.join (',') + (layerTokens.length ? '/' : '');
 			
 			// Register a state change for the URL
 			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
@@ -742,9 +867,29 @@ const nptUi = (function () {
 		{
 			// Set checkboxes immediately
 			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
-				if (layer.enabled) {
-					document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = true;
-				}
+				document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = (layer.enabled);
+			});
+			
+			// Set initial form field value immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				const changedParameters = {};
+				Object.entries (layer.parametersInitial).forEach (function ([field, initialValue]) {
+					if (layer.parameters[field] != initialValue) {	// Avoid unnecessary changes
+						changedParameters[field] = layer.parameters[field];
+					}
+				});
+				nptUi.setParametersInForm ('div.layertools-' + layerId, changedParameters);
+			});
+			
+			
+			// Track form parameters into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				document.querySelectorAll ('div.layertools-' + layerId + ' .updatelayer').forEach ((input) => {
+					input.addEventListener ('change', function () {
+						_state.layers[layerId].parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+						document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+					});
+				});
 			});
 			
 			// Add layers when the map is ready (including after a basemap change)
@@ -846,7 +991,7 @@ const nptUi = (function () {
 					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
-				// Eanble/disable the layer tools div
+				// Enable/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
 		},
@@ -1295,14 +1440,20 @@ const nptUi = (function () {
 		createSliders: function ()
 		{
 			// Find each div to be converted to a slider
-			document.querySelectorAll('div.slider-styled').forEach(div => {
+			document.querySelectorAll('div.slider-styled').forEach (div => {
+				
+				// Get the associated input field, which forms the actual data
+				const inputField = document.querySelector ('input.slider[name="' + div.dataset.name + '"]');
+				
+				// Get initial value
+				const [min, max] = inputField.value.split ('-');
 				
 				// Calculate the attributes based on an associated <datalist>
-				const attributes = nptUi.sliderAttributes(div.id);
+				const attributes = nptUi.sliderAttributes (div.id);
 				
 				// Create the slider
 				noUiSlider.create(div, {
-					start: [attributes.min, attributes.max],
+					start: [min, max],
 					connect: true,
 					range: attributes.range,
 					pips: {
@@ -1314,9 +1465,8 @@ const nptUi = (function () {
 				
 				// Define handler to proxy the result to hidden input fields, with value "<numStart>-<numFinish>"
 				div.noUiSlider.on ('update', function () {
-					const inputField = 'input.slider[data-layer="rnet"][name="' + div.dataset.name + '"]';
-					document.querySelector (inputField).value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
-					document.querySelector (inputField).dispatchEvent (new Event('change'));
+					inputField.value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
+					inputField.dispatchEvent (new Event('change'));
 				});
 			});
 		},
