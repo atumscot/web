@@ -512,7 +512,7 @@ const nptUi = (function () {
 			// Add attribution
 			map.addControl(new maplibregl.AttributionControl({
 				compact: true,
-				customAttribution: 'Contains OS data © Crown copyright 2021, Satelite map © ESRI 2023, © OpenStreetMap contributors (OSM snapshot: ' + _build.osmDate + ')'
+				customAttribution: 'Contains OS data © Crown copyright 2025, Satelite map © ESRI 2023, © OpenStreetMap contributors (OSM snapshot: ' + _build.osmDate + ')'
 			}), 'bottom-left');
 			
 			// Add scale

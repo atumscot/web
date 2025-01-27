@@ -356,11 +356,13 @@ We have categorised the various types of cycle infrastructure as follows:
 -->
 
 
-The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68). It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods for roads, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
+The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68).
+It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods and datasets used, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
 
 #### Road width measurements
 
-Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure:
+Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure: carriage width and corridor width.
+Data on carriageway widths were derived from Ordnance Survey Mastermap Highways data. Data on pavement width were derived from Ordnance Survey Mastermap Topographic data (see terms and conditions below).
 
 ##### Carriageway width 
    
@@ -431,6 +433,14 @@ The Street Space layer divides roads into three groups, depending on whether the
 
 - **Desirable minimum:**
   The available space is sufficient to accommodate the desirable minimum width of cycle infrastructure, providing a more comfortable design for all users.
+
+#### Street space data terms and conditions
+
+Contains [OS data](https://www.ordnancesurvey.co.uk/customers/public-sector/public-sector-licensing/copyright-acknowledgments) © Crown copyright and database rights 2025 OS licence number 100046668.
+
+- You are granted a non-exclusive, royalty free revocable licence solely to view the licensed data for non-commercial purposes for the period during which Transport Scotland makes it available;
+- You are not permitted to copy, sub-license, distribute, sell or otherwise make available the licensed data to third parties in any form; and
+- Third party rights to enforce the terms of this licence shall be reserved to OS.
 
 
 <!-- /#streetspace -->
