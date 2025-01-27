@@ -1,0 +1,25 @@
+{
+  "name": "@nptscot/nptscot.github.io",
+  "version": "2.0.0",
+  "description": "Network Planning Tool for Scotland: front end",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nptscot/nptscot.github.io.git"
+  },
+  "keywords": [
+    "transportation",
+    "cycling",
+    "transportation-planning",
+    "maplibre"
+  ],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/nptscot/nptscot.github.io/issues"
+  },
+  "homepage": "https://npt.scot",
+  "dependencies": {
+    "nouislider": "^15.7.0"
+  }
+}

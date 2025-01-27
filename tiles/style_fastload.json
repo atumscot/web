@@ -1,0 +1,38 @@
+{
+  "version": 8,
+  "name": "Fastload",
+  "center": [-1.464858786792547, 50.939150779110975],
+  "zoom": 13.12365211904204,
+  "bearing": -0.44200633613297663,
+  "pitch": 0,
+  "light": {"intensity": 0.25, "color": "hsl(0, 0%, 100%)"},
+  "sources": {
+    "composite": {
+      "url": "pmtiles://https://nptscot.blob.core.windows.net/pmtiles/oszoom_dasymetric.pmtiles",
+      "type": "vector"
+    }
+  },
+  "sprite": "https://nptscot.blob.core.windows.net/mapextras/sprites/greyscale",
+  "glyphs": "https://nptscot.blob.core.windows.net/mapextras/fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {"background-color": "rgba(244, 244, 244, 1)"}
+    },
+    {
+      "id": "roads 0 Guided Busway Casing",
+      "type": "background",
+      "paint": {"background-color": "rgba(0, 0, 0, 0)"}
+    },
+    {
+      "id": "placeholder_name",
+     "type": "background",
+      "paint": {"background-color": "rgba(0, 0, 0, 0)"}
+    }
+  ],
+  "modified": "2019-01-21T11:08:06.120Z",
+  "owner": "ordnancesurvey",
+  "visibility": "public",
+  "draft": false
+}

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="Description" content="An interactive map to aid cycle planning in Scotland">
+		
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<!-- Social media -->
+		<meta property="og:title" content="NPT Scotland">
+		<meta property="og:description" content="An interactive map to aid cycle planning in Scotland">
+		<meta property="og:image" content="/images/thumbnail.jpg">
+		<meta property="twitter:image" content="/images/thumbnail.jpg">
+		<meta property="og:url" content="https://www.npt.scot">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta property="og:site_name" content="NPT Scotland">
+		<meta name="twitter:image:alt" content="NPT Scotland thumbnail">
+		<title>NPT Scotland</title>
+		
+		<!-- PWA support -->
+		<link rel="manifest" href="manifest.webmanifest">
+		<link rel="apple-touch-icon" href="/images/icons/192.png">
+		<meta name="apple-mobile-web-app-status-bar" content="#0b38e6">
+		<meta name="theme-color" content="#0b38e6">
+		<script src="/app.js" defer></script>
+		
+		<!-- Map dependencies -->
+		<script src="https://unpkg.com/pmtiles@3.0.6/dist/pmtiles.js"></script>
+		<script src="/js/lib/geocoder/maplibre-gl-geocoder.min.js"></script>
+		<link rel="stylesheet" href="js/lib/geocoder/maplibre-gl-geocoder-small.css" type="text/css"/>
+		<script src="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js"></script>
+		<link href="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css" rel="stylesheet" />
+		
+		<!-- Sliders -->
+		<link href="js/lib/noUiSlider_15_7_0/nouislider.min.css" rel="stylesheet">
+		<script src="js/lib/noUiSlider_15_7_0/nouislider.min.js"></script>
+		
+		<!-- Font Awesome -->
+		<link href="/assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+		<link href="/assets/fontawesome/css/solid.min.css" rel="stylesheet">
+		
+		<!-- Markdown conversion -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+		
+		<!-- Tooltips -->
+		<script src="https://unpkg.com/@popperjs/core@2"></script>
+		<script src="https://unpkg.com/tippy.js@6"></script>
+		
+		<!-- Charts -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1" defer></script>
+		
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZMHV92YXJ"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag () {dataLayer.push (arguments);}
+			gtag('js', new Date ());
+			gtag('config', 'G-QZMHV92YXJ');
+		</script>
+		
+		<!-- Styles -->
+		<link rel="stylesheet" href="css/main.css">
+		
+		<!-- NPT application -->
+		<script src="src/settings.js"></script>
+		<script src="src/datasets.js"></script>
+		<!-- src/build.json will also be loaded, as a required file -->
+		<script src="src/nptui.js"></script>
+		<script>
+			document.addEventListener ('DOMContentLoaded', function () {
+			  nptUi.initialise (settings, datasets);
+			});
+		</script>
+		
+	</head>
+	
+	<body>
+		
+		<!-- Menu -->
+		<nav>
+			<a href="/" class="selected"><img src="/images/npt_logo.png" alt="NPT Logo" class="logo" /> NPT Scotland</a>
+			<a href="/localauthorities/">Local authorities</a>
+			<a href="/about/">About</a>
+			<a href="/data/">Data</a>
+			<a href="/manual/">Manual</a>
+			<a href="#" id="expandtopnav" class="icon" aria-label="Expand menu"><i class="fa fa-bars"></i></a>
+		</nav>
+		
+		<!-- Welcome splash -->
+		<div id="welcome-modal" class="modal">
+			<span class="modal-close">&times;</span>
+			<div>
+				<h3>Network Planning Tool for Scotland</h3>
+				<p>The Network Planning Tool for Scotland (NPT Scotland, hosted at <a href="https://www.npt.scot">www.npt.scot</a>) is a web application for strategic cycle network planning.</p>
+				<p>Note the results of the Commute layer are based  on the 2011 Census travel to work data and results for other trip purposes are based on pre-pandemic data. Users should be aware that the results are model-based estimates and that patterns have changed since the pandemic. Future versions of the tool will include more recent Census and other datasets when they become available.</p>
+				<p>The results are publicly available. The main intended audience is local authorities undertaking cycle network planning to support  evidence-based and transparent investment, scheme location and design decisions.</p>
+				<p>Last updated: <span id="updatedate"></span>. You may need to <a href="https://www.minitool.com/news/f5-vs-ctrl-f5.html">clear your browser cache</a> to see the latest updates.</p>
+				<p>To report issues or provide feedback, please use the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=qO3qvR3IzkWGPlIypTW3ywVZfmO0bwdAhK0UztpneQtUM1pCRlJQQjY1V0M3MUhBV0g0VTJRS1ZQVi4u" target="_blank">feedback form</a>.</p>
+				<p>Date of OSM data on which network results are based: <span id="osmupdatedate"></span>.</p>
+				<p id="logos">
+					<a href="https://environment.leeds.ac.uk/transport" target="_blank"><img src="/images/logos/leeds.png" alt="University of Leeds" /></a>
+					<a href="https://www.sustrans.org.uk/about-us/our-work-in-scotland" target="_blank"><img src="/images/logos/sustrans.png" alt="Sustrans" /></a>
+					<a href="https://www.transport.gov.scot/" target="_blank"><img src="/images/logos/transportscotland.svg" alt="Transport Scotland" /></a>
+					<a href="https://www.cyclestreets.org/" target="_blank"><img src="/images/logos/cyclestreets.svg" alt="CycleStreets" /></a>
+				</p>
+			</div>
+		</div>
+		
+		<!-- Cookies Warning  -->
+		<div id="cookiewarning" class="cookiewarning">
+			<p>We use cookies to measure how you use our website so we can understand how you interact with it, which helps us to make improvements. <a href="/privacy/">Find out more.</a></p>
+			<p>
+				<button class="button button1" value="1"><strong>OK</strong></button>
+				<button class="button button2" value=""><strong>No</strong></button>
+			</p>
+		</div>
+		
+		<!-- Main Content -->
+		<div class="content">
+			<div id="map"></div>
+		</div>
+		
+		<!-- Basemap control box -->
+		<div id="basemapcontrol">
+			<h3>Basemap</h3>
+			<form id="basemapform">
+				<!-- Values will be populated -->
+			</form>
+			<p><label class="switch"><input type="checkbox" id="placenamescheckbox" checked="checked" /><span class="slider round"></span></label> Place names</p>
+			<p title="Makes the map look smoother and clearer (not suitable for lower-powered devices)"><label class="switch"><input type="checkbox" id="antialiascheckbox" /><span class="slider round"></span></label> Anti-alias</p>
+		</div>
+		
+		<!-- Show Layer Selection Panel  Button-->
+		<div id="showrightbox" class="showrightbox">
+			<button class="float_button" aria-label="Show layers"><i class="fa fa-bars"></i></button>
+		</div>
+		
+		<!-- Layer Selection Panel -->
+		<div id="rightbox" class="rightbox">
+			<button class="close-button" aria-label="Hide layers"><i class="fas fa-times"></i></button>
+			<h2>Layer controls</h2>
+			
+			<button class="accordion">Route network</button>
+			<div class="panel">
+				<p>
+					<label><input type="checkbox" id="rnetcheckboxproxy" class="rnetproxy" data-proxy="true" /> Show layer</label>
+					<!-- These two checkboxes actually control the layers, but are set by the show/simplified checkboxes -->
+					<input type="checkbox" class="showlayer hidden" data-layer="rnet" />
+					<input type="checkbox" class="showlayer hidden" data-layer="rnet-simplified" />
+				</p>
+				<div class="layertools layertools-rnet layertools-rnet-simplified">
+					<p><label class="switch"><input type="checkbox" id="rnet-simplifiedcheckboxproxy" class="rnetproxy" data-proxy="true" aria-label="Simplify route network"><span class="slider round"></span></label> Simplified route network <button aria-label="Help simplified route network" class="helpbutton" data-help="simplified_rnet" title="Full details of streamlining the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<p>
+						<select name="purpose" class="updatelayer" data-layer="rnet" aria-label="Route network trip purpose">
+							<option value="all" selected>All</option>
+							<option value="commute" >Commute</option>
+							<option value="primary" >Primary School</option>
+							<option value="secondary" >Secondary School</option>
+							<option value="utility" >Other Everyday</option>
+						</select>
+						Trip purpose <button aria-label="Help purpose" class="helpbutton" title="Full details of trip purpose" data-help="purpose"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="scenario" class="updatelayer" data-layer="rnet" aria-label="Route network scenario">
+							<option value="bicycle">Baseline</option>
+							<option value="bicycle_go_dutch" selected>Go Dutch</option>
+							<option value="bicycle_ebike">Ebike</option>
+						</select>
+						Scenario <button aria-label="Help scenario" class="helpbutton" data-help="scenario" title="Full details of scenarios"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="type" class="updatelayer" data-layer="rnet" aria-label="Route network type">
+							<option value="fastest" selected>Fast/Direct</option>
+							<option value="quietest">Quiet/Indirect</option>
+						</select>
+						Network type <button aria-label="Help type" class="helpbutton" data-help="type" title="Full details of type of network choice by people cycling"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<p>
+						<select name="colour" class="updatelayer" data-layer="rnet" aria-label="Route network colour">
+							<option value="none">None</option>
+							<option value="flow" selected>Cycle trips per day</option>
+							<option value="quietness">Cycle friendliness</option>
+							<option value="gradient">Gradient</option>
+						</select>
+						Line colour <button aria-label="Help colour" class="helpbutton" data-help="colour" title="Full details of colouring of route lines"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<div id="linecolourlegend" class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+						</div>
+					</div>
+					
+					<p><b>Filter to:</b><button aria-label="Help scenario" class="helpbutton" data-help="filters" title="Full details of filtering parts of the route network"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+					<table class="filters">
+						<tr>
+							<td>Cycle trips per day</td>
+							<td>
+								<div id="slider-cycle-ui" class="slider-styled" data-name="cycle"></div>
+								<datalist list="slider-cycle-ui" data-density="3">
+									<option value="0"     data-position="min"></option>
+									<option value="100"   data-position="12.5%"></option>
+									<option value="200"   data-position="25%"></option>
+									<option value="500"   data-position="37.5%"></option>
+									<option value="1000"  data-position="50%"   data-label="1k"></option>
+									<option value="2500"  data-position="62.5%" data-label="2.5k"></option>
+									<option value="5000"  data-position="75%"   data-label="5k"></option>
+									<option value="10000" data-position="87.5%" data-label="10k"></option>
+									<option value="20000" data-position="max"   data-label="20k"></option>
+									<!-- TODO: Check max value -->
+								</datalist>
+								<input type="hidden" name="cycle" class="updatelayer slider" data-layer="rnet" value="0-20000" />
+							</td>
+						</tr>
+						<tr>
+							<td>Gradient (%)</td>
+							<td>
+								<div id="slider-gradient-ui" class="slider-styled" data-name="gradient"></div>
+								<datalist list="slider-gradient-ui" data-density="10">
+									<option value="0"  data-position="min" data-increments="1"></option>
+									<option value="2"  data-position="20%" data-increments="1"></option>
+									<option value="4"  data-position="40%" data-increments="1"></option>
+									<option value="6"  data-position="60%" data-increments="1"></option>
+									<option value="8"  data-position="80%" data-increments="1"></option>
+									<option value="100" data-position="max" data-label="10+"></option>
+								</datalist>
+								<input type="hidden" name="gradient" class="updatelayer slider" data-layer="rnet" value="0-100" />
+							</td>
+						</tr>
+						<tr>
+							<td>Cycle friendliness (%)</td>
+							<td>
+								<div id="slider-quietness-ui" class="slider-styled" data-name="quietness"></div>
+								<datalist list="slider-quietness-ui" data-density="10">
+									<option value="0"   data-position="min" data-label="Hostile" data-increments="10"></option>
+									<option value="100" data-position="max" data-label="Quiet"></option>
+								</datalist>
+								<input type="hidden" name="quietness" class="updatelayer slider" data-layer="rnet" value="0-100" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<button class="accordion">Coherent network</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="coherentnetwork" value="false"> Show layer</label></p>
+				<p>Automatically-generated coherent network in urban areas connecting key origins and destinations with relatively direct routes. <button aria-label="Help on coherent network" class="helpbutton" data-help="coherentnetwork"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<!-- Add legend with colours -->
+				<div class="legend">
+					<div class="l_r">
+						<div class="lb"><span style="background-color: #e73f74"></span>Primary</div>
+						<div class="lb"><span style="background-color: #f1ce63"></span>Secondary</div>
+						<div class="lb"><span style="background-color: #7faedd"></span>Local Access</div>
+					</div>
+				</div>
+			</div>
+			
+			<button class="accordion">Infrastructure and traffic</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="clos" value="false"> Show layer</label></p>
+				<p>Data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS), as per the <a href="https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf" target="_blank" title="[Link opens in a new window]">Cycling by Design guidance</a>. <button aria-label="Help on LoS" class="helpbutton" data-help="clos"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<div class="layertools layertools-clos">
+					<p>
+						<select name="clos-layer" class="updatelayer" data-layer="clos" aria-label="LoS detail">
+							<option value="Level of Service" selected="selected">Estimated LoS</option>
+							<option value="Traffic volume category">Estimated traffic volume</option>
+							<option value="Speed limit">Estimated speed limit</option>
+							<option value="Infrastructure type">Cycle infrastructure</option>
+						</select>
+					</p>
+					<div id="clos-legend" class="legend"></div>
+					<p>Cycle infrastructure types info <button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="infrastructuretypes"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				</div>
+			</div>
+			
+			<button class="accordion">Street space</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="streetspace" value="false"> Show layer</label></p>
+				<p>Street space categories in relation to guidance from <a href="https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68" target="_blank">Cycling by Design guidance</a>. These categories are based on the width of the kerb-to-kerb space (within carriageway) or the width of the combined corridor (including footways and verges). <button aria-label="Help on infrastructure scenario" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
+				<div class="layertools layertools-streetspace">
+					<p>
+						<label for="streetspace">Infrastructure scenario</label>
+						<select name="streetspace" class="updatelayer" data-layer="streetspace" aria-label="Infrastructure scenario">
+							<option value="carriageway_1way">2x 1-way tracks, within road width</option>
+							<option value="combined_1way">2x 1-way tracks, using edge-to-edge</option>
+							<option value="carriageway_2way">2-way track, within road width</option>
+							<option value="combined_2way">2-way track, using edge-to-edge</option>
+						</select>
+					</p>
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
+							<div class="lb"><span style="background-color: #e0b97d;"></span>Absolute minimum</div>
+							<div class="lb"><span style="background-color: #75a375;"></span>Desirable minimum</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<button class="accordion">Data zones</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="data_zones" value="false"> Show layer</label></p>
+				<div class="layertools layertools-data_zones">
+					<p>
+						<select name="field" class="updatelayer" data-layer="data_zones" aria-label="Data zone layer">
+							<option value="pcycle">% commuter cycling (baseline)</option>
+							<option value="pcycle_go_dutch" selected>% commuter cycling (Go Dutch)</option>
+							<option value="population_density">Population density (per hectare)</option>
+							<option value="SIMD2020v2_Decile" selected="selected">Scottish Ind. Multiple Deprivation</option>
+							<option value="drive_petrol">Drive time to petrol station</option>
+							<option value="drive_GP">Drive time to GP</option>
+							<option value="drive_post">Drive time to post office</option>
+							<option value="drive_retail">Drive time to retail centre</option>
+							<option value="drive_primary">Drive time to primary school</option>
+							<option value="drive_secondary">Drive time to secondary school</option>
+							<option value="PT_GP">Public transport time to GP</option>
+							<option value="PT_post">Public transport time to post office</option>
+							<option value="PT_retail">Public transport time to retail centre</option>
+							<option value="broadband">% without superfast broadband</option>
+						</select>
+						<button aria-label="Help purpose" class="helpbutton" data-help="data_zones"><i class="fa fa-question-circle" aria-hidden="true"></i></button>
+					</p>
+					<div id="dzlegend" class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #ffffff"></span>&nbsp;</div>
+						</div>
+					</div>
+					<p><label class="switch"><input type="checkbox" name="daysymetricmode" class="updatelayer" data-layer="data_zones" checked="checked" /><span class="slider round"></span></label> Dasymetric</p>
+				</div>
+			</div>
+			
+			<button class="accordion">Other layers</button>
+			<div class="panel">
+				<p><label><input type="checkbox" class="showlayer" data-layer="schools" value="false">Schools</label></p>
+				<div class="layertools layertools-schools">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #313695"></span>Primary</div>
+							<div class="lb"><span style="background-color: #a50026"></span>Secondary</div>
+							<div class="lb"><span style="background-color: #43f22c"></span>Other</div>
+						</div>
+					</div>
+				</div>
+				<p><label><input type="checkbox" class="showlayer" data-layer="wards" value="false">Wards</label></p>
+				<div class="layertools layertools-wards">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #206b07"></span></div>
+						</div>
+					</div>
+				</div>
+				<p><label><input type="checkbox" class="showlayer" data-layer="holyrood" value="false">Scottish Parliament Constituencies</label></p>
+				<div class="layertools layertools-holyrood">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #537bfc"></span></div>
+						</div>
+					</div>
+				</div>
+				<p><label><input type="checkbox" class="showlayer" data-layer="la" value="false">Local Authorities</label></p>
+				<div class="layertools layertools-la">
+					<div class="legend">
+						<div class="l_r">
+							<div class="lb"><span style="background-color: #6b0707"></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Help box -->
+		<div id="help-modal" class="modal">
+			<span class="modal-close">&times;</span>
+			<div id="helpcontent">
+				<p><em>Help content loading&hellip;</em></p>
+			</div>
+		</div>
+		
+		<!-- Template for chart modals, including a sub-template for the chart boxes, plus overlay -->
+		<template id="chart-modal">
+			<div class="modal">
+				<div class="modal-header">
+					<span class="modal-close">&times;</span>
+					<h2 class="modal-title">Summary</h2>
+				</div>
+				<div class="modal-body">
+					<template class="chart-template">
+						<div class="chart-wrapper">
+							<div class="chart-text">
+								<h4 class="chart-title"></h4>
+								<p class="chart-description"></p>
+							</div>
+							<div class="chart-container" >
+								<canvas></canvas>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</template>
+		<div id="overlay"></div>
+		
+		<!-- Template for map popup -->
+		<template id="rnet-popup">
+			<h3 tabindex="0">Route network</h3>
+			<p>Cyclists: {_ncycle}<br />
+			Gradient: {gradient}%<br />
+			Cycle-friendliness: {quietness}%</p>
+			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a> <a class="externallink" target="_blank" href="{_osmUrl}">OpenStreetMap <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
+			<h3>All network details:</h3>
+			<h4>Fast/Direct network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_fastest_bicycle}</td><td>{all_fastest_bicycle_go_dutch}</td><td>{all_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_fastest_bicycle}</td><td>{commute_fastest_bicycle_go_dutch}</td><td>{commute_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_fastest_bicycle}</td><td>{primary_fastest_bicycle_go_dutch}</td><td>{primary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_fastest_bicycle}</td><td>{secondary_fastest_bicycle_go_dutch}</td><td>{secondary_fastest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_fastest_bicycle}</td><td>{utility_fastest_bicycle_go_dutch}</td><td>{utility_fastest_bicycle_ebike}</td></tr>
+			</table>
+			<h4>Quiet/Indirect network</h4>
+			<table>
+				<tr><th></th><th>Baseline</th><th>Go Dutch</th><th>Ebikes</th></tr>
+				<tr><th>All</th><td>{all_quietest_bicycle}</td><td>{all_quietest_bicycle_go_dutch}</td><td>{all_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Commute</th><td>{commute_quietest_bicycle}</td><td>{commute_quietest_bicycle_go_dutch}</td><td>{commute_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Primary</th><td>{primary_quietest_bicycle}</td><td>{primary_quietest_bicycle_go_dutch}</td><td>{primary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Secondary</th><td>{secondary_quietest_bicycle}</td><td>{secondary_quietest_bicycle_go_dutch}</td><td>{secondary_quietest_bicycle_ebike}</td></tr>
+				<tr><th>Utility</th><td>{utility_quietest_bicycle}</td><td>{utility_quietest_bicycle_go_dutch}</td><td>{utility_quietest_bicycle_ebike}</td></tr>
+			</table>
+		</template>
+		
+		<!-- Template for map popup -->
+		<template id="clos-popup">
+			<h3 tabindex="0">Infrastructure and traffic</h3>
+			<table>
+				<tr>
+					<td>Highway type</td>
+					<td style="text-transform: capitalize;">{highway}</td>
+				<tr>
+					<td>Cycle infrastructure</td>
+					<td>{Infrastructure type}</td>
+				</tr>
+				<tr>
+					<td>Average daily motor traffic</td>
+					<td>{Traffic volume category}</td>
+				</tr>
+				<tr>
+					<td>Speed limit</td>
+					<td>{Speed limit}mph</td>
+				</tr>
+				<tr>
+					<td>Level of Service</td>
+					<td><strong>{Level of Service}</strong></td>
+				</tr>
+			</table>
+			<p>
+				<a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a><br />
+				<a href="https://www.openstreetmap.org/way/{osm_id}/" target="_blank" title="[Link opens in a new window]">OpenStreetMap Way #{osm_id}</a>
+			</p>
+		</template>
+		
+		<template id="streetspace-popup">
+			<h3 tabindex="0">Street space</h3>
+			<table class="left">
+				<tr>
+					<td>Road classification:</td>
+					<td>{road_function}</td>
+				</tr>
+				<tr>
+					<td>Carriageway width:</td>
+					<td>{carriageway_width}m</td>
+				</tr>
+				<tr>
+					<td>Edge-to-edge width:</td>
+					<td>{edge_to_edge_width}m</td>
+				</tr>
+				<tr>
+					<td>Is bus route?:</td>
+					<td>{is_bus_route}</td>
+				</tr>
+				<tr>
+					<td>Number of lanes:</td>
+					<td>{num_lanes}</td>
+				</tr>
+				<tr>
+					<td>Number of bus lanes:</td>
+					<td>{number_of_bus_lanes}</td>
+				</tr>
+				<tr>
+					<td>Speed limit:</td>
+					<td>{speed_limit}</td>
+				</tr>
+				<tr>
+					<td>Required buffer:</td>
+					<td>{required_buffer}m</td>
+				</tr>
+				<tr>
+					<td>Required width for motor traffic:</td>
+					<td>{required_width}m</td>
+				</tr>
+			</table>
+			<p><a class="externallink" target="_blank" href="{_streetViewUrl}">Google Street View <i class="fa fa-external-link" aria-hidden="true"></i></a></p>
+		</template>
+	</body>
+	
+</html>

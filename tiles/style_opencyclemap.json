@@ -1,0 +1,57 @@
+{
+  "version": 8,
+  "name": "opencyclemap",
+  "center": [-1.464858786792547, 50.939150779110975],
+  "zoom": 13.12365211904204,
+  "bearing": -0.44200633613297663,
+  "pitch": 0,
+  "light": {"intensity": 0.25, "color": "hsl(0, 0%, 100%)"},
+  "sprite": "https://nptscot.blob.core.windows.net/mapextras/sprites/greyscale",
+  "glyphs": "https://nptscot.blob.core.windows.net/mapextras/fonts/{fontstack}/{range}.pbf",
+  "sources": {
+    "satellite": {
+      "type": "raster",
+      	"tiles": ["https://tile.thunderforest.com/cycle/{z}/{x}/{y}@2x.png?apikey=e26a96d14f5e41d78dd4842ac12f458c"],
+      	"tileSize": 256
+    },
+    "terrainSource": {
+      "type": "raster-dem",
+      "tiles": ["https://nptscot.blob.core.windows.net/rastertiles/dem/{z}/{x}/{y}.webp"],
+      "tileSize": 512,
+      "minzoom": 0,
+    	"maxzoom": 9,
+    	"bounds": [-8.650007,49.864674,1.763680,60.860766]
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {"background-color": "rgba(244, 244, 244, 1)"}
+    },
+    {
+      "id": "satellite",
+      "type": "raster",
+      "source": "satellite",
+      "paint": {
+        "raster-opacity": 0.7
+      }
+    },
+    {
+      "id": "roads 0 Guided Busway Casing",
+      "type": "background",
+      "paint": {"background-color": "rgba(0, 0, 0, 0)"}
+    },
+    {
+      "id": "placeholder_name",
+     "type": "background",
+      "paint": {"background-color": "rgba(0, 0, 0, 0)"}
+    }
+  ],
+  "created": "2019-01-18T21:07:08.282Z",
+  "id": "cjr2jbmg63wtu2rp9uyq82fkb",
+  "modified": "2019-01-21T11:08:06.120Z",
+  "owner": "University of Leeds",
+  "visibility": "public",
+  "draft": false
+}
