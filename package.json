@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/nptscot/nptscot.github.io/issues"
   },
-  "homepage": "https://github.com/nptscot/nptscot.github.io#readme",
+  "homepage": "https://npt.scot",
   "dependencies": {
     "nouislider": "^15.7.0"
   }
