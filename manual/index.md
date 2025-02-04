@@ -362,7 +362,10 @@ It specifies the methodology for classifying road spaces and cycle infrastructur
 #### Road width measurements
 
 Two key measurements are taken to assess whether existing roads can accommodate cycle infrastructure: carriage width and corridor width.
-Data on carriageway widths were derived from Ordnance Survey Mastermap Highways data. Data on pavement width were derived from Ordnance Survey Mastermap Topographic data (see terms and conditions below).
+Data on carriageway widths were derived from Ordnance Survey Mastermap Highways data, using the "averageWidth" attribute from the RoadLink layer (see [docs.os.uk](https://docs.os.uk/os-downloads/networks/os-mastermap-highways-network-roads/os-mastermap-highways-network-roads-technical-specification/structured-data-types/roadwidthtype) for details).
+Data on pavement width were derived from Ordnance Survey Mastermap Topographic data (see terms and conditions below).
+These width attributes were truncated to 1 m precision and aggregated to OS OpenRoads geometries to simplify the data for visualisation in the web app.
+In cases where a single OpenRoads centreline represents two or more carriageways or pavements, the width attributes were added.
 
 ##### Carriageway width 
    
