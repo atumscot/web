@@ -48,3 +48,4 @@ images/AppImages
 *.bak
 js/lib/geocoder/maplibre-gl-geocoder.css
 scheme-sketcher/
+node_modules/
