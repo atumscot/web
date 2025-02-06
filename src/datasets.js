@@ -149,7 +149,7 @@ const datasets = {
 			'paint': {
 				'line-color': [
 					'match',
-					['get', 'road_function'],
+					['get', 'road_function_npt'],
 					'Primary', '#e73f74',
 					'Secondary', '#f1ce63',
 					// 'Local Access', '#7faedd',
