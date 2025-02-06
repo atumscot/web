@@ -152,7 +152,7 @@ const datasets = {
 					['get', 'road_function'],
 					'Primary', '#e73f74',
 					'Secondary', '#f1ce63',
-					'Local Access', '#7faedd',
+					// 'Local Access', '#7faedd',
 					/* other */ '#808080'
 				],
 				'line-width': 3
