@@ -115,7 +115,7 @@ const datasets = {
 			'type': 'line',
 			'source': {
 				'type': 'vector',
-				'url': 'pmtiles://%tileserverUrl/cbd_layer_2025-01-01.pmtiles',
+				'url': 'pmtiles://%tileserverUrl/cbd_layer_2025-02-01.pmtiles',
 			},
 			'source-layer': 'cbd_layer',
 			'paint': {
