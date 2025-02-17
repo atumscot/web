@@ -50,9 +50,15 @@ const nptUi = (function () {
 	
 	// Settings
 	let _settings = {};		// Will be populated by constructor
+	let _build = {};		// Will be populated by constructor
 	let _datasets = {};		// Will be populated by constructor
+	
+	// Properties
 	let _map;
 	let _hashComponents = {layers: '/', map: ''};
+	
+	// State
+	const _state = {};
 	
 	
 	// Functions
@@ -61,12 +67,32 @@ const nptUi = (function () {
 		// Main function
 		initialise: function (settings, datasets)
 		{
+			// Load the build data then run the constructor
+			fetch ('/src/build.json')
+				.then (function (response) {return response.json ();})
+				.then (function (data) {
+					_build = data;
+					nptUi.construct (settings, datasets);
+				})
+				.catch (function (error) {
+					console.error ('Error loading build data - could not run application:', error);
+				});
+		},
+		
+		
+		// Constructor
+		construct: function (settings, datasets)
+		{
 			// Populate the settings and datasets class properties
 			_settings = settings;
 			_datasets = datasets;
+			// _build will have been loaded
 			
 			// Parse URL hash state
 			nptUi.parseUrl ();
+			
+			// Initialise the state
+			nptUi.initialiseState ();
 			
 			// Create welcome screen
 			nptUi.welcomeScreen ();
@@ -124,7 +150,7 @@ const nptUi = (function () {
 			
 			// Set OSM and update dates in the text, if present
 			if (document.getElementById ('osmupdatedate')) {
-				document.getElementById ('osmupdatedate').innerHTML = _settings.osmDate;
+				document.getElementById ('osmupdatedate').innerHTML = nptUi.formatAsUKDate (_build.osmDate);
 			}
 			if (document.getElementById ('updatedate')) {
 				document.getElementById ('updatedate').innerText = nptUi.formatAsUKDate (document.lastModified);
@@ -138,18 +164,17 @@ const nptUi = (function () {
 		// Function to manage an accordion
 		accordion: function ()
 		{
-			// Listen for accordion clicks, on a late-bound basis
-			document.addEventListener('click', function (e) {
-				if (e.target.classList.contains('accordion')) {
-					const button = e.target;
+			// Listen for accordion clicks
+			document.querySelectorAll ('button.accordion').forEach  (function (button) {
+				button.addEventListener ('click', function () {
 					
 					// Toggle between adding and removing the 'active' class, to highlight the button that controls the panel
-					button.classList.toggle('active');
+					button.classList.toggle ('active');
 					
 					// Toggle between hiding and showing the active panel
 					const panel = button.nextElementSibling;
 					panel.style.display = (panel.style.display == 'block' ? 'none' : 'block');
-				}
+				});
 			});
 		},	
 		
@@ -158,14 +183,13 @@ const nptUi = (function () {
 		layerControlsBoxUi: function ()
 		{
 			// Show the layer controls box
-			showlayercontrols(true);
+			showlayercontrols (true);
 			
 			// Auto-open initial layer sections if required
-			const initialLayersString =  _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');
-			const initialLayers = (initialLayersString.length ? initialLayersString.split (',') : _settings.initialLayersEnabled);
 			let accordionButtons = [];
-			initialLayers.forEach (function (layerId) {
-				accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
+			enabledLayers.forEach (function (layerId) {
+					accordionButtons.push (document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').closest ('div.panel').previousElementSibling);
 			});
 			accordionButtons = Array.from (new Set (accordionButtons));	// Remove duplicates - may have more than one layer within a button
 			accordionButtons.forEach (function (accordionButton) {
@@ -222,10 +246,180 @@ const nptUi = (function () {
 			// End if not the intended format of /layers/#map , thus retaining the default state of the _hashComponents property
 			if (hashComponents.length != 2) {return;}
 			
-			// Register the change in the state
+			// Register the change in the hash components (for URL) state
 			_hashComponents.layers = hashComponents[0];
 			_hashComponents.map = hashComponents[1];
 			//console.log (_hashComponents);
+		},
+		
+		
+		// Function to initialise the state
+		initialiseState: function ()
+		{
+			// Initialise layer state structure
+			_state.layers = {};
+			Object.keys (_datasets.layers).forEach (function (layerId) {
+				_state.layers[layerId] = {
+					enabled: false,
+					parameters: {},
+					parametersInitial: {}
+				};
+			});
+			
+			// Listen for layer state changes
+			document.addEventListener ('@state/change', function () {
+				nptUi.layerStateUrl ();
+			});
+			
+			// Obtain initial parameter state for each layer
+			Object.keys (_datasets.layers).forEach (layerId => {
+				const parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+				_state.layers[layerId].parametersInitial = Object.freeze (Object.assign ({}, parameters));		// Acts as a reference state; will not be amended
+				_state.layers[layerId].parameters = Object.assign ({}, parameters);
+			});
+			
+			// Determine initial layers, preferring URL state if any layers enabled over settings default
+			const initialLayersUrlString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
+			const initialLayersUrl = (initialLayersUrlString.length ? initialLayersUrlString.split (',') : []);
+			initialLayersUrl.forEach (function (initialLayerToken) {
+				const [layerId, parametersString] = initialLayerToken.split (':');	// Split mylayer:a=b&x=y into layerId = 'mylayer' and parametersString = 'a=b&x=y'
+				if (_state.layers.hasOwnProperty (layerId)) {	// Validate layerId
+					
+					// Register the layer into the state
+					_state.layers[layerId].enabled = true;
+					
+					// If parameters, tokenise string, and register validated fields
+					if (parametersString) {
+						const parameterList = parametersString.split ('&');	// Tokenise, e.g. ['a=b', 'x=y']
+						parameterList.forEach (function (parameterItem) {
+							const [key, value] = parameterItem.split ('=');	// NB Assumes no = within value
+							if (_state.layers[layerId].parametersInitial.hasOwnProperty (key)) {
+								_state.layers[layerId].parameters[key] = value.replaceAll (/\+/g, ' ');
+							}
+						});
+					}
+				}
+			});
+			
+			// Trigger state change
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+		},
+		
+		
+		// Serialisation of form elements within a container to a string
+		serialiseParameters: function (selector)
+		{
+			// Ensure the container exists
+			const container = document.querySelector (selector);
+			if (!container) {return {};}
+			
+			// Obtain elements
+			const inputFields = container.querySelectorAll ('input, textarea, select');
+			
+			// Loop through each field and encode their key->value pairs
+			const components = [];
+			inputFields.forEach (function (input) {
+				
+				// Skip proxy controls, i.e. those used to manipulate the actual field enabling
+				if (input.dataset.proxy) {return; /* i.e. continue */}
+				
+				// Register by input type
+				switch (input.type) {
+					
+					// Skip unwanted types
+					case 'file':
+					case 'submit':
+					case 'button':
+						break;
+						
+					// Checkboxes - set of values
+					case 'checkbox':
+						if (!components.hasOwnProperty (input.name)) {components[input.name] = [];}	// Initialise
+						components[input.name].push (input.checked);
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
+					default:
+						if (input.value.length) {
+							components[input.name] = input.value;
+						}
+				}
+			});
+			
+			// If no values, return null
+			if (!Object.entries (components).length) {return {};}
+			
+			// Compile array values to comma-separated string
+			Object.entries (components).forEach (function ([key, value]) {
+				if (Array.isArray (value)) {
+					components[key] = value.join (',');
+				}
+			});
+			
+			// Return the key/value pairs
+			return components;
+		},
+		
+		
+		// Set form fields from parameters, i.e. reverse of serialiseParameters
+		setParametersInForm: function (selector, parameters)
+		{
+			// Set the value for each field
+			Object.entries (parameters).forEach (function ([field, value]) {
+				const input = document.querySelector (selector + ' [name="' + field + '"]');
+				if (!input) {return; /* i.e. continue */}	// This should never arise, because changed fields are only checked against real, existing, fields in the initial state
+				switch (input.type) {
+					
+					// Checkboxes - set of values
+					case 'checkbox':
+						input.checked = (value == 'true');
+						break;
+						
+					case 'radio':
+						// #!# Not yet implemented; needs to check for :checked
+						break;
+						
+					// Scalar fields, e.g. text, textarea, hidden, select, number, etc.
+					default:
+						console.log (input, value);
+						input.value = value;
+				}
+			});
+		},
+		
+		
+		// Function to manage layer state URL
+		layerStateUrl: function ()
+		{
+			// Determine enabled layers
+			const enabledLayers = Object.keys (_state.layers).filter (function (layerId) {return _state.layers[layerId].enabled;});
+			
+			// Check each layer, determining its parameter state and registering its token
+			const layerTokens = [];
+			enabledLayers.forEach (function (layerId) {
+				
+				// Create a diff of non-default parameters
+				const parametersChanged = [];
+				Object.entries (_state.layers[layerId].parametersInitial).forEach (function ([field, initialValue]) {
+					const currentValue = _state.layers[layerId].parameters[field];
+					if (currentValue != initialValue) {		// Only non-default values are included, in order to keep URLs short
+						parametersChanged.push (encodeURIComponent (field) + '=' + encodeURIComponent (currentValue).replaceAll (/%20/g, '+'));
+					}
+				});
+				
+				// Register the token for this layer, e.g. 'mylayer' / 'mylayer:a=b' / 'mylayer:a=b&x=y'
+				layerTokens.push (layerId + (parametersChanged.length ? ':' + parametersChanged.join ('&') : ''));
+			});
+			
+			// Compile the layer state URL
+			const enabledLayersHash = '/' + layerTokens.join (',') + (layerTokens.length ? '/' : '');
+			
+			// Register a state change for the URL
+			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
 		},
 		
 		
@@ -318,7 +512,7 @@ const nptUi = (function () {
 			// Add attribution
 			map.addControl(new maplibregl.AttributionControl({
 				compact: true,
-				customAttribution: 'Contains OS data © Crown copyright 2021, Satelite map © ESRI 2023, © OpenStreetMap contributors'
+				customAttribution: 'Contains OS data © Crown copyright 2025, Satelite map © ESRI 2023, © OpenStreetMap contributors (OSM snapshot: ' + _build.osmDate + ')'
 			}), 'bottom-left');
 			
 			// Add scale
@@ -671,27 +865,42 @@ const nptUi = (function () {
 		// Function to manage layers
 		manageLayers: function ()
 		{
+			// Set checkboxes immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = (layer.enabled);
+			});
+			
+			// Set initial form field value immediately
+			Object.entries (_state.layers).forEach (function ([layerId, layer]) {
+				const changedParameters = {};
+				Object.entries (layer.parametersInitial).forEach (function ([field, initialValue]) {
+					if (layer.parameters[field] != initialValue) {	// Avoid unnecessary changes
+						changedParameters[field] = layer.parameters[field];
+					}
+				});
+				nptUi.setParametersInForm ('div.layertools-' + layerId, changedParameters);
+			});
+			
+			
+			// Track form parameters into the state
+			Object.keys (_datasets.layers).forEach (layerId => {
+				document.querySelectorAll ('div.layertools-' + layerId + ' .updatelayer').forEach ((input) => {
+					input.addEventListener ('change', function () {
+						_state.layers[layerId].parameters = nptUi.serialiseParameters ('div.layertools-' + layerId);
+						document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+					});
+				});
+			});
+			
 			// Add layers when the map is ready (including after a basemap change)
 			document.addEventListener ('@map/ready', function () {
 				
 				// Initialise datasets (sources and layers)
 				nptUi.initialiseDatasets ();
 				
-				// Set initial visibility based on URL state, by ensuring each such checkbox is ticked
-				const initialLayersString = _hashComponents.layers.replace (new RegExp ('^/'), '').replace (new RegExp ('/$'), '');		// Trim start/end slash(es)
-				if (initialLayersString.length) {
-					const initialLayers = initialLayersString.split (',');
-					Object.keys (_datasets.layers).forEach (layerId => {
-						const isEnabled = (initialLayers.includes (layerId));
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked = isEnabled;
-						document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').dispatchEvent (new CustomEvent ('change'));
-					});
-				}
-				document.dispatchEvent (new Event ('@map/initiallayersset', {'bubbles': true}));
-				
 				// Implement initial visibility state for all layers
-				Object.keys(_datasets.layers).forEach(layerId => {
-					nptUi.toggleLayer(layerId);
+				Object.keys (_datasets.layers).forEach (layerId => {
+					nptUi.toggleLayer (layerId);
 				});
 				
 				// Handle layer change controls, each marked with .showlayer or .updatelayer
@@ -720,6 +929,19 @@ const nptUi = (function () {
 				let tileserverUrl = (_settings.tileserverTempLocalOverrides[layerId] ? _settings.tileserverTempLocalOverrides[layerId] : _settings.tileserverUrl);
 				_datasets.layers[layerId].source.url = layer.source.url.replace ('%tileserverUrl', tileserverUrl)
 				//console.log (`Setting source.url for layer ${layerId} to ${_datasets.layers[layerId].source.url}`);
+			});
+			
+			// Expand any sublayer definitions where they have same styling for multiple layers, separated by comma
+			Object.entries (_datasets.sublayers).forEach (([layerId, sublayers]) => {
+				Object.entries (sublayers).forEach (function ([sublayerIdString, sublayer]) {
+					if (sublayerIdString.includes (',')) {
+						const sublayerIds = sublayerIdString.split (',');
+						sublayerIds.forEach (function (sublayerId) {
+							_datasets.sublayers[layerId][sublayerId] = sublayer;		// Expand
+						});
+						delete _datasets.sublayers[layerId][sublayerIdString];	// Remove original comma-separated list
+					}
+				});
 			});
 			
 			// Add layers, and their sources, initially not visible when initialised
@@ -752,26 +974,26 @@ const nptUi = (function () {
 				nptUi.createLegend (datasets.legends[layerId], layerId + 'legend');
 			}
 			
+			// Set state of layer
+			_state.layers[layerId].enabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
+			document.dispatchEvent (new Event ('@state/change', {'bubbles': true}));
+			
 			// Set the visibility of the layer, based on the checkbox value
-			const makeVisible = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-			_map.setLayoutProperty(layerId, 'visibility', (makeVisible ? 'visible' : 'none'));
+			_map.setLayoutProperty (layerId, 'visibility', (_state.layers[layerId].enabled ? 'visible' : 'none'));
 			
 			// Set the visibility of the layer-specific controls, if present
 			const layerToolsDiv = document.querySelector ('.layertools-' + layerId);
 			if (layerToolsDiv) {
 				
 				// #!# Hacky workaround to deal with rnet/rnet-simplified; without this, the layer tools may not be shown, as one or the other is disabled
-				let makeVisibleLayerTools = makeVisible;
+				let makeVisibleLayerTools = _state.layers[layerId].enabled;
 				if (layerId == 'rnet' || layerId == 'rnet-simplified') {
-					makeVisibleLayerTools = document.querySelector ('input.showlayer[data-layer="' + 'rnet' + '"]').checked || document.querySelector ('input.showlayer[data-layer="' + 'rnet-simplified' + '"]').checked;
+					makeVisibleLayerTools = _state.layers['rnet'].enabled || _state.layers['rnet-simplified'].enabled;
 				}
 				
-				// Eanble/disable the layer tools div
+				// Enable/disable the layer tools div
 				(makeVisibleLayerTools ? layerToolsDiv.classList.add ('enabled') : layerToolsDiv.classList.remove ('enabled'));
 			}
-			
-			// Update the layer state for the URL
-			nptUi.layerStateUrl ();
 		},
 		
 		
@@ -861,34 +1083,18 @@ const nptUi = (function () {
 			// Create the legend HTML
 			// #!# Should be a list, not nested divs
 			let legendHtml = '<div class="l_r">';
-			legendColours.forEach (legendColour => {
-				if (isRangeType) {legendColour[0] = '≥' + legendColour[0];}
-				legendHtml += `<div class="lb"><span style="background-color: ${legendColour[1]}"></span>${legendColour[0]}</div>`;
-			})
+			legendColours.forEach (function ([value, colour]) {
+				legendHtml += '<div class="lb">';
+				legendHtml += `<span style="background-color: ${colour}">`;
+				legendHtml += '</span>';
+				if (isRangeType) {value = '≥' + value;}
+				legendHtml += value;	// Label
+				legendHtml += '</div>';
+			});
 			legendHtml += '</div>';
 			
 			// Set the legend
-			document.getElementById(selector).innerHTML = legendHtml;
-		},
-		
-		
-		// Function to manage layer state URL
-		layerStateUrl: function ()
-		{
-			// Register the IDs of all checked layers, first resetting the list
-			const enabledLayers = [];
-			Object.entries (_datasets.layers).forEach (([layerId, layer]) => {
-				const isEnabled = document.querySelector ('input.showlayer[data-layer="' + layerId + '"]').checked;
-				if (isEnabled) {
-					enabledLayers.push (layerId);
-				}
-			});
-			
-			// Compile the layer state URL
-			const enabledLayersHash = '/' + enabledLayers.join (',') + (enabledLayers.length ? '/' : '');
-			
-			// Register a state change for the URL
-			nptUi.registerUrlStateChange ('layers', enabledLayersHash);
+			document.getElementById (selector).innerHTML = legendHtml;
 		},
 		
 		
@@ -1224,7 +1430,7 @@ const nptUi = (function () {
 		// #!# Copied from manual.js
 		mdToHtml: function (mdText)
 		{
-			const converter = new showdown.Converter();
+			const converter = new showdown.Converter({tables: true});
 			const html = converter.makeHtml(mdText);
 			return html;
 		},
@@ -1234,14 +1440,20 @@ const nptUi = (function () {
 		createSliders: function ()
 		{
 			// Find each div to be converted to a slider
-			document.querySelectorAll('div.slider-styled').forEach(div => {
+			document.querySelectorAll('div.slider-styled').forEach (div => {
+				
+				// Get the associated input field, which forms the actual data
+				const inputField = document.querySelector ('input.slider[name="' + div.dataset.name + '"]');
+				
+				// Get initial value
+				const [min, max] = inputField.value.split ('-');
 				
 				// Calculate the attributes based on an associated <datalist>
-				const attributes = nptUi.sliderAttributes(div.id);
+				const attributes = nptUi.sliderAttributes (div.id);
 				
 				// Create the slider
 				noUiSlider.create(div, {
-					start: [attributes.min, attributes.max],
+					start: [min, max],
 					connect: true,
 					range: attributes.range,
 					pips: {
@@ -1253,9 +1465,8 @@ const nptUi = (function () {
 				
 				// Define handler to proxy the result to hidden input fields, with value "<numStart>-<numFinish>"
 				div.noUiSlider.on ('update', function () {
-					const inputField = 'input.slider[data-layer="rnet"][name="' + div.dataset.name + '"]';
-					document.querySelector (inputField).value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
-					document.querySelector (inputField).dispatchEvent (new Event('change'));
+					inputField.value = Number (div.noUiSlider.get()[0]) + '-' + Number (div.noUiSlider.get()[1]);
+					inputField.dispatchEvent (new Event('change'));
 				});
 			});
 		},
