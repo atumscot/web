@@ -291,7 +291,9 @@ By focusing on coherence, directness, and optimal route density, this core netwo
 
 This section provides data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS).
 
-The ratings for Level of Service reflect the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) (Table 3.2).
+#### Level of service
+
+The Cycling Level of Service (LoS) layer provides an overview of the existing cycle network quality in Scotland, according to the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) (Table 3.2).
 
 ![Table 3.2: When to separate cycle users from motor traffic](/images/clos_facilities.png)
 
@@ -299,9 +301,17 @@ The ratings for Level of Service reflect the [Cycling by Design guidance](https:
 
 <!-- #infrastructuretypes -->
 
-### Cycle infrastructure types
+#### Estimated traffic volume
 
-We have categorised the various types of cycle infrastructure as follows:
+The traffic volume layer visualises modelled traffic levels into categories for every major road on which cycling is permitted. The results are presented as categories which correspond to guidance in the [Cycling by Design document](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68).
+
+The traffic volume estimates are based on a model that uses network metrics such as centrality and additional predictors such as population density and employment density that was trained on a dataset from Edinburgh. The model was then applied to the whole of Scotland.
+
+Note: for major roads, traffic volumes were taken directly from the Department for Transport.
+
+#### Cycle infrastructure
+
+Cycle infrastructure is classified as follows:
 
 <table>
     <tr>
@@ -349,22 +359,9 @@ We have categorised the various types of cycle infrastructure as follows:
 
 ### Street space evaluation
 
-<!-- From index.html:
-
-				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>  
-				<div class="layertools layertools-streetspace">
-					<div class="legend">
-						<div class="l_r">
-							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
-							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space (absolute minimum)</div>
-							<div class="lb"><span style="background-color: #f29551;"></span>Enough space (minimum)</div>
-							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
-						</div>
-					</div>
-				</div>
-
+<!-- From index.html, see the table beginning:
+ 				<div class="layertools layertools-streetspace">
 -->
-
 
 The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68).
 It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods and datasets used, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
