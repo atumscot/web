@@ -47,15 +47,21 @@ The Anti-alias option enables advanced rendering options that make the map look 
 The layer controls on the right side of the map control what information is shown on the map.
 
 
-## Map layers
+## User interface sections
 
-The NPT allows you to view a broad range of data about cycling by manipulating filters to showcase specific data points. This section describes each layer and its features.
+The NPT allows you to view and interact with many datasets for cycle network planning.
+The user interface to add, remove or change different data layers that overlay the map is divided into several sections. Each section appears in the layer control panel on the right side of the map.
+Each section is described below.
 
 ### Route network
 
-The Route Network is the primary layer in the NPT and the only one that is on by default when the tool loads. The route network estimates the number of cycle trips on each road. It is designed to emphasise roads with lots of cycling potential and so aid planners in deciding where cycling infrastructure is needed.
+The Route network section is the first and for many use cases the most important layer in the NPT.
+It allows you to turn on and off the cycling route network layer, which visualises estimates of cycling potential on the network, down to the level of individual segments.
+The layer is useful for prioritising where cycling infrastructure is most urgently needed in the network.
 
-The route network provides a range of options and filters to allow you to view different networks based on different journey purposes and assumptions. Whether you're considering daily commutes or leisurely excursions, the Route Network layer adapts to reflect different cycling possibilities and planning assumptions.
+The route network provides a range of options and filters to allow you to view cycling potential for different journey purposes and under different scenarios of cycling uptake.
+If you are planning safe cycling routes to school, the primary and secondary school networks are particularly useful, for example.
+The trip purpose and scenario options are described in detail below.
 
 <!-- #purpose -->
 
@@ -89,9 +95,11 @@ Trips to access leisure facilities captures the cycling patterns of individuals 
 
 Personal trips captures the cycling patterns of individuals visiting friends and family.
 
-##### What’s missing from the NPT
+##### Trip purposes not considered
 
-The NPT does not currently consider recreational cycling. This is more complex to model as people cycling may not have a specific destination in mind.
+The NPT does not currently include estimates of cycling for recreational purposes or as part of a mixed-mode journey.
+
+Recreational cycling is important in many places, but has high seasonal variability and is complex to model as people cycling often lack a clear destination. The NPT focuses on everyday cycling, which is more predictable and has a clearer destination.
 
 The NPT currently only considers direct journeys where the whole trip is by bicycle. It does not consider mixed-mode journeys such as cycling to the station and then taking a train to your final destination. This means that the NPT slightly underestimates cycling potential overall and may significantly underestimate cycling potential in specific places (such as around train stations).
 
@@ -210,7 +218,9 @@ The average gradient of the road is shown as a percentage. Steeper roads are a b
 
 #### Simplified route network
 
-The NPT includes a 'Simplified' toggle that streamlines the route network display. Major road corridors can be complex with multiple carriageways, cycle paths, and footways. It can be confusing to judge overall demand if people cycling are split across multiple overlapping routes. The simplified network attempts to address this problem by combining parallel routes into a single line. However, this consolidation is intricate and may lead to a loss of detail. For a comprehensive analysis, it's advisable to consider both the simplified and the full route networks in tandem when evaluating cycling demand. This dual approach helps balance the big-picture overview with the nuanced details of specific routes.
+The NPT includes a 'Simplified' toggle that simplifies the route network display. Major road corridors can be complex with multiple carriageways, cycle paths, and footways, making it hard to assess overall demand across corridors that contain multiple parallel segments. The simplified network attempts to address this problem by combining parallel routes into a single 'centerline' for each corridor.
+
+This can lead to a loss of detail. For a comprehensive analysis, it's advisable to consider both the simplified and the full route networks in tandem when evaluating cycling demand. This dual approach helps balance the big-picture overview with the nuanced details of specific routes.
 
 ![Simplified Network](/images/simplified.png)
 
@@ -262,7 +272,7 @@ Ordnance Survey Open Roads (OS) provides the foundational structure, complemente
 
 Route selection for the coherent network is based on two key attributes: road classification and cycling connectivity potential, both of which influence the "arterialness" score. This score prioritises routes that balance road hierarchy with accessibility for cyclists. Using a spatial clustering algorithm (DBSCAN), high-flow areas are identified, forming a focused core network by filtering out redundant or isolated segments. This method ensures that selected routes maximize connectivity and suitability, aligning the network’s structure with both directness and density requirements.
 
-#### Directness and density optimization
+#### Directness and density optimisation
 
 The network is adjusted to ensure direct routes with optimal density, following Transport Scotland’s specifications (250m in urban centres, 400m in suburban areas). This allows the network to meet a wide range of origin-destination trip needs, improving access and usability.
 
@@ -277,11 +287,13 @@ By focusing on coherence, directness, and optimal route density, this core netwo
 
 <!-- #clos -->
 
-### Infrastructure and traffic
+### Existing cycle network quality
 
 This section provides data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS).
 
-The ratings for Level of Service reflect the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) - see table 3.2 on page 51.
+#### Level of service
+
+The Cycling Level of Service (LoS) layer provides an overview of the existing cycle network quality in Scotland, according to the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) (Table 3.2).
 
 ![Table 3.2: When to separate cycle users from motor traffic](/images/clos_facilities.png)
 
@@ -289,9 +301,17 @@ The ratings for Level of Service reflect the [Cycling by Design guidance](https:
 
 <!-- #infrastructuretypes -->
 
-### Cycle infrastructure types
+#### Estimated traffic volume
 
-We have categorised the various types of cycle infrastructure as follows:
+The traffic volume layer visualises modelled traffic levels into categories for every major road on which cycling is permitted. The results are presented as categories which correspond to guidance in the [Cycling by Design document](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68).
+
+The traffic volume estimates are based on a model that uses network metrics such as centrality and additional predictors such as population density and employment density that was trained on a dataset from Edinburgh. The model was then applied to the whole of Scotland.
+
+Note: for major roads, traffic volumes were taken directly from the Department for Transport.
+
+#### Cycle infrastructure
+
+Cycle infrastructure is classified as follows:
 
 <table>
     <tr>
@@ -337,24 +357,11 @@ We have categorised the various types of cycle infrastructure as follows:
 
 <!-- #streetspace -->
 
-### Street space
+### Street space evaluation
 
-<!-- From index.html:
-
-				<p>Street width category in relation to guidance from the Cycling by Design (CbD) guidance.<button aria-label="Help on cycle infrastructure types info" class="helpbutton" data-help="streetspace"><i class="fa fa-question-circle" aria-hidden="true"></i></button></p>  
-				<div class="layertools layertools-streetspace">
-					<div class="legend">
-						<div class="l_r">
-							<div class="lb"><span style="background-color: #dd7777;"></span>Not enough space</div>
-							<div class="lb"><span style="background-color: #f9c647;"></span>Enough space (absolute minimum)</div>
-							<div class="lb"><span style="background-color: #f29551;"></span>Enough space (minimum)</div>
-							<div class="lb"><span style="background-color: #75a375;"></span>Plenty of space</div>
-						</div>
-					</div>
-				</div>
-
+<!-- From index.html, see the table beginning:
+ 				<div class="layertools layertools-streetspace">
 -->
-
 
 The Street Space layer categorises roads in accordance with the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf#page=68).
 It specifies the methodology for classifying road spaces and cycle infrastructure. The sections below describe the measurement methods and datasets used, the cycle infrastructure types considered, and the assumptions regarding bus routes and road types.
