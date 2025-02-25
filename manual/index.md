@@ -218,7 +218,9 @@ The average gradient of the road is shown as a percentage. Steeper roads are a b
 
 #### Simplified route network
 
-The NPT includes a 'Simplified' toggle that streamlines the route network display. Major road corridors can be complex with multiple carriageways, cycle paths, and footways. It can be confusing to judge overall demand if people cycling are split across multiple overlapping routes. The simplified network attempts to address this problem by combining parallel routes into a single line. However, this consolidation is intricate and may lead to a loss of detail. For a comprehensive analysis, it's advisable to consider both the simplified and the full route networks in tandem when evaluating cycling demand. This dual approach helps balance the big-picture overview with the nuanced details of specific routes.
+The NPT includes a 'Simplified' toggle that simplifies the route network display. Major road corridors can be complex with multiple carriageways, cycle paths, and footways, making it hard to assess overall demand across corridors that contain multiple parallel segments. The simplified network attempts to address this problem by combining parallel routes into a single 'centerline' for each corridor.
+
+This can lead to a loss of detail. For a comprehensive analysis, it's advisable to consider both the simplified and the full route networks in tandem when evaluating cycling demand. This dual approach helps balance the big-picture overview with the nuanced details of specific routes.
 
 ![Simplified Network](/images/simplified.png)
 
@@ -270,7 +272,7 @@ Ordnance Survey Open Roads (OS) provides the foundational structure, complemente
 
 Route selection for the coherent network is based on two key attributes: road classification and cycling connectivity potential, both of which influence the "arterialness" score. This score prioritises routes that balance road hierarchy with accessibility for cyclists. Using a spatial clustering algorithm (DBSCAN), high-flow areas are identified, forming a focused core network by filtering out redundant or isolated segments. This method ensures that selected routes maximize connectivity and suitability, aligning the network’s structure with both directness and density requirements.
 
-#### Directness and density optimization
+#### Directness and density optimisation
 
 The network is adjusted to ensure direct routes with optimal density, following Transport Scotland’s specifications (250m in urban centres, 400m in suburban areas). This allows the network to meet a wide range of origin-destination trip needs, improving access and usability.
 
@@ -285,11 +287,11 @@ By focusing on coherence, directness, and optimal route density, this core netwo
 
 <!-- #clos -->
 
-### Infrastructure and traffic
+### Existing cycle network quality
 
 This section provides data on existing infrastructure, speed limits, volumes and estimated Cycling Level of Service (LoS).
 
-The ratings for Level of Service reflect the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) - see table 3.2 on page 51.
+The ratings for Level of Service reflect the [Cycling by Design guidance](https://www.transport.gov.scot/media/50323/cycling-by-design-update-2019-final-document-15-september-2021-1.pdf) (Table 3.2).
 
 ![Table 3.2: When to separate cycle users from motor traffic](/images/clos_facilities.png)
 
