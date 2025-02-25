@@ -47,9 +47,10 @@ The Anti-alias option enables advanced rendering options that make the map look 
 The layer controls on the right side of the map control what information is shown on the map.
 
 
-## Map layers
+## User interface sections
 
-The NPT allows you to view a broad range of data about cycling by manipulating filters to showcase specific data points. This section describes each layer and its features.
+The NPT allows you to view and interact with many datasets for cycle network planning.
+The user interface to add, remove or change different data layers that overlay the map is divided into several sections. Each section is described below.
 
 ### Route network
 
