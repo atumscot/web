@@ -56,10 +56,12 @@ Each section is described below.
 ### Route network
 
 The Route network section is the first and for many use cases the most important layer in the NPT.
-It allows you to turn on and off the cycling route network layer, which visualises estimates of cycling potential on the network.
-It highlights roads, paths and corridors with high cycling potential, down to the level of individual segments, to help prioritise investment where cycling infrastructure is most urgently needed.
+It allows you to turn on and off the cycling route network layer, which visualises estimates of cycling potential on the network, down to the level of individual segments.
+The layer is useful for prioritising where cycling infrastructure is most urgently needed in the network.
 
-The route network provides a range of options and filters to allow you to view different networks based on different journey purposes and assumptions. Whether you're considering daily commutes or leisurely excursions, the Route Network layer adapts to reflect different cycling possibilities and planning assumptions.
+The route network provides a range of options and filters to allow you to view cycling potential for different journey purposes and under different scenarios of cycling uptake.
+If you are planning safe cycling routes to school, the primary and secondary school networks are particularly useful, for example.
+The trip purpose and scenario options are described in detail below.
 
 <!-- #purpose -->
 
@@ -93,9 +95,11 @@ Trips to access leisure facilities captures the cycling patterns of individuals 
 
 Personal trips captures the cycling patterns of individuals visiting friends and family.
 
-##### What’s missing from the NPT
+##### Trip purposes not considered
 
-The NPT does not currently consider recreational cycling. This is more complex to model as people cycling may not have a specific destination in mind.
+The NPT does not currently include estimates of cycling for recreational purposes or as part of a mixed-mode journey.
+
+Recreational cycling is important in many places, but has high seasonal variability and is complex to model as people cycling often lack a clear destination. The NPT focuses on everyday cycling, which is more predictable and has a clearer destination.
 
 The NPT currently only considers direct journeys where the whole trip is by bicycle. It does not consider mixed-mode journeys such as cycling to the station and then taking a train to your final destination. This means that the NPT slightly underestimates cycling potential overall and may significantly underestimate cycling potential in specific places (such as around train stations).
 
