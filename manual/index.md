@@ -50,11 +50,14 @@ The layer controls on the right side of the map control what information is show
 ## User interface sections
 
 The NPT allows you to view and interact with many datasets for cycle network planning.
-The user interface to add, remove or change different data layers that overlay the map is divided into several sections. Each section is described below.
+The user interface to add, remove or change different data layers that overlay the map is divided into several sections. Each section appears in the layer control panel on the right side of the map.
+Each section is described below.
 
 ### Route network
 
-The Route Network is the primary layer in the NPT and the only one that is on by default when the tool loads. The route network estimates the number of cycle trips on each road. It is designed to emphasise roads with lots of cycling potential and so aid planners in deciding where cycling infrastructure is needed.
+The Route network section is the first and for many use cases the most important layer in the NPT.
+It allows you to turn on and off the cycling route network layer, which visualises estimates of cycling potential on the network.
+It highlights roads, paths and corridors with high cycling potential, down to the level of individual segments, to help prioritise investment where cycling infrastructure is most urgently needed.
 
 The route network provides a range of options and filters to allow you to view different networks based on different journey purposes and assumptions. Whether you're considering daily commutes or leisurely excursions, the Route Network layer adapts to reflect different cycling possibilities and planning assumptions.
 
@@ -338,7 +341,7 @@ We have categorised the various types of cycle infrastructure as follows:
 
 <!-- #streetspace -->
 
-### Street space
+### Street space evaluation
 
 <!-- From index.html:
 
